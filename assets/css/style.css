@@ -121,9 +121,9 @@ pre code {
   background: var(--ds-blue);
   color: #000;
   text-align: center;
-  padding: 6px 16px;
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
+  padding: 8px 16px;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
   font-weight: 900;
   font-style: italic;
   letter-spacing: 0.08em;
@@ -131,6 +131,16 @@ pre code {
   position: sticky;
   top: 0;
   z-index: 101;
+  -webkit-text-stroke: 0.3px #000;
+  text-shadow: 0 0 1px rgba(0,0,0,0.3);
+}
+
+/* Logo glow */
+.nav-logo .ds-icon img,
+.page-header h1 img,
+.hero-inner img,
+.footer-inner img {
+  filter: drop-shadow(0 0 6px rgba(37, 99, 235, 0.5));
 }
 
 /* ===== TOP NAVIGATION BAR ===== */
