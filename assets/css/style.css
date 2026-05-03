@@ -132,7 +132,6 @@ pre code {
   top: 0;
   z-index: 101;
   -webkit-text-stroke: 0.2px #000;
-  text-shadow: 0 0 1px rgba(0,0,0,0.2);
 }
 
 /* Logo glow */
