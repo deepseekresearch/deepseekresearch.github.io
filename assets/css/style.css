@@ -12,12 +12,15 @@
   --border: #0a1628;
   --border-glow: #0d1f3c;
 
-  /* DeepSeek Blue — the one true accent */
-  --ds-blue: #00e0ff;
-  --ds-blue-dim: #006880;
-  --ds-blue-dark: #001420;
-  --ds-blue-glow: 0 0 12px rgba(0, 224, 255, 0.4);
-  --ds-blue-text: 0 0 6px rgba(0, 224, 255, 0.3);
+  /* DeepSeek Blue — #2563eb with bright center highlight */
+  --ds-blue: #2563eb;
+  --ds-blue-bright: #4B6CFF;
+  --ds-blue-center: #8B9FFF;
+  --ds-blue-dim: #1d4ed8;
+  --ds-blue-dark: #0a1628;
+  --ds-blue-glow: 0 0 20px rgba(37, 99, 235, 0.5);
+  --ds-blue-text: 0 0 8px rgba(37, 99, 235, 0.4);
+  --ds-gradient: radial-gradient(circle at center, #8B9FFF 0%, #4B6CFF 30%, #2563eb 60%, #0a1628 100%);
 
   /* Supporting tones */
   --white: #e8ecf0;
@@ -147,17 +150,18 @@ pre code {
 }
 
 .nav-logo .ds-icon {
-  width: 28px;
-  height: 28px;
-  background: var(--ds-blue);
+  width: 32px;
+  height: 32px;
   border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #000;
-  font-weight: 900;
-  font-size: 0.9rem;
-  box-shadow: var(--ds-blue-glow);
+  overflow: hidden;
+}
+.nav-logo .ds-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .nav-links {
@@ -199,8 +203,8 @@ pre code {
   position: absolute;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
-  width: 600px; height: 600px;
-  background: radial-gradient(circle, rgba(0, 224, 255, 0.06) 0%, transparent 70%);
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(139, 159, 255, 0.12) 0%, rgba(75, 108, 255, 0.06) 25%, rgba(37, 99, 235, 0.02) 50%, transparent 70%);
   pointer-events: none;
 }
 
@@ -302,8 +306,8 @@ pre code {
 }
 
 .card:hover {
-  border-color: var(--border-glow);
-  box-shadow: 0 0 20px rgba(0, 224, 255, 0.04);
+  border-color: var(--ds-blue-dim);
+  box-shadow: 0 0 20px rgba(37, 99, 235, 0.08);
 }
 
 .card h3 {
@@ -341,13 +345,13 @@ pre code {
 }
 
 .model-card:hover {
-  border-color: var(--ds-blue-dim);
-  box-shadow: 0 0 24px rgba(0, 224, 255, 0.06);
+  border-color: var(--ds-blue);
+  box-shadow: 0 0 24px rgba(37, 99, 235, 0.12);
 }
 
 .model-card.featured {
-  border-color: var(--ds-blue-dim);
-  box-shadow: 0 0 20px rgba(0, 224, 255, 0.08);
+  border-color: var(--ds-blue);
+  box-shadow: 0 0 24px rgba(37, 99, 235, 0.15);
 }
 
 .model-card-header {
@@ -507,7 +511,7 @@ pre code {
 }
 
 .data-table tr:hover td {
-  background: rgba(0, 224, 255, 0.02);
+  background: rgba(37, 99, 235, 0.04);
 }
 
 .data-table .ts {
@@ -532,9 +536,9 @@ pre code {
 }
 
 .data-table .tag.archived {
-  background: rgba(0, 224, 255, 0.08);
-  color: var(--ds-blue);
-  border: 1px solid rgba(0, 224, 255, 0.2);
+  background: rgba(37, 99, 235, 0.1);
+  color: var(--ds-blue-bright);
+  border: 1px solid rgba(37, 99, 235, 0.25);
 }
 
 /* ===== TIMELINE ===== */
@@ -605,8 +609,8 @@ pre code {
 }
 
 .scale-node:hover {
-  border-color: var(--ds-blue-dim);
-  box-shadow: 0 0 12px rgba(0, 224, 255, 0.08);
+  border-color: var(--ds-blue);
+  box-shadow: 0 0 12px rgba(37, 99, 235, 0.12);
 }
 
 .scale-node.built {
@@ -782,8 +786,8 @@ pre code {
 
 /* ===== ANIMATIONS ===== */
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 8px rgba(0, 224, 255, 0.3); }
-  50% { box-shadow: 0 0 20px rgba(0, 224, 255, 0.6); }
+  0%, 100% { box-shadow: 0 0 8px rgba(37, 99, 235, 0.4); }
+  50% { box-shadow: 0 0 24px rgba(75, 108, 255, 0.7); }
 }
 
 .pulse {
