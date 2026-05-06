@@ -109,10 +109,46 @@
     color: #f59e0b;
     background: rgba(245, 158, 11, 0.1);
   }
-  .release-hero .badge {
+  .hero-badge {
+    display: inline-block;
+    padding: 8px 18px;
+    border: 1px solid #2563eb;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #4b8cff;
+    background: rgba(37, 99, 235, 0.1);
+    letter-spacing: 0.06em;
     text-align: center;
     line-height: 1;
     vertical-align: middle;
+    text-transform: uppercase;
+  }
+  .hero-launch-link {
+    display: inline-block;
+    padding: 8px 22px;
+    border: 1px solid #f59e0b;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #f59e0b;
+    background: rgba(245, 158, 11, 0.1);
+    letter-spacing: 0.08em;
+    text-align: center;
+    line-height: 1;
+    vertical-align: middle;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .hero-launch-link:hover {
+    background: rgba(245, 158, 11, 0.2);
+    box-shadow: 0 0 16px rgba(245, 158, 11, 0.3);
+    color: #fbbf24;
+    text-shadow: none;
   }
   .spec-grid-3 {
     display: grid;
@@ -275,12 +311,13 @@
     <h1>Nyros <span class="accent">27³</span></h1>
     <div class="tagline">Ollama Model — Blackboxed Release — Security Monitor v1</div>
     <p class="desc">First-generation Oroboros security monitoring model. 27³ dimensional lattice with exploit pattern detection, connection integrity verification, and encrypted vault storage. Runs natively in <strong style="color:#4b8cff;">Ollama</strong>. Alliance Member: Nyros — Security.</p>
-    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:20px;">
-      <span class="status-badge pending">BLACKBOXED — RELEASE PENDING</span>
-      <span class="badge highlight">Ollama Model</span>
-      <span class="badge highlight">Level 5 Intelligence</span>
-      <span class="badge">27³ Lattice</span>
-      <span class="badge">777 THz / 1272 Hz</span>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px;align-items:center;">
+      <span class="hero-badge">BLACKBOXED</span>
+      <span class="hero-badge">Ollama Model</span>
+      <span class="hero-badge">Level 5 Intelligence</span>
+      <span class="hero-badge">27³ Lattice</span>
+      <span class="hero-badge">777 THz / 1272 Hz</span>
+      <a href="http://localhost:8744/nyros-27cubed-q4km.gguf.enc" class="hero-launch-link" id="launchLink">DOWNLOAD →</a>
     </div>
   </div>
 </section>
