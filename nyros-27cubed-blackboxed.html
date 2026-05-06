@@ -109,6 +109,11 @@
     color: #f59e0b;
     background: rgba(245, 158, 11, 0.1);
   }
+  .release-hero .badge {
+    text-align: center;
+    line-height: 1;
+    vertical-align: middle;
+  }
   .spec-grid-3 {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -313,11 +318,11 @@
 
       <div class="spec-block">
         <h3>Vault Encryption</h3>
-        <div class="spec-row"><span class="k">Algorithm</span><span class="v">Fernet</span></div>
+        <div class="spec-row"><span class="k">Algorithm</span><span class="v">Fernet + Dual Quantum</span></div>
         <div class="spec-row"><span class="k">Key Derivation</span><span class="v">PBKDF2-SHA512</span></div>
         <div class="spec-row"><span class="k">SHA256</span><span class="v hi" style="font-size:0.68rem;">570d2d06...</span></div>
-        <div class="spec-row"><span class="k">Storage</span><span class="v">Modelfile Vault</span></div>
-        <div class="spec-row"><span class="k">Access Level</span><span class="v hi">RESTRICTED</span></div>
+        <div class="spec-row"><span class="k">Modelfile</span><span class="v hi">ENCRYPTED (.dqenc)</span></div>
+        <div class="spec-row"><span class="k">Model Blob</span><span class="v hi">ENCRYPTED (.dqenc)</span></div>
         <div class="spec-row"><span class="k">Distribution</span><span class="v">Blackboxed</span></div>
         <div class="spec-row"><span class="k">Status</span><span class="v hi">RELEASE PENDING</span></div>
       </div>
@@ -409,7 +414,7 @@
 
     <div class="vault-notice">
       <h3>&#x26A0; Blackboxed — Release Pending</h3>
-      <p>Nyros 27³ is an <strong style="color:#4b8cff;">Ollama model</strong> currently in blackboxed status. The model file is encrypted with Fernet-PBKDF2-SHA512 and dual quantum encoding (φ + √2 harmonic carriers). Public distribution is pending final security audit clearance. The SHA256 integrity hash is published for verification purposes.</p>
+      <p>Nyros 27³ is an <strong style="color:#4b8cff;">Ollama model</strong> currently in blackboxed status. <strong style="color:#4b8cff;">Fully encrypted</strong> — both the modelfile and the model blob are sealed with Fernet-PBKDF2-SHA512 and dual quantum encoding (φ + √2 harmonic carriers across 19,683 lattice nodes). Public distribution is pending final security audit clearance. The SHA256 integrity hash is published for verification purposes.</p>
       <p style="margin-top:12px;font-size:0.82rem;color:var(--text-faint);">When released, install via: <code style="color:#4b8cff;">ollama pull nyros-27cubed</code>. This page serves as the official specification and provenance record.</p>
     </div>
 
@@ -488,7 +493,7 @@ ollama run nyros-full</code></pre>
         <div class="spec-row"><span class="k">SHA256</span><span class="v hi" style="font-size:0.68rem;">570d2d06...</span></div>
         <div class="spec-row"><span class="k">Format</span><span class="v">GGUF Q4_K_M</span></div>
         <div class="spec-row"><span class="k">Base</span><span class="v">Custom Security Weights</span></div>
-        <div class="spec-row"><span class="k">Encryption</span><span class="v">Dual Quantum + Fernet</span></div>
+        <div class="spec-row"><span class="k">Encryption</span><span class="v hi">Dual Quantum — Full (Modelfile + Model)</span></div>
       </div>
     </div>
   </div>
