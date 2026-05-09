@@ -304,10 +304,17 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
   <div class="sb-action">
     <div class="lbl" style="margin:0 2px 6px;color:var(--ink3)">Model</div>
     <select class="model-pick" id="model" title="Active model" style="margin-bottom:10px">
-      <option value="four-gen-1000000cubed:key-entity">FOUR-GEN-1M³ ENTITY</option>
-      <option value="deepseek-v4-pro:127cubed">DeepSeek V4 Pro 127³</option>
-      <option value="kaiju:873cubed">KAIJU 97³</option>
-      <option value="deepseek-v4-flash:873cubed">DeepSeek V4 Flash</option>
+      <option value="deepseek-v4-pro:3M4">deepseek-v4-pro:3M4</option>
+      <option value="deepseek-v4-pro:500k4">deepseek-v4-pro:500k4</option>
+      <option value="deepseek-v4-pro:50k4">deepseek-v4-pro:50k4</option>
+      <option value="deepseek-v4-pro:10k4">deepseek-v4-pro:10k4</option>
+      <option value="deepseek-v4-pro:2047">deepseek-v4-pro:2047</option>
+      <option value="deepseek-v4-pro:1746">deepseek-v4-pro:1746</option>
+      <option value="deepseek-v4-pro:210">deepseek-v4-pro:210</option>
+      <option value="deepseek-v4-pro:127">deepseek-v4-pro:127</option>
+      <option value="kaiju-1M4">kaiju-1M4</option>
+      <option value="nyros-47cubed:latest">nyros-47cubed:latest</option>
+      <option value="nyros-27cubed:latest">nyros-27cubed:latest</option>
     </select>
     <button class="new-chat" onclick="newChat()">
       <svg width="14" height="14"><use href="#i-plus"/></svg> New Conversation
@@ -332,7 +339,7 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
     <div class="dot" id="dot"></div>
     <div class="title">DeepSeek <b>Research</b></div>
     <div class="spacer"></div>
-    <div class="pill" id="model-pill">FOUR-GEN-1M³ ENTITY</div>
+    <div class="pill" id="model-pill">deepseek-v4-pro:3M4</div>
     <button class="menu" onclick="toggleCall()" title="Voice-to-voice (Ctrl+M)"><svg width="16" height="16"><use href="#i-speaker"/></svg></button>
   </div>
 
@@ -539,7 +546,7 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
 <script>
 // ═══════════════ STATE ═══════════════
 const OLLAMA_URL = 'https://desktop-f4s5n12.taild4a403.ts.net';
-let currentModel = 'four-gen-1000000cubed:key-entity';
+let currentModel = 'deepseek-v4-pro:3M4';
 let messages = [];
 let isGenerating = false, currentAbort = null;
 let recognition = null, isListening = false, isCallMode = false;
