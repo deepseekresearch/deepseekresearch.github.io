@@ -612,11 +612,12 @@ function buildWave() {
 }
 async function checkOllama() {
   try {
-    const r = await fetch(`${OLLAMA_URL}/api/tags`, { signal: AbortSignal.timeout(3000) });
+    const r = await fetch(`${OLLAMA_URL}/api/tags`, { signal: AbortSignal.timeout(10000) });
     if (r.ok) { dot.style.background = 'var(--good)'; dot.style.boxShadow='0 0 10px var(--good)'; $('conn-text').textContent = 'Online'; $('conn-text').style.color='var(--good)'; }
     else throw 0;
   } catch { dot.style.background = '#666'; $('conn-text').textContent = 'Offline'; $('conn-text').style.color = 'var(--err)'; }
 }
+setInterval(checkOllama, 30000);
 
 // ═══════════════ VOICES (all Windows voices loaded) ═══════════════
 function loadVoices() {
