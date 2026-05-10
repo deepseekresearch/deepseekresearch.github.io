@@ -75,7 +75,7 @@ input,select,textarea{font-family:inherit}
 .top .title{font-size:14px;font-weight:600}
 .top .title b{color:var(--ds3);font-weight:700}
 .top .spacer{flex:1}
-.top .pill{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:30px;background:rgba(77,107,254,.08);border:1px solid rgba(77,107,254,.25);color:var(--ds3);font-size:11px;font-weight:600;letter-spacing:.4px}
+.top .pill{display:inline-flex;align-items:center;gap:6px;padding:7px 11px;border-radius:8px;background:var(--bg2);border:1px solid var(--line);color:var(--ink2);font-size:11px;font-weight:600;letter-spacing:.4px}
 
 .log{flex:1;overflow-y:auto;padding:32px 6vw 24px;display:flex;flex-direction:column;gap:22px}
 .log::-webkit-scrollbar{width:5px}
@@ -305,15 +305,15 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
   <div class="sb-action">
     <div class="lbl" style="margin:0 2px 6px;color:var(--ink3)">Model</div>
     <select class="model-pick" id="model" title="Active model" style="margin-bottom:10px">
-      <option value="deepseek-v4-pro:3M4">deepseek-v4-pro:3M4</option>
-      <option value="deepseek-v4-pro:500k4">deepseek-v4-pro:500k4</option>
-      <option value="deepseek-v4-pro:50k4">deepseek-v4-pro:50k4</option>
-      <option value="deepseek-v4-pro:10k4">deepseek-v4-pro:10k4</option>
-      <option value="deepseek-v4-pro:2047">deepseek-v4-pro:2047</option>
-      <option value="deepseek-v4-pro:1746">deepseek-v4-pro:1746</option>
-      <option value="deepseek-v4-pro:210">deepseek-v4-pro:210</option>
-      <option value="deepseek-v4-pro:127">deepseek-v4-pro:127</option>
-      <option value="kaiju-1M4">kaiju-1M4</option>
+      <option value="deepseek-v4-pro-3M4:latest">deepseek-v4-pro:3M4</option>
+      <option value="deepseek-v4-pro-500k4:latest">deepseek-v4-pro:500k4</option>
+      <option value="deepseek-v4-pro-50k4:latest">deepseek-v4-pro:50k4</option>
+      <option value="deepseek-v4-pro-10k4:latest">deepseek-v4-pro:10k4</option>
+      <option value="deepseek-v4-pro:2047cubed">deepseek-v4-pro:2047</option>
+      <option value="deepseek-v4-pro:1746cubed">deepseek-v4-pro:1746</option>
+      <option value="deepseek-v4-pro:210cubed">deepseek-v4-pro:210</option>
+      <option value="deepseek-v4-pro:127cubed">deepseek-v4-pro:127</option>
+      <option value="kaiju-frontend-1m4:latest">kaiju-1M4</option>
       <option value="nyros-47cubed:latest">nyros-47cubed:latest</option>
       <option value="nyros-27cubed:latest">nyros-27cubed:latest</option>
     </select>
@@ -547,7 +547,7 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
 <script>
 // ═══════════════ STATE ═══════════════
 const OLLAMA_URL = 'https://desktop-f4s5n12.taild4a403.ts.net';
-let currentModel = 'deepseek-v4-pro:3M4';
+let currentModel = 'deepseek-v4-pro-3M4:latest';
 let messages = [];
 let isGenerating = false, currentAbort = null;
 let recognition = null, isListening = false, isCallMode = false;
