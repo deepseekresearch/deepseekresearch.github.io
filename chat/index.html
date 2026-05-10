@@ -50,13 +50,13 @@ input,select,textarea{font-family:inherit}
 .sb-history::-webkit-scrollbar{width:4px}
 .sb-history::-webkit-scrollbar-thumb{background:var(--line2);border-radius:4px}
 .sb-section{font-size:10px;color:var(--ink3);letter-spacing:1.5px;text-transform:uppercase;font-weight:600;padding:10px 8px 6px}
-.hist-row{position:relative;padding:9px 12px;padding-right:34px;border-radius:var(--rad-sm);cursor:pointer;font-size:13px;color:var(--ink2);line-height:1.35;margin-bottom:1px;transition:background .12s,color .12s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.hist-row:hover{background:var(--bg3);color:var(--ink)}
-.hist-row.active{background:var(--bg3);color:var(--ink);box-shadow:inset 2px 0 0 var(--ds)}
+.hist-row{position:relative;padding:6px 12px;padding-right:26px;cursor:pointer;font-size:13px;color:var(--ink2);line-height:1.35;transition:color .12s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hist-row:hover{color:var(--ink)}
+.hist-row.active{color:var(--ds3)}
 .hist-row .meta{font-size:10.5px;color:var(--ink3);margin-top:2px;font-weight:400}
-.hist-row .x{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:22px;height:22px;border-radius:6px;border:none;background:transparent;color:var(--ink3);cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:all .12s}
-.hist-row:hover .x{opacity:1}
-.hist-row .x:hover{background:rgba(239,68,68,.15);color:var(--err)}
+.hist-row .x{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:18px;height:18px;border:none;background:transparent;color:var(--ink4);cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .12s,color .12s;font-size:13px;line-height:1}
+.hist-row:hover .x{opacity:.5}
+.hist-row .x:hover{color:var(--err);opacity:1}
 .sb-foot{padding:10px 14px 12px;border-top:1px solid var(--line)}
 .model-pick{width:100%;padding:11px;background:var(--bg2);border:1px solid var(--line);color:var(--ink2);font-size:12.5px;font-weight:600;letter-spacing:.3px;border-radius:11px;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236e7681' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 11px center;padding-right:32px;transition:all .12s}
 .model-pick:hover{border-color:var(--ds);color:var(--ds3);background-color:rgba(77,107,254,.05)}
@@ -76,6 +76,9 @@ input,select,textarea{font-family:inherit}
 .top .title b{color:var(--ds3);font-weight:700}
 .top .spacer{flex:1}
 .top .pill{display:inline-flex;align-items:center;gap:6px;padding:7px 11px;border-radius:8px;background:var(--bg2);border:1px solid var(--line);color:var(--ink2);font-size:11px;font-weight:600;letter-spacing:.4px}
+.top select.model-pill{appearance:none;-webkit-appearance:none;padding:7px 28px 7px 12px;border-radius:8px;background:var(--bg2);border:1px solid var(--line);color:var(--ink2);font-size:11px;font-weight:600;letter-spacing:.4px;cursor:pointer;font-family:inherit;max-width:230px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236e7681' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
+.top select.model-pill:hover,.top select.model-pill:focus{border-color:var(--ds);color:var(--ds3);outline:none}
+.top select.model-pill option{background:#161b22;color:#e6edf3;font-weight:500}
 
 .log{flex:1;overflow-y:auto;padding:32px 6vw 24px;display:flex;flex-direction:column;gap:22px}
 .log::-webkit-scrollbar{width:5px}
@@ -294,7 +297,7 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
 </svg>
 
 <!-- ═════════════ SIDEBAR ═════════════ -->
-<aside class="sidebar" id="sidebar">
+<aside class="sidebar hidden" id="sidebar">
   <div class="sb-head">
     <div class="sb-logo"><img src="deepseek-logo.png" alt="DS" onerror="this.parentElement.innerHTML='DS';this.parentElement.style.fontWeight='800';this.parentElement.style.color='#fff';this.parentElement.style.fontSize='13px'"></div>
     <div>
@@ -303,20 +306,6 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
     </div>
   </div>
   <div class="sb-action">
-    <div class="lbl" style="margin:0 2px 6px;color:var(--ink3)">Model</div>
-    <select class="model-pick" id="model" title="Active model" style="margin-bottom:10px">
-      <option value="deepseek-v4-pro-3M4:latest">deepseek-v4-pro:3M4</option>
-      <option value="deepseek-v4-pro-500k4:latest">deepseek-v4-pro:500k4</option>
-      <option value="deepseek-v4-pro-50k4:latest">deepseek-v4-pro:50k4</option>
-      <option value="deepseek-v4-pro-10k4:latest">deepseek-v4-pro:10k4</option>
-      <option value="deepseek-v4-pro:2047cubed">deepseek-v4-pro:2047</option>
-      <option value="deepseek-v4-pro:1746cubed">deepseek-v4-pro:1746</option>
-      <option value="deepseek-v4-pro:210cubed">deepseek-v4-pro:210</option>
-      <option value="deepseek-v4-pro:127cubed">deepseek-v4-pro:127</option>
-      <option value="kaiju-frontend-1m4:latest">kaiju-1M4</option>
-      <option value="nyros-47cubed:latest">nyros-47cubed:latest</option>
-      <option value="nyros-27cubed:latest">nyros-27cubed:latest</option>
-    </select>
     <button class="new-chat" onclick="newChat()">
       <svg width="14" height="14"><use href="#i-plus"/></svg> New Conversation
     </button>
@@ -340,7 +329,20 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
     <div class="dot" id="dot"></div>
     <div class="title">DeepSeek <b>Research</b></div>
     <div class="spacer"></div>
-    <div class="pill" id="model-pill">deepseek-v4-pro:3M4</div>
+    <select class="model-pill" id="model" title="Active model">
+      <option value="deepseek-v4-pro-3M4:latest">deepseek-v4-pro:3M4</option>
+      <option value="deepseek-v4-pro-500k4:latest">deepseek-v4-pro:500k4</option>
+      <option value="deepseek-v4-pro-50k4:latest">deepseek-v4-pro:50k4</option>
+      <option value="deepseek-v4-pro-10k4:latest">deepseek-v4-pro:10k4</option>
+      <option value="deepseek-v4-pro:2047cubed">deepseek-v4-pro:2047</option>
+      <option value="deepseek-v4-pro:1746cubed">deepseek-v4-pro:1746</option>
+      <option value="deepseek-v4-pro:210cubed">deepseek-v4-pro:210</option>
+      <option value="deepseek-v4-pro:127cubed">deepseek-v4-pro:127</option>
+      <option value="kaiju-frontend-1m4:latest">kaiju-1M4</option>
+      <option value="nyros-47cubed:latest">nyros-47cubed:latest</option>
+      <option value="nyros-27cubed:latest">nyros-27cubed:latest</option>
+    </select>
+    <button class="menu" onclick="newChat()" title="New chat — clear everything"><svg width="16" height="16"><use href="#i-refresh"/></svg></button>
     <button class="menu" onclick="toggleCall()" title="Voice-to-voice (Ctrl+M)"><svg width="16" height="16"><use href="#i-speaker"/></svg></button>
   </div>
 
@@ -566,17 +568,14 @@ let lastWebsiteHtml = '';
 
 const $ = id => document.getElementById(id);
 const log = $('log'), input = $('input'), empty = $('empty'),
-      modelSelect = $('model'), modelPill = $('model-pill'),
+      modelSelect = $('model'),
       dot = $('dot'), mic = $('mic'), hint = $('hint'),
       historyEl = $('history'), sidebar = $('sidebar'),
       callOv = $('call-ov'), callRing = $('call-ring'), callStatus = $('call-status'),
       callSub = $('call-sub'), callWave = $('call-wave'),
       sendBtn = $('send');
 
-modelSelect.addEventListener('change', () => {
-  currentModel = modelSelect.value;
-  modelPill.textContent = modelSelect.options[modelSelect.selectedIndex].text;
-});
+modelSelect.addEventListener('change', () => { currentModel = modelSelect.value; });
 
 // rail tabs
 document.querySelectorAll('.rail-tab').forEach(tab => {
@@ -1088,7 +1087,6 @@ function loadChat(id) {
   const entry = chatHistory[id]; if (!entry) return;
   currentChatId = id; currentModel = entry.model;
   modelSelect.value = entry.model;
-  modelPill.textContent = modelSelect.options[modelSelect.selectedIndex]?.text || entry.model;
   messages = [...entry.messages];
   log.innerHTML = ''; empty.style.display = 'none';
   messages.forEach((m, i) => {
