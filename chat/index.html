@@ -435,10 +435,30 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
 
     <!-- ── VIDEO PANE ── -->
     <div class="rail-pane" id="pane-video">
+      <div>
+        <div class="lbl">Generate video <span>free · Pollinations frames</span></div>
+        <textarea class="fld" id="vidgen-prompt" placeholder="A glowing crystalline lattice slowly rotating in deep space, cinematic, volumetric light"></textarea>
+      </div>
+      <div class="btn-row">
+        <div style="flex:1">
+          <div class="lbl">Frames</div>
+          <select class="fld" id="vidgen-frames">
+            <option value="6">6</option><option value="8" selected>8</option><option value="12">12</option><option value="16">16</option>
+          </select>
+        </div>
+        <div style="flex:1">
+          <div class="lbl">Speed</div>
+          <select class="fld" id="vidgen-fps">
+            <option value="1">Slow</option><option value="2" selected>Medium</option><option value="4">Fast</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn-block primary" id="vidgen-go" onclick="createVideo()"><svg width="14" height="14"><use href="#i-film"/></svg> Generate Video</button>
+
       <div class="video-frame" id="video-frame">
         <div class="video-empty" id="video-empty">
           <svg width="36" height="36" style="color:var(--ink3);opacity:.5;display:block;margin:0 auto 12px"><use href="#i-film"/></svg>
-          Drop a video here or load from disk.<br>
+          Generate a video above, drop one here, or load from disk.<br>
           <span style="font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:var(--ink4);margin-top:8px;display:inline-block">MP4 · WEBM · MOV</span>
         </div>
         <video id="video" style="display:none" preload="metadata"></video>
@@ -448,15 +468,16 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
         <div class="bar" id="vid-bar" onclick="seekVideo(event)"><div class="fill" id="vid-fill"></div></div>
         <span id="vid-dur">0:00</span>
       </div>
-      <button class="btn-block primary" onclick="document.getElementById('video-input').click()"><svg width="14" height="14"><use href="#i-plus"/></svg> Load Video</button>
+      <button class="btn-block" onclick="document.getElementById('video-input').click()"><svg width="14" height="14"><use href="#i-plus"/></svg> Load Video from disk</button>
       <div class="btn-row" id="vid-play-row" style="display:none">
         <button class="btn-block" id="vid-pp" onclick="togglePlay()"><svg width="14" height="14"><use href="#i-play"/></svg> Play</button>
         <button class="btn-block" onclick="muteVideo()" id="vid-mute"><svg width="14" height="14"><use href="#i-vol"/></svg> Mute</button>
+        <button class="btn-block" onclick="downloadVideo()" title="Download"><svg width="13" height="13"><use href="#i-download"/></svg></button>
         <button class="btn-block" onclick="fullscreenVideo()"><svg width="14" height="14"><use href="#i-fullscreen"/></svg></button>
       </div>
       <input type="file" id="video-input" accept="video/*" style="display:none" onchange="loadVideoFile(event)">
       <div class="vid-info" id="vid-info" style="display:none"><b>File:</b> <span id="vid-name">—</span><br><b>Size:</b> <span id="vid-size">—</span> · <b>Duration:</b> <span id="vid-dur2">—</span></div>
-      <div style="font-size:10.5px;color:var(--ink4);text-align:center;letter-spacing:1.5px;text-transform:uppercase;margin-top:auto;padding-top:14px">Local playback · nothing uploaded</div>
+      <div style="font-size:10.5px;color:var(--ink4);text-align:center;letter-spacing:1.5px;text-transform:uppercase;margin-top:auto;padding-top:14px">Generated · played · downloaded locally</div>
     </div>
 
     <!-- ── IMAGE PANE ── -->
@@ -1155,6 +1176,75 @@ videoFrame.addEventListener('drop', e => {
   const f = e.dataTransfer.files?.[0];
   if (f && f.type.startsWith('video/')) loadVideoFile({ target: { files: [f] } });
 });
+
+// ═══════════════ VIDEO GENERATION (Pollinations frames → WebM, all client-side) ═══════════════
+let lastVideoUrl = '';
+const _vsleep = ms => new Promise(r => setTimeout(r, ms));
+function _vloadImg(src){ return new Promise((res, rej) => { const im = new Image(); im.crossOrigin = 'anonymous'; im.onload = () => res(im); im.onerror = rej; im.src = src; }); }
+function _showVideo(name, sizeMB) {
+  video.style.display = 'block'; videoEmpty.style.display = 'none';
+  vidScrub.style.display = 'flex'; vidPlayRow.style.display = 'flex'; vidInfo.style.display = 'block';
+  vidName.textContent = name; vidSize.textContent = sizeMB;
+  video.controls = false;
+  video.onloadedmetadata = () => { vidDur.textContent = fmtSec(video.duration); vidDur2.textContent = fmtSec(video.duration); };
+  video.ontimeupdate = () => { if (!video.duration) return; vidFill.style.width = (video.currentTime / video.duration * 100) + '%'; vidCur.textContent = fmtSec(video.currentTime); };
+  video.onplay = () => vidPP.innerHTML = '<svg width="14" height="14"><use href="#i-pause"/></svg> Pause';
+  video.onpause = () => vidPP.innerHTML = '<svg width="14" height="14"><use href="#i-play"/></svg> Play';
+}
+async function createVideo() {
+  const prompt = $('vidgen-prompt').value.trim();
+  if (!prompt) { toast('Enter a video prompt'); return; }
+  if (typeof MediaRecorder === 'undefined' || !document.createElement('canvas').captureStream) { toast('Video recording not supported in this browser'); return; }
+  const frameCount = +$('vidgen-frames').value || 8;
+  const holdMs = 1000 / (+$('vidgen-fps').value || 2);
+  const btn = $('vidgen-go');
+  const restore = () => { btn.classList.remove('busy'); btn.innerHTML = '<svg width="14" height="14"><use href="#i-film"/></svg> Generate Video'; };
+  btn.classList.add('busy'); openRail(); switchTab('video');
+  const W = 768, H = 432, base = Math.abs(hashCode(prompt)) % 900000;
+  const urls = [];
+  for (let i = 0; i < frameCount; i++)
+    urls.push(`https://image.pollinations.ai/prompt/${encodeURIComponent(prompt + ', cinematic motion sequence, frame ' + (i + 1) + ' of ' + frameCount)}?width=${W}&height=${H}&seed=${base + i}&nologo=true`);
+  btn.innerHTML = `<svg width="14" height="14"><use href="#i-spark"/></svg> Generating ${frameCount} frames…`;
+  let imgs = [];
+  try { imgs = (await Promise.allSettled(urls.map(_vloadImg))).filter(s => s.status === 'fulfilled').map(s => s.value); } catch {}
+  if (!imgs.length) { restore(); toast('Frame generation failed — try again'); return; }
+  btn.innerHTML = '<svg width="14" height="14"><use href="#i-spark"/></svg> Encoding…';
+  try {
+    const canvas = document.createElement('canvas'); canvas.width = W; canvas.height = H;
+    const ctx = canvas.getContext('2d'); ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H);
+    const stream = canvas.captureStream(25);
+    let mime = 'video/webm;codecs=vp9';
+    if (!(window.MediaRecorder && MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(mime))) mime = 'video/webm';
+    const rec = new MediaRecorder(stream, { mimeType: mime });
+    const chunks = []; rec.ondataavailable = ev => { if (ev.data && ev.data.size) chunks.push(ev.data); };
+    const stopped = new Promise(r => rec.onstop = r);
+    rec.start();
+    const draw = im => {
+      ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H);
+      const ar = im.width / im.height, car = W / H; let dw = W, dh = H, dx = 0, dy = 0;
+      if (ar > car) { dh = W / ar; dy = (H - dh) / 2; } else { dw = H * ar; dx = (W - dw) / 2; }
+      ctx.drawImage(im, dx, dy, dw, dh);
+    };
+    const passes = imgs.length < 4 ? 3 : 2;
+    for (let p = 0; p < passes; p++) for (const im of imgs) { draw(im); await _vsleep(holdMs); }
+    draw(imgs[imgs.length - 1]); await _vsleep(150);
+    rec.stop(); await stopped;
+    const blob = new Blob(chunks, { type: 'video/webm' });
+    if (lastVideoUrl) { try { URL.revokeObjectURL(lastVideoUrl); } catch {} }
+    lastVideoUrl = URL.createObjectURL(blob);
+    video.src = lastVideoUrl; video.loop = true;
+    _showVideo('generated.webm', (blob.size / 1024 / 1024).toFixed(2) + ' MB');
+    video.play().catch(() => {});
+    restore();
+    toast(`Video created — ${imgs.length} frames`);
+  } catch (err) { restore(); toast('Encoding failed: ' + (err && err.message ? err.message : 'error')); }
+}
+function downloadVideo() {
+  const src = video.src; if (!src) { toast('No video loaded'); return; }
+  const a = document.createElement('a'); a.href = src;
+  a.download = (vidName.textContent || 'video.webm').replace(/[^\w.-]+/g, '_');
+  document.body.appendChild(a); a.click(); a.remove();
+}
 
 // ═══════════════ IMAGE GENERATION (Pollinations) ═══════════════
 async function generateImage(reroll) {
