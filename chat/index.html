@@ -330,17 +330,17 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
     <div class="title">DeepSeek <b>Research</b></div>
     <div class="spacer"></div>
     <select class="model-pill" id="model" title="Active model">
-      <option value="deepseek-v4-pro-3M4:latest">deepseek-v4-pro:3M4</option>
-      <option value="deepseek-v4-pro-500k4:latest">deepseek-v4-pro:500k4</option>
-      <option value="deepseek-v4-pro-50k4:latest">deepseek-v4-pro:50k4</option>
-      <option value="deepseek-v4-pro-10k4:latest">deepseek-v4-pro:10k4</option>
+      <option value="deepseek-v4-pro:3M4">deepseek-v4-pro:3M4</option>
+      <option value="deepseek-v4-pro-500k4">deepseek-v4-pro:500k4</option>
+      <option value="deepseek-v4-pro-50k4">deepseek-v4-pro:50k4</option>
+      <option value="deepseek-v4-pro-10k4">deepseek-v4-pro:10k4</option>
       <option value="deepseek-v4-pro:2047cubed">deepseek-v4-pro:2047</option>
       <option value="deepseek-v4-pro:1746cubed">deepseek-v4-pro:1746</option>
       <option value="deepseek-v4-pro:210cubed">deepseek-v4-pro:210</option>
       <option value="deepseek-v4-pro:127cubed">deepseek-v4-pro:127</option>
-      <option value="kaiju-frontend-1m4:latest">kaiju-1M4</option>
-      <option value="nyros-47cubed:latest">nyros-47cubed:latest</option>
-      <option value="nyros-27cubed:latest">nyros-27cubed:latest</option>
+      <option value="kaiju-frontend-1m4">kaiju-1M4</option>
+      <option value="nyros-47cubed">nyros-47cubed</option>
+      <option value="nyros-27cubed">nyros-27cubed</option>
     </select>
     <button class="menu" onclick="newChat()" title="New chat — clear everything"><svg width="16" height="16"><use href="#i-refresh"/></svg></button>
     <button class="menu" onclick="toggleCall()" title="Voice-to-voice (Ctrl+M)"><svg width="16" height="16"><use href="#i-speaker"/></svg></button>
@@ -570,7 +570,7 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
 <script>
 // ═══════════════ STATE ═══════════════
 const OLLAMA_URL = 'https://desktop-f4s5n12.taild4a403.ts.net';
-let currentModel = 'deepseek-v4-pro-3M4:latest';
+let currentModel = 'deepseek-v4-pro:3M4';
 let messages = [];
 let isGenerating = false, currentAbort = null;
 let recognition = null, isListening = false, isCallMode = false;
