@@ -440,7 +440,7 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
     <!-- ── VIDEO PANE (create · play · analyze) ── -->
     <div class="rail-pane" id="pane-video">
       <div>
-        <div class="lbl">Create video <span>free · Pollinations frames</span></div>
+        <div class="lbl">Create video <span>model-planned frames</span></div>
         <textarea class="fld" id="vidgen-prompt" placeholder="A glowing crystalline lattice slowly rotating in deep space, cinematic, volumetric light"></textarea>
       </div>
       <div class="btn-row">
@@ -491,7 +491,7 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
       </div>
       <input type="file" id="video-input" accept="video/*" style="display:none" onchange="loadVideoFile(event)">
       <div class="vid-info" id="vid-info" style="display:none"><b>File:</b> <span id="vid-name">—</span><br><b>Size:</b> <span id="vid-size">—</span> · <b>Duration:</b> <span id="vid-dur2">—</span></div>
-      <div style="font-size:10.5px;color:var(--ink4);text-align:center;letter-spacing:1.5px;text-transform:uppercase;margin-top:auto;padding-top:14px">Created · played · analyzed locally</div>
+      <div style="font-size:10.5px;color:var(--ink4);text-align:center;letter-spacing:1.5px;text-transform:uppercase;margin-top:auto;padding-top:14px">Model-planned / browser encoded / analyzed</div>
     </div>
 
     <!-- ── IMAGE PANE ── -->
@@ -528,7 +528,7 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
         <div class="img-empty" id="img-empty">
           <svg width="36" height="36" style="color:var(--ink3);opacity:.5;display:block;margin:0 auto 12px"><use href="#i-image"/></svg>
           Image preview appears here.<br>
-          <span style="font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:var(--ink4);margin-top:6px;display:inline-block">Free generation via Pollinations</span>
+          <span style="font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:var(--ink4);margin-top:6px;display:inline-block">Model-planned generation</span>
         </div>
       </div>
       <div class="btn-row" id="img-actions" style="display:none">
@@ -1277,12 +1277,26 @@ async function createVideo() {
 
   const W = 768, H = 432;
   const base = Math.abs(hashCode(prompt)) % 900000;
-  const urls = [];
-  for (let i = 0; i < frameCount; i++) {
-    const fp = `${prompt}, cinematic motion sequence, frame ${i + 1} of ${frameCount}`;
-    urls.push(`https://image.pollinations.ai/prompt/${encodeURIComponent(fp)}?width=${W}&height=${H}&seed=${base + i}&nologo=true`);
+  btn.innerHTML = `<svg width="14" height="14"><use href="#i-spark"/></svg> Planning ${frameCount} frames...`;
+  let urls = [];
+  try {
+    const res = await fetch(`${chatBase(currentModel)}/api/video/frames`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model: currentModel, prompt, frames: frameCount, width: W, height: H, seed: base })
+    });
+    if (!res.ok) throw new Error('Planner ' + res.status);
+    const data = await res.json();
+    if (!data.ok || !Array.isArray(data.urls) || !data.urls.length) throw new Error(data.error || 'No frames');
+    urls = data.urls.slice(0, frameCount);
+  } catch (err) {
+    urls = [];
+    for (let i = 0; i < frameCount; i++) {
+      const fp = `${prompt}, cinematic motion sequence, frame ${i + 1} of ${frameCount}`;
+      urls.push(`https://image.pollinations.ai/prompt/${encodeURIComponent(fp)}?width=${W}&height=${H}&seed=${base + i}&nologo=true`);
+    }
   }
-  btn.innerHTML = `<svg width="14" height="14"><use href="#i-spark"/></svg> Generating ${frameCount} frames…`;
+  btn.innerHTML = `<svg width="14" height="14"><use href="#i-spark"/></svg> Rendering ${urls.length} frames...`;
   let imgs = [];
   try {
     const settled = await Promise.allSettled(urls.map(loadImg));
@@ -1387,11 +1401,25 @@ async function generateImage(reroll) {
   else { w = h = +sizeRaw; }
   const styled = style ? `${prompt}, ${style} style` : prompt;
   const seed = reroll ? Math.floor(Math.random()*999999) : Math.abs(hashCode(styled)) % 999999;
-  const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(styled)}?width=${w}&height=${h}&seed=${seed}&nologo=true`;
   const btn = $('img-go');
-  btn.classList.add('busy'); btn.innerHTML = '<svg width="14" height="14"><use href="#i-spark"/></svg> Generating…';
+  btn.classList.add('busy'); btn.innerHTML = '<svg width="14" height="14"><use href="#i-spark"/></svg> Planning...';
   $('img-empty').style.display = 'none';
-  $('img-result').innerHTML = '<div class="img-overlay">Rendering…</div>';
+  $('img-result').innerHTML = '<div class="img-overlay">Planning...</div>';
+  let url = '';
+  try {
+    const res = await fetch(`${chatBase(currentModel)}/api/image`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model: currentModel, prompt, style, size: sizeRaw, seed })
+    });
+    if (!res.ok) throw new Error('Image planner ' + res.status);
+    const data = await res.json();
+    if (!data.ok || !data.url) throw new Error(data.error || 'No image URL');
+    url = data.url;
+  } catch (err) {
+    url = `https://image.pollinations.ai/prompt/${encodeURIComponent(styled)}?width=${w}&height=${h}&seed=${seed}&nologo=true`;
+  }
+  $('img-result').innerHTML = '<div class="img-overlay">Rendering...</div>';
   const img = new Image();
   img.onload = () => {
     $('img-result').innerHTML = '';
@@ -1419,47 +1447,25 @@ async function generateWebsite() {
   const prompt = $('web-prompt').value.trim();
   if (!prompt) { toast('Describe the website'); return; }
   const btn = $('web-go');
-  btn.classList.add('busy'); btn.innerHTML = '<svg width="14" height="14"><use href="#i-spark"/></svg> Building…';
+  btn.classList.add('busy'); btn.innerHTML = '<svg width="14" height="14"><use href="#i-spark"/></svg> Building...';
   $('web-empty') && ($('web-empty').style.display = 'none');
-  $('web-frame').innerHTML = '<div class="web-empty" style="color:var(--ds3)">Streaming HTML…</div>';
+  $('web-frame').innerHTML = '<div class="web-empty" style="color:var(--ds3)">Building HTML...</div>';
   $('web-url').textContent = 'preview://generating';
   try {
-    const res = await fetch(`${chatBase(currentModel)}/api/chat`, {
+    const res = await fetch(`${chatBase(currentModel)}/api/website`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: currentModel,
-        messages: [{
-          role: 'user',
-          content: `Create a complete single-file HTML5 website. Requirements: ${prompt}\n\nOutput ONLY the HTML code starting with <!DOCTYPE html> and ending with </html>. No explanation, no markdown fences. All CSS and JS inline. Modern, responsive, dark theme by default unless specified.`
-        }],
-        stream: true,
-        keep_alive: ollamaKeepAlive(currentModel),
-        options: ollamaOptions(currentModel, { num_ctx: 8192, temperature: 0.7 })
-      })
+      body: JSON.stringify({ model: currentModel, prompt })
     });
     if (!res.ok) throw new Error('Build failed: ' + res.status);
-    const reader = res.body.getReader(), dec = new TextDecoder();
-    let buf = '', full = '';
-    while (true) {
-      const { done, value } = await reader.read(); if (done) break;
-      buf += dec.decode(value, { stream:true });
-      const lines = buf.split('\n'); buf = lines.pop() || '';
-      for (const line of lines) {
-        if (!line.trim()) continue;
-        try { full += JSON.parse(line).message?.content || ''; } catch {}
-      }
-    }
-    // strip markdown fences if model included them
-    let html = full.replace(/^```html\s*\n?/i,'').replace(/^```\s*\n?/m,'').replace(/```\s*$/m,'').trim();
-    if (!html.toLowerCase().includes('<!doctype') && !html.toLowerCase().includes('<html')) {
-      html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Generated</title></head><body>${html}</body></html>`;
-    }
+    const data = await res.json();
+    if (!data.ok || !data.html) throw new Error(data.error || 'No HTML returned');
+    const html = data.html;
     lastWebsiteHtml = html;
     const frame = $('web-frame');
     frame.innerHTML = '<iframe sandbox="allow-scripts allow-same-origin" srcdoc=""></iframe>';
     frame.querySelector('iframe').srcdoc = html;
-    $('web-url').textContent = 'preview://generated · ' + Math.round(html.length/1024) + ' KB';
+    $('web-url').textContent = 'preview://generated / ' + Math.round(html.length/1024) + ' KB';
     btn.classList.remove('busy'); btn.innerHTML = '<svg width="14" height="14"><use href="#i-spark"/></svg> Build';
   } catch (err) {
     $('web-frame').innerHTML = '<div class="web-empty" style="color:var(--err)">' + escapeHtml(err.message) + '</div>';
@@ -1502,3 +1508,4 @@ document.addEventListener('keydown', (e) => {
 </script>
 </body>
 </html>
+
