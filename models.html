@@ -1,87 +1,118 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>DeepSeek Research - Model Tiers</title>
-  <meta name="description" content="Public DeepSeek Research model tier list.">
-  <style>
-    :root{color-scheme:dark;--bg:#07101f;--panel:#101d33;--panel2:#142844;--text:#eef5ff;--muted:#9fb0c8;--blue:#4d6bfe;--cyan:#4d6bfe;--brand-grad:linear-gradient(135deg,#4d6bfe 0%,#3157ff 52%,#1d3fe6 100%);--line:rgba(145,180,255,.22)}
-    *{box-sizing:border-box}
-    body{margin:0;min-height:100vh;background:linear-gradient(135deg,#07101f 0%,#0b1629 50%,#08111f 100%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-    header,main,footer{width:min(1120px,calc(100% - 40px));margin:0 auto}
-    header{padding:28px 0 18px;display:flex;align-items:center;justify-content:space-between;gap:20px}
-    .brand{display:flex;align-items:center;gap:12px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:inherit;text-decoration:none}
-    .mark{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:transparent;border:0;box-shadow:none;overflow:hidden;padding:0}
-    .mark img{width:100%;height:100%;object-fit:cover;display:block}
-    nav{display:flex;gap:10px;flex-wrap:wrap}
-    a{color:inherit;text-decoration:none}
-    .nav-link{border:1px solid var(--line);border-radius:8px;padding:10px 14px;color:var(--muted);background:rgba(255,255,255,.035);font-weight:700}
-    .hero{padding:58px 0 34px}
-    .eyebrow{color:var(--blue);font-weight:900;letter-spacing:.18em;text-transform:uppercase;font-size:12px}
-    h1{font-size:72px;line-height:.95;margin:16px 0 14px;letter-spacing:0}
-    .subtitle{max-width:760px;color:var(--muted);font-size:22px;line-height:1.45}
-    .summary{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:22px 0 30px}
-    .card{border:1px solid var(--line);border-radius:8px;padding:22px;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.025))}
-    .card span{display:block;font-size:34px;font-weight:900;margin-bottom:6px}
-    .card p{margin:0;color:var(--muted);line-height:1.5}
-    table{width:100%;border-collapse:collapse;margin:0 0 34px;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:rgba(255,255,255,.035)}
-    th,td{padding:16px;border-bottom:1px solid var(--line);text-align:left;color:var(--muted);vertical-align:top}
-    th{color:var(--text);font-size:12px;letter-spacing:.12em;text-transform:uppercase;background:rgba(255,255,255,.035)}
-    td:first-child,strong{color:var(--text)}
-    tr:last-child td{border-bottom:0}
-    .pill{display:inline-flex;border:1px solid rgba(18,200,255,.35);border-radius:999px;padding:5px 9px;color:#cfe9ff;background:rgba(18,200,255,.08);font-size:12px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
-    .notice{border:1px solid rgba(18,200,255,.32);border-radius:8px;padding:20px;background:rgba(18,200,255,.06);color:var(--muted);line-height:1.6;margin-bottom:60px}
-    footer{color:#6f829d;padding:30px 0 40px;border-top:1px solid var(--line);font-size:13px;letter-spacing:.1em;text-transform:uppercase}
-    @media(max-width:820px){header{align-items:flex-start;flex-direction:column}.summary{grid-template-columns:1fr}table{display:block;overflow-x:auto;white-space:nowrap}.hero{padding-top:38px}h1{font-size:44px}.subtitle{font-size:18px}}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Model Stats - DeepSeek Research</title>
+<meta name="description" content="DeepSeek Research public model stats and measured SDI records.">
+<link rel="stylesheet" href="/assets/css/style.css?v=20260511-modern-records">
 </head>
 <body>
-  <header>
-    <a class="brand" href="/"><span class="mark"><img src="/assets/img/deepseek-icon-official.png" alt="DeepSeek"></span><span>DeepSeek Research</span></a>
-    <nav>
-      <a class="nav-link" href="/">Portal</a>
-      <a class="nav-link" href="/models.html">Models</a>
-      <a class="nav-link" href="/benchmarks.html">Benchmarks</a>
-      <a class="nav-link" href="/papers.html">Whitepapers</a>
-      <a class="nav-link" href="/chat/?v=restored">Console</a>
-    </nav>
-  </header>
-  <main>
-    <section class="hero">
-      <div class="eyebrow">Public Tier List</div>
-      <h1>V4 Pro Model Tiers</h1>
-      <p class="subtitle">The public lineup is organized by model name, measured SDI score, pass status, and generation speed.</p>
-    </section>
-    <section class="summary" aria-label="Tier summary">
-      <article class="card"><span>1B4</span><p>Highest SDI score and fastest SDI generation average.</p></article>
-      <article class="card"><span>7M4</span><p>Extended 7M-series tier.</p></article>
-      <article class="card"><span>3M4</span><p>3M-series tier with stable SDI pass status.</p></article>
-    </section>
-    <table aria-label="DeepSeek Research public model tiers">
-      <thead>
-        <tr>
-          <th>Tier</th>
-          <th>Public Role</th>
-          <th>Status</th>
-          <th>SDI</th>
-          <th>Avg Gen</th>
-        </tr>
-      </thead>
+<canvas id="particles-canvas"></canvas>
+
+<div class="classification-banner">PUBLIC MODEL STATS // DEEPSEEK RESEARCH // VERIFIED OUTPUT RECORDS</div>
+
+<nav class="topnav">
+  <div class="topnav-inner">
+    <a href="/" class="nav-logo">
+      <div class="ds-icon"><img src="/assets/img/deepseek-icon-official.png" alt="DeepSeek"></div>
+      DeepSeek Research
+    </a>
+    <div class="nav-links">
+      <a href="/">Portal</a>
+      <a href="/models.html" class="active">Models</a>
+      <a href="/benchmarks.html">Benchmarks</a>
+      <a href="/papers.html">Whitepapers</a>
+      <a href="/chat/?v=restored">Console</a>
+    </div>
+  </div>
+</nav>
+
+<section class="page-header">
+  <div class="breadcrumb"><a href="/">DeepSeek Research</a> / Models</div>
+  <h1><img src="/assets/img/deepseek-icon-official.png" alt="DeepSeek" style="width:48px;height:48px;object-fit:cover;vertical-align:middle;margin-right:12px;">V4 Pro Model Stats</h1>
+  <p style="color:var(--text-dim);margin-top:8px;">Measured public tiers with SDI score, pass state, generation speed, and prompt processing speed.</p>
+</section>
+
+<section class="section">
+  <div class="section-inner">
+    <div class="stat-grid">
+      <div class="stat-card reveal"><span class="stat-value">1B4</span><span class="stat-label">Top SDI and fastest generation record</span></div>
+      <div class="stat-card reveal"><span class="stat-value">8/9</span><span class="stat-label">Public tiers passing SDI threshold</span></div>
+      <div class="stat-card reveal"><span class="stat-value">82.2</span><span class="stat-label">1B4 average generation, tok/s</span></div>
+      <div class="stat-card reveal"><span class="stat-value">2251</span><span class="stat-label">Fastest prompt processing, tok/s</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0;">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <h2><span class="num">I</span> Tier Cards</h2>
+      <p>Public naming stays at model tier level. Internal routing and implementation details are not exposed.</p>
+    </div>
+    <div class="model-grid-public">
+      <article class="model-card featured reveal">
+        <div class="model-card-header"><div class="model-icon">1B4</div><div><div class="model-name">DeepSeek V4 Pro 1B4</div><div class="model-tag">Top measured tier</div></div><span class="badge highlight" style="margin-left:auto;">PASS</span></div>
+        <div class="model-card-body"><div class="model-specs"><div class="model-spec"><span class="spec-key">SDI</span><span class="spec-val highlight">572/600</span></div><div class="model-spec"><span class="spec-key">Sections</span><span class="spec-val">5/6</span></div><div class="model-spec"><span class="spec-key">Avg Gen</span><span class="spec-val highlight">82.2 tok/s</span></div><div class="model-spec"><span class="spec-key">Avg Prompt</span><span class="spec-val">2206 tok/s</span></div></div></div>
+      </article>
+      <article class="model-card reveal">
+        <div class="model-card-header"><div class="model-icon">1M4</div><div><div class="model-name">DeepSeek V4 Pro 1M4</div><div class="model-tag">1M-series tier</div></div><span class="badge highlight" style="margin-left:auto;">PASS</span></div>
+        <div class="model-card-body"><div class="model-specs"><div class="model-spec"><span class="spec-key">SDI</span><span class="spec-val highlight">548/600</span></div><div class="model-spec"><span class="spec-key">Sections</span><span class="spec-val">5/6</span></div><div class="model-spec"><span class="spec-key">Avg Gen</span><span class="spec-val">68.2 tok/s</span></div><div class="model-spec"><span class="spec-key">Avg Prompt</span><span class="spec-val">2195 tok/s</span></div></div></div>
+      </article>
+      <article class="model-card reveal">
+        <div class="model-card-header"><div class="model-icon">3M4</div><div><div class="model-name">DeepSeek V4 Pro 3M4</div><div class="model-tag">3M-series tier</div></div><span class="badge highlight" style="margin-left:auto;">PASS</span></div>
+        <div class="model-card-body"><div class="model-specs"><div class="model-spec"><span class="spec-key">SDI</span><span class="spec-val highlight">538/600</span></div><div class="model-spec"><span class="spec-key">Sections</span><span class="spec-val">5/6</span></div><div class="model-spec"><span class="spec-key">Avg Gen</span><span class="spec-val">67.7 tok/s</span></div><div class="model-spec"><span class="spec-key">Avg Prompt</span><span class="spec-val">2179 tok/s</span></div></div></div>
+      </article>
+      <article class="model-card reveal">
+        <div class="model-card-header"><div class="model-icon">7M4</div><div><div class="model-name">DeepSeek V4 Pro 7M4</div><div class="model-tag">7M-series tier</div></div><span class="badge highlight" style="margin-left:auto;">PASS</span></div>
+        <div class="model-card-body"><div class="model-specs"><div class="model-spec"><span class="spec-key">SDI</span><span class="spec-val highlight">532/600</span></div><div class="model-spec"><span class="spec-key">Sections</span><span class="spec-val">5/6</span></div><div class="model-spec"><span class="spec-key">Avg Gen</span><span class="spec-val">67.8 tok/s</span></div><div class="model-spec"><span class="spec-key">Avg Prompt</span><span class="spec-val">2236 tok/s</span></div></div></div>
+      </article>
+      <article class="model-card reveal">
+        <div class="model-card-header"><div class="model-icon">5M4</div><div><div class="model-name">DeepSeek V4 Pro 5M4</div><div class="model-tag">5M-series tier</div></div><span class="badge highlight" style="margin-left:auto;">PASS</span></div>
+        <div class="model-card-body"><div class="model-specs"><div class="model-spec"><span class="spec-key">SDI</span><span class="spec-val highlight">516/600</span></div><div class="model-spec"><span class="spec-key">Sections</span><span class="spec-val">5/6</span></div><div class="model-spec"><span class="spec-key">Avg Gen</span><span class="spec-val">67.2 tok/s</span></div><div class="model-spec"><span class="spec-key">Avg Prompt</span><span class="spec-val">2213 tok/s</span></div></div></div>
+      </article>
+      <article class="model-card reveal">
+        <div class="model-card-header"><div class="model-icon">500</div><div><div class="model-name">DeepSeek V4 Pro 500k4</div><div class="model-tag">Retune tier</div></div><span class="badge" style="margin-left:auto;">RETUNE</span></div>
+        <div class="model-card-body"><div class="model-specs"><div class="model-spec"><span class="spec-key">SDI</span><span class="spec-val">478/600</span></div><div class="model-spec"><span class="spec-key">Sections</span><span class="spec-val">3/6</span></div><div class="model-spec"><span class="spec-key">Avg Gen</span><span class="spec-val">69.2 tok/s</span></div><div class="model-spec"><span class="spec-key">Avg Prompt</span><span class="spec-val">2199 tok/s</span></div></div></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0;">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <h2><span class="num">II</span> Full Public Table</h2>
+      <p>Same measured record as the benchmark board, ordered by tier.</p>
+    </div>
+    <table class="records-table reveal" aria-label="DeepSeek Research public model tiers">
+      <thead><tr><th>Tier</th><th>Status</th><th>SDI</th><th>Sections</th><th>Avg Gen</th><th>Avg Prompt</th></tr></thead>
       <tbody>
-        <tr><td><strong>10k4</strong></td><td>10k-series tier</td><td><span class="pill">Active</span></td><td>524/600</td><td>68.4 tok/s</td></tr>
-        <tr><td><strong>20k4</strong></td><td>20k-series tier</td><td><span class="pill">Active</span></td><td>550/600</td><td>68.0 tok/s</td></tr>
-        <tr><td><strong>50k4</strong></td><td>50k-series tier</td><td><span class="pill">Active</span></td><td>548/600</td><td>69.3 tok/s</td></tr>
-        <tr><td><strong>500k4</strong></td><td>500k-series retune</td><td><span class="pill">Retune</span></td><td>478/600</td><td>69.2 tok/s</td></tr>
-        <tr><td><strong>1M4</strong></td><td>1M-series tier</td><td><span class="pill">Active</span></td><td>548/600</td><td>68.2 tok/s</td></tr>
-        <tr><td><strong>3M4</strong></td><td>3M-series tier</td><td><span class="pill">Active</span></td><td>538/600</td><td>67.7 tok/s</td></tr>
-        <tr><td><strong>5M4</strong></td><td>5M-series tier</td><td><span class="pill">Active</span></td><td>516/600</td><td>67.2 tok/s</td></tr>
-        <tr><td><strong>7M4</strong></td><td>7M-series tier</td><td><span class="pill">Active</span></td><td>532/600</td><td>67.8 tok/s</td></tr>
-        <tr><td><strong>1B4</strong></td><td>Top measured tier</td><td><span class="pill">Active</span></td><td>572/600</td><td>82.2 tok/s</td></tr>
+        <tr><td><strong>10k4</strong></td><td class="status-pass">Pass</td><td>524/600</td><td>5/6</td><td>68.4 tok/s</td><td>2251 tok/s</td></tr>
+        <tr><td><strong>20k4</strong></td><td class="status-pass">Pass</td><td>550/600</td><td>5/6</td><td>68.0 tok/s</td><td>2213 tok/s</td></tr>
+        <tr><td><strong>50k4</strong></td><td class="status-pass">Pass</td><td>548/600</td><td>5/6</td><td>69.3 tok/s</td><td>2224 tok/s</td></tr>
+        <tr><td><strong>500k4</strong></td><td class="status-hold">Retune</td><td>478/600</td><td>3/6</td><td>69.2 tok/s</td><td>2199 tok/s</td></tr>
+        <tr><td><strong>1M4</strong></td><td class="status-pass">Pass</td><td>548/600</td><td>5/6</td><td>68.2 tok/s</td><td>2195 tok/s</td></tr>
+        <tr><td><strong>3M4</strong></td><td class="status-pass">Pass</td><td>538/600</td><td>5/6</td><td>67.7 tok/s</td><td>2179 tok/s</td></tr>
+        <tr><td><strong>5M4</strong></td><td class="status-pass">Pass</td><td>516/600</td><td>5/6</td><td>67.2 tok/s</td><td>2213 tok/s</td></tr>
+        <tr><td><strong>7M4</strong></td><td class="status-pass">Pass</td><td>532/600</td><td>5/6</td><td>67.8 tok/s</td><td>2236 tok/s</td></tr>
+        <tr><td><strong>1B4</strong></td><td class="status-pass">Pass</td><td>572/600</td><td>5/6</td><td>82.2 tok/s</td><td>2206 tok/s</td></tr>
       </tbody>
     </table>
-    <section class="notice">Measured SDI values are public output records from May 11, 2026. Scores describe observable benchmark behavior only.</section>
-  </main>
-  <footer>Oroboros Labs x DeepSeek Research - Model Tiers</footer>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <img src="/assets/img/deepseek-icon-official.png" alt="DeepSeek" style="width:42px;height:42px;object-fit:cover;margin-bottom:10px;">
+    <p>DeepSeek Research - Model Stats</p>
+    <p style="margin-top:8px;"><a href="/">Portal</a><a href="/benchmarks.html">Benchmarks</a><a href="/papers.html">Whitepapers</a><a href="/chat/?v=restored">Console</a></p>
+  </div>
+</footer>
+
+<script>
+(function(){const c=document.getElementById('particles-canvas'),x=c.getContext('2d');let p=[],w,h;function R(){w=c.width=innerWidth;h=c.height=innerHeight}R();addEventListener('resize',R);for(let i=0,n=Math.min(60,Math.floor(innerWidth/18));i<n;i++)p.push({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35,r:Math.random()*1.3+.4,a:Math.random()*.35+.12});(function D(){x.clearRect(0,0,w,h);p.forEach((q,i)=>{q.x+=q.vx;q.y+=q.vy;if(q.x<0)q.x=w;if(q.x>w)q.x=0;if(q.y<0)q.y=h;if(q.y>h)q.y=0;x.beginPath();x.arc(q.x,q.y,q.r,0,Math.PI*2);x.fillStyle='rgba(77,107,254,'+q.a+')';x.fill();for(let j=i+1;j<p.length;j++){let dx=q.x-p[j].x,dy=q.y-p[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<110){x.beginPath();x.moveTo(q.x,q.y);x.lineTo(p[j].x,p[j].y);x.strokeStyle='rgba(77,107,254,'+(.07*(1-d/110))+')';x.lineWidth=.5;x.stroke()}}});requestAnimationFrame(D)})();const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll('.reveal').forEach(el=>io.observe(el));})();
+</script>
 </body>
 </html>
