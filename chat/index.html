@@ -213,6 +213,12 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
 .voice-bar .scrub .fill{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,var(--ds),var(--ds3));width:0%}
 .voice-bar .t{font-size:10.5px;color:var(--ink3);font-variant-numeric:tabular-nums;min-width:60px;text-align:right}
 
+/* AI CONTROL PANE */
+.control-status{background:var(--bg2);border:1px solid var(--line);border-radius:var(--rad);padding:13px;min-height:94px;color:var(--ink2);font-size:12px;line-height:1.55}
+.control-status b{color:var(--ds3);font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase}
+.control-status .ctl-prompt{margin-top:7px;color:var(--ink);word-break:break-word}
+.control-status .ctl-meta{margin-top:8px;color:var(--ink3);font-size:10.5px;letter-spacing:1px;text-transform:uppercase}
+
 /* ── IMAGE PANE ── */
 .img-result{width:100%;aspect-ratio:1/1;background:var(--bg2);border:1px solid var(--line);border-radius:var(--rad);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
 .img-result img{width:100%;height:100%;object-fit:contain}
@@ -392,6 +398,7 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
   </div>
   <div class="rail-tabs" id="rail-tabs">
     <button class="rail-tab active" data-pane="voice"><svg width="14" height="14"><use href="#i-speaker"/></svg> Voice</button>
+    <button class="rail-tab" data-pane="control"><svg width="14" height="14"><use href="#i-spark"/></svg> AI</button>
     <button class="rail-tab" data-pane="video"><svg width="14" height="14"><use href="#i-film"/></svg> Video</button>
     <button class="rail-tab" data-pane="image"><svg width="14" height="14"><use href="#i-image"/></svg> Image</button>
     <button class="rail-tab" data-pane="web"><svg width="14" height="14"><use href="#i-globe"/></svg> Web</button>
@@ -435,6 +442,23 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
       </div>
 
       <button class="btn-block" onclick="testVoice()"><svg width="14" height="14"><use href="#i-speaker"/></svg> Test voice</button>
+    </div>
+
+    <!-- AI CONTROL PANE -->
+    <div class="rail-pane" id="pane-control">
+      <div>
+        <div class="lbl">AI Control <span>panel command</span></div>
+        <textarea class="fld" id="ctl-prompt" placeholder="Make an image of a DeepSeek blue research console, or build a one-page site for a model benchmark." onkeydown="if(event.ctrlKey&&event.key==='Enter'){runPanelControl(true)}"></textarea>
+      </div>
+      <div class="btn-row">
+        <button class="btn-block" id="ctl-plan" onclick="runPanelControl(false)"><svg width="14" height="14"><use href="#i-spark"/></svg> Plan</button>
+        <button class="btn-block primary" id="ctl-run" onclick="runPanelControl(true)"><svg width="14" height="14"><use href="#i-spark"/></svg> Run</button>
+      </div>
+      <div class="control-status" id="ctl-output">
+        <b>Ready</b>
+        <div class="ctl-prompt">Type a panel command.</div>
+        <div class="ctl-meta">Voice / video / image / web</div>
+      </div>
     </div>
 
     <!-- ── VIDEO PANE (create · play · analyze) ── -->
@@ -700,6 +724,129 @@ async function checkOllama() {
   } catch { dot.style.background = '#666'; $('conn-text').textContent = 'Offline'; $('conn-text').style.color = 'var(--err)'; }
 }
 setInterval(checkOllama, 30000);
+
+// AI panel control
+function panelControlFallback(command, executeNow) {
+  const text = (command || '').trim();
+  const low = text.toLowerCase();
+  let mode = 'image';
+  if (/\b(video|movie|clip|frames?|motion|animate)\b/.test(low)) mode = 'video';
+  else if (/\b(web|website|webpage|page|landing|site|html)\b/.test(low)) mode = 'web';
+  else if (/\b(voice|speak|read|audio|talk)\b/.test(low)) mode = 'voice';
+  const prompt = text.replace(/^\s*(please\s+)?(make|create|generate|build|render|plan|fill|open|switch|use|run)\s+/i, '').trim() || text;
+  return { mode, prompt, run: !!executeNow, source: 'local', message: 'Local control plan' };
+}
+function extractPanelJson(text) {
+  let raw = (text || '').trim();
+  raw = raw.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/i, '').trim();
+  try { return JSON.parse(raw); } catch {}
+  const start = raw.indexOf('{'), end = raw.lastIndexOf('}');
+  if (start >= 0 && end > start) {
+    try { return JSON.parse(raw.slice(start, end + 1)); } catch {}
+  }
+  return null;
+}
+function allowedValue(value, allowed, fallback) {
+  const v = String(value || '').toLowerCase().trim();
+  return allowed.includes(v) ? v : fallback;
+}
+function closestNumber(value, allowed, fallback) {
+  const n = Number(value);
+  if (!Number.isFinite(n)) return fallback;
+  return String(allowed.reduce((best, cur) => Math.abs(cur - n) < Math.abs(best - n) ? cur : best, allowed[0]));
+}
+function normalizePanelPlan(raw, command, executeNow) {
+  const fallback = panelControlFallback(command, executeNow);
+  const data = raw && typeof raw === 'object' ? raw : {};
+  let mode = String(data.mode || data.tool || fallback.mode).toLowerCase().trim();
+  if (mode === 'website' || mode === 'page' || mode === 'site') mode = 'web';
+  if (mode === 'imagegen' || mode === 'picture') mode = 'image';
+  if (!['voice', 'video', 'image', 'web'].includes(mode)) mode = fallback.mode;
+  const prompt = String(data.prompt || data.description || fallback.prompt || command).trim();
+  const style = allowedValue(data.style, ['', 'cinematic', 'photo', '3d', 'anime', 'abstract'], '');
+  const size = allowedValue(data.size || data.aspect, ['512', '768', '1024', '1024x576', '576x1024'], '1024');
+  const frames = closestNumber(data.frames, [6, 8, 12, 16], '8');
+  const fps = closestNumber(data.fps || data.speed, [1, 2, 4], '2');
+  const voiceAction = allowedValue(data.voiceAction || data.action, ['read_last', 'test', 'stop'], 'read_last');
+  return { mode, prompt, style, size, frames, fps, voiceAction, run: !!executeNow, source: data.mode ? 'model' : fallback.source, message: String(data.message || fallback.message || '').trim() };
+}
+function renderPanelPlan(plan, label) {
+  const out = $('ctl-output');
+  if (!out) return;
+  const title = label || (plan.run ? 'Run plan' : 'Panel plan');
+  const meta = `${plan.source || 'model'} / ${plan.mode}${plan.run ? ' / running' : ' / ready'}`;
+  out.innerHTML = `<b>${escapeHtml(title)}</b><div class="ctl-prompt">${escapeHtml(plan.prompt || '(no prompt)')}</div><div class="ctl-meta">${escapeHtml(meta)}</div>`;
+}
+function setControlBusy(busy) {
+  ['ctl-plan', 'ctl-run'].forEach(id => {
+    const btn = $(id);
+    if (btn) { btn.disabled = busy; btn.classList.toggle('busy', busy); }
+  });
+}
+function getLastAssistantText() {
+  for (let i = messages.length - 1; i >= 0; i--) {
+    if (messages[i].role === 'assistant' && messages[i].content) return messages[i].content;
+  }
+  return '';
+}
+function applyPanelPlan(plan) {
+  openRail();
+  switchTab(plan.mode);
+  if (plan.mode === 'image') {
+    $('img-prompt').value = plan.prompt;
+    $('img-style').value = plan.style;
+    $('img-size').value = plan.size;
+    if (plan.run) generateImage();
+  } else if (plan.mode === 'video') {
+    $('vidgen-prompt').value = plan.prompt;
+    $('vidgen-frames').value = plan.frames;
+    $('vidgen-fps').value = plan.fps;
+    if (plan.run) createVideo();
+  } else if (plan.mode === 'web') {
+    $('web-prompt').value = plan.prompt;
+    if (plan.run) generateWebsite();
+  } else if (plan.mode === 'voice' && plan.run) {
+    if (plan.voiceAction === 'stop') stopPanel();
+    else if (plan.voiceAction === 'test') testVoice();
+    else {
+      const text = getLastAssistantText();
+      if (text) playInPanel(text.replace(/[#*`~_>|]/g, ''), false);
+      else testVoice();
+    }
+  }
+}
+async function runPanelControl(executeNow) {
+  const command = $('ctl-prompt').value.trim();
+  if (!command) { toast('Enter a panel command'); return; }
+  if (!isSelectableModel(currentModel)) {
+    currentModel = DEFAULT_MODEL;
+    modelSelect.value = DEFAULT_MODEL;
+  }
+  setControlBusy(true);
+  $('ctl-output').innerHTML = '<b>Planning</b><div class="ctl-prompt">Asking the active model...</div><div class="ctl-meta">AI control</div>';
+  let rawPlan = null;
+  try {
+    const ask = `Return ONLY valid JSON for controlling this media panel. Allowed modes: image, video, web, voice. Schema: {"mode":"image|video|web|voice","prompt":"text to place in the target prompt field","style":"cinematic|photo|3d|anime|abstract|","size":"512|768|1024|1024x576|576x1024","frames":6|8|12|16,"fps":1|2|4,"voiceAction":"read_last|test|stop","message":"short status"}. Do not include markdown. User command: ${command}`;
+    const res = await fetch(`${chatBase(currentModel)}/api/chat`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: currentModel,
+        stream: false,
+        messages: [{ role: 'user', content: ask }],
+        keep_alive: ollamaKeepAlive(currentModel),
+        options: ollamaOptions(currentModel, { num_ctx: 8192, num_predict: 260, temperature: 0.1 })
+      })
+    });
+    if (!res.ok) throw new Error('Control planner ' + res.status);
+    const data = await res.json();
+    rawPlan = extractPanelJson(data.message?.content || '');
+  } catch {}
+  const plan = normalizePanelPlan(rawPlan, command, executeNow);
+  renderPanelPlan(plan);
+  applyPanelPlan(plan);
+  setControlBusy(false);
+}
 
 // ═══════════════ VOICES (all Windows voices loaded) ═══════════════
 function loadVoices() {
