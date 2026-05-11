@@ -2,65 +2,21 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="refresh" content="0; url=benchmarks.html">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Model Showcase - DeepSeek Research</title>
-<meta name="description" content="DeepSeek Research public model showcase and measured performance records.">
-<link rel="stylesheet" href="assets/css/portal-chat.css?v=20260511-x3">
+<meta name="robots" content="noindex,nofollow">
+<title>DeepSeek Research - Benchmarks</title>
+<link rel="stylesheet" href="assets/css/portal-chat.css?v=20260511-bench-only">
 </head>
 <body>
-<aside class="sidebar">
-  <div class="sb-head"><div class="sb-logo"><img src="assets/img/deepseek-icon-official.png" alt="DeepSeek"></div><div><div class="sb-name">DeepSeek <b>Research</b></div><div class="sb-tag">model showcase</div></div></div>
-  <div class="sb-action"><a class="new-chat" href="chat/">Open Chat Console</a></div>
-  <div class="sb-section">Research</div>
-  <nav class="nav-list">
-    <a class="hist-row" href="./">Portal<div class="meta">overview and access</div></a>
-    <a class="hist-row active" href="models.html">Models<div class="meta">public stats</div></a>
-    <a class="hist-row" href="benchmarks.html">Benchmarks<div class="meta">measured SDI records</div></a>
-    <a class="hist-row" href="papers.html">Whitepapers<div class="meta">request only</div></a>
-    <a class="hist-row" href="priority.html">Priority<div class="meta">controlled summary</div></a>
-    <a class="hist-row" href="scale.html">Scale<div class="meta">public tier summary</div></a>
-    <a class="hist-row" href="oroboros-labs.html">Oroboros Labs<div class="meta">department access</div></a>
-  </nav>
-  <div class="sb-foot"><select class="model-pick"><option>deepseek-v4-pro:1B4</option><option>deepseek-v4-pro:7M4</option><option>deepseek-v4-pro:5M4</option><option>deepseek-v4-pro:3M4</option><option>deepseek-v4-pro:1M4</option></select><div class="sb-stats">Public tiers <span>9</span><br>Passing <span>8/9</span></div><div class="sb-foot-brand"><img src="assets/img/deepseek-icon-official.png" alt="">DeepSeek blue</div></div>
-</aside>
-
 <main class="main">
-  <div class="top"><span class="dot"></span><div class="title">Model <b>Showcase</b></div><span class="pill">Public stats</span><span class="pill">No internals</span><div class="spacer"></div><a class="topbtn" href="benchmarks.html">Benchmarks</a><a class="topbtn" href="chat/">Chat</a></div>
   <section class="content">
     <div class="hero-console">
       <div class="seal"><img src="assets/img/deepseek-icon-official.png" alt="DeepSeek"></div>
-      <h1>V4 Pro <b>Model Records</b></h1>
-      <p>Public-facing model names, SDI scores, section counts, and speed results. Internal routing and implementation details stay private.</p>
-      <div class="chips"><span class="chip on">1B4 leader</span><span class="chip">5M4 active</span><span class="chip">7M4 active</span><span class="chip">3M4 active</span><span class="chip">1M4 active</span></div>
-      <div class="btn-row"><a class="btn-block primary" href="chat/">Open Chat Console</a><a class="btn-block" href="benchmarks.html">View Benchmarks</a></div>
+      <h1>Benchmarks <b>Only</b></h1>
+      <p>The public model page has been folded into the benchmark showcase.</p>
+      <div class="btn-row"><a class="btn-block primary" href="benchmarks.html">Open Benchmarks</a><a class="btn-block" href="chat/">Open Chat Interface</a></div>
     </div>
-
-    <div class="grid">
-      <article class="panel featured"><div class="lbl">Top model <span>SDI</span></div><div class="metric blue">1B4</div><p>572/600 SDI, 5/6 sections, 82.2 tok/s generation, 2206 tok/s prompt processing.</p></article>
-      <article class="panel"><div class="lbl">Large tier</div><div class="metric">7M4</div><p>532/600 SDI, 5/6 sections, 67.8 tok/s generation, 2236 tok/s prompt processing.</p></article>
-      <article class="panel"><div class="lbl">Large tier</div><div class="metric">5M4</div><p>516/600 SDI, 5/6 sections, 67.2 tok/s generation, 2213 tok/s prompt processing.</p></article>
-      <article class="panel"><div class="lbl">Console tier</div><div class="metric">3M4</div><p>538/600 SDI, 5/6 sections, 67.7 tok/s generation, 2179 tok/s prompt processing.</p></article>
-      <article class="panel"><div class="lbl">Console tier</div><div class="metric">1M4</div><p>548/600 SDI, 5/6 sections, 68.2 tok/s generation, 2195 tok/s prompt processing.</p></article>
-      <article class="panel"><div class="lbl">Retune</div><div class="metric">500k4</div><p>478/600 SDI, 3/6 sections, 69.2 tok/s generation, retune status.</p></article>
-    </div>
-
-    <div class="table-wrap">
-      <table aria-label="DeepSeek Research public model stats">
-        <thead><tr><th>Tier</th><th>Status</th><th>SDI</th><th>Sections</th><th>Avg Gen</th><th>Avg Prompt</th></tr></thead>
-        <tbody>
-          <tr><td><strong>10k4</strong></td><td class="pass">Pass</td><td>524/600</td><td>5/6</td><td>68.4 tok/s</td><td>2251 tok/s</td></tr>
-          <tr><td><strong>20k4</strong></td><td class="pass">Pass</td><td>550/600</td><td>5/6</td><td>68.0 tok/s</td><td>2213 tok/s</td></tr>
-          <tr><td><strong>50k4</strong></td><td class="pass">Pass</td><td>548/600</td><td>5/6</td><td>69.3 tok/s</td><td>2224 tok/s</td></tr>
-          <tr><td><strong>500k4</strong></td><td class="hold">Retune</td><td>478/600</td><td>3/6</td><td>69.2 tok/s</td><td>2199 tok/s</td></tr>
-          <tr><td><strong>1M4</strong></td><td class="pass">Pass</td><td>548/600</td><td>5/6</td><td>68.2 tok/s</td><td>2195 tok/s</td></tr>
-          <tr><td><strong>3M4</strong></td><td class="pass">Pass</td><td>538/600</td><td>5/6</td><td>67.7 tok/s</td><td>2179 tok/s</td></tr>
-          <tr><td><strong>5M4</strong></td><td class="pass">Pass</td><td>516/600</td><td>5/6</td><td>67.2 tok/s</td><td>2213 tok/s</td></tr>
-          <tr><td><strong>7M4</strong></td><td class="pass">Pass</td><td>532/600</td><td>5/6</td><td>67.8 tok/s</td><td>2236 tok/s</td></tr>
-          <tr><td><strong>1B4</strong></td><td class="pass">Pass</td><td>572/600</td><td>5/6</td><td>82.2 tok/s</td><td>2206 tok/s</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="note">Measured public output records. Private implementation details are not exposed.</div>
   </section>
 </main>
 </body>
