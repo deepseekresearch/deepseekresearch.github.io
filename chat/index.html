@@ -337,17 +337,6 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
       <option value="deepseek-v4-pro-5M4:latest">deepseek-v4-pro:5M4</option>
       <option value="deepseek-v4-pro-7M4:latest">deepseek-v4-pro:7M4</option>
       <option value="deepseek-v4-pro-1B4:latest">deepseek-v4-pro:1B4</option>
-      <option value="deepseek-v4-pro:3M4">deepseek-v4-pro:3M4</option>
-      <option value="deepseek-v4-pro-500k4">deepseek-v4-pro:500k4</option>
-      <option value="deepseek-v4-pro-50k4">deepseek-v4-pro:50k4</option>
-      <option value="deepseek-v4-pro-10k4">deepseek-v4-pro:10k4</option>
-      <option value="deepseek-v4-pro:2047cubed">deepseek-v4-pro:2047</option>
-      <option value="deepseek-v4-pro:1746cubed">deepseek-v4-pro:1746</option>
-      <option value="deepseek-v4-pro:210cubed">deepseek-v4-pro:210</option>
-      <option value="deepseek-v4-pro:127cubed">deepseek-v4-pro:127</option>
-      <option value="kaiju-frontend-1m4">kaiju-1M4</option>
-      <option value="nyros-47cubed">nyros-47cubed</option>
-      <option value="nyros-27cubed">nyros-27cubed</option>
     </select>
     <button class="topbtn" onclick="clearChat()" title="Clear current conversation">Clear</button>
     <button class="menu" onclick="toggleCall()" title="Voice-to-voice (Ctrl+M)"><svg width="16" height="16"><use href="#i-speaker"/></svg></button>
@@ -586,8 +575,8 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
 
 <script>
 // ═══════════════ STATE ═══════════════
-// All model calls go through the same-origin /api router. Backend endpoints stay server-side.
-const API_ROUTER    = '';
+// Hosted /chat runs on GitHub Pages; model calls route through the private Vercel API.
+const API_ROUTER    = 'https://deepseek-research-chat.vercel.app';
 function isCloudModel(){ return false; }
 function chatBase(m){ return API_ROUTER; }
 function isSpeedStackModel(m){
@@ -606,7 +595,7 @@ function routeMessages(m, list){
   return list;
 }
 const OLLAMA_URL = API_ROUTER;  // legacy alias for status checks
-const DEFAULT_MODEL = 'deepseek-v4-pro:3M4';
+const DEFAULT_MODEL = 'deepseek-v4-pro-5M4:latest';
 let currentModel = DEFAULT_MODEL;
 let messages = [];
 let isGenerating = false, currentAbort = null;
