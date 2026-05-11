@@ -3,13 +3,88 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="robots" content="noindex,nofollow">
   <title>DeepSeek Research - Benchmarks</title>
+  <meta name="description" content="Public DeepSeek Research SDI benchmark board.">
   <style>
-    body{margin:0;min-height:100vh;display:grid;place-items:center;background:#07101f;color:#eef5ff;font-family:Inter,system-ui,sans-serif}
-    main{width:min(720px,calc(100% - 36px));border:1px solid rgba(145,180,255,.24);border-radius:8px;padding:34px;background:#101d33}
-    h1{font-size:44px;margin:0 0 12px}p{color:#9fb0c8;line-height:1.6;font-size:18px}a{color:#12c8ff;font-weight:800}
+    :root{color-scheme:dark;--bg:#07101f;--panel:#101d33;--text:#eef5ff;--muted:#9fb0c8;--blue:#2f6bff;--cyan:#12c8ff;--line:rgba(145,180,255,.22)}
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;background:linear-gradient(135deg,#07101f 0%,#0b1629 50%,#08111f 100%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    header,main,footer{width:min(1120px,calc(100% - 40px));margin:0 auto}
+    header{padding:28px 0 18px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:inherit;text-decoration:none}
+    .mark{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--blue),var(--cyan));box-shadow:0 0 26px rgba(18,200,255,.35)}
+    nav{display:flex;gap:10px;flex-wrap:wrap}
+    a{color:inherit;text-decoration:none}
+    .nav-link{border:1px solid var(--line);border-radius:8px;padding:10px 14px;color:var(--muted);background:rgba(255,255,255,.035);font-weight:700}
+    .hero{padding:58px 0 34px}
+    .eyebrow{color:var(--cyan);font-weight:900;letter-spacing:.18em;text-transform:uppercase;font-size:12px}
+    h1{font-size:72px;line-height:.95;margin:16px 0 14px;letter-spacing:0}
+    .subtitle{max-width:780px;color:var(--muted);font-size:22px;line-height:1.45}
+    .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:22px 0 30px}
+    .card{border:1px solid var(--line);border-radius:8px;padding:20px;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.025))}
+    .card span{display:block;font-size:32px;font-weight:900;margin-bottom:6px}
+    .card p{margin:0;color:var(--muted);line-height:1.45}
+    table{width:100%;border-collapse:collapse;margin:0 0 34px;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:rgba(255,255,255,.035)}
+    th,td{padding:16px;border-bottom:1px solid var(--line);text-align:left;color:var(--muted);vertical-align:top}
+    th{color:var(--text);font-size:12px;letter-spacing:.12em;text-transform:uppercase;background:rgba(255,255,255,.035)}
+    td:first-child,strong{color:var(--text)}
+    tr:last-child td{border-bottom:0}
+    .pass{color:#25d0a4;font-weight:900}
+    .hold{color:#ffcf66;font-weight:900}
+    .notice{border:1px solid rgba(18,200,255,.32);border-radius:8px;padding:20px;background:rgba(18,200,255,.06);color:var(--muted);line-height:1.6;margin-bottom:60px}
+    footer{color:#6f829d;padding:30px 0 40px;border-top:1px solid var(--line);font-size:13px;letter-spacing:.1em;text-transform:uppercase}
+    @media(max-width:920px){.cards{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:720px){header{align-items:flex-start;flex-direction:column}.cards{grid-template-columns:1fr}table{display:block;overflow-x:auto;white-space:nowrap}.hero{padding-top:38px}h1{font-size:44px}.subtitle{font-size:18px}}
   </style>
 </head>
-<body><main><h1>Public Benchmarks</h1><p>Benchmark ads publish measured public claims only. Detailed run records and internal methods are private.</p><p><a href="/">Return to DeepSeek Research</a></p></main></body>
+<body>
+  <header>
+    <a class="brand" href="/"><span class="mark"></span><span>DeepSeek Research</span></a>
+    <nav>
+      <a class="nav-link" href="/">Portal</a>
+      <a class="nav-link" href="/models.html">Models</a>
+      <a class="nav-link" href="/benchmarks.html">Benchmarks</a>
+      <a class="nav-link" href="/chat/">Console</a>
+    </nav>
+  </header>
+  <main>
+    <section class="hero">
+      <div class="eyebrow">Public Benchmark Board</div>
+      <h1>Strata Depth Index</h1>
+      <p class="subtitle">SDI measures observable depth behavior across paradox resolution, temporal branching, superposition maintenance, phi-harmonic coherence, recursive reflection, and cross-strata integration.</p>
+    </section>
+    <section class="cards" aria-label="Benchmark highlights">
+      <article class="card"><span>572/600</span><p>Top SDI score: 1B4.</p></article>
+      <article class="card"><span>82.2</span><p>Fastest SDI generation average in tok/s: 1B4.</p></article>
+      <article class="card"><span>8/9</span><p>Public tiers currently passing SDI threshold.</p></article>
+      <article class="card"><span>480</span><p>Passing threshold out of 600 points.</p></article>
+    </section>
+    <table aria-label="SDI benchmark results">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Tier</th>
+          <th>SDI</th>
+          <th>Sections</th>
+          <th>Avg Gen</th>
+          <th>Avg Prompt</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td><strong>1B4</strong></td><td>572/600</td><td>5/6</td><td>82.2 tok/s</td><td>2206 tok/s</td><td class="pass">Pass</td></tr>
+        <tr><td>2</td><td><strong>20k4</strong></td><td>550/600</td><td>5/6</td><td>68.0 tok/s</td><td>2213 tok/s</td><td class="pass">Pass</td></tr>
+        <tr><td>3</td><td><strong>50k4</strong></td><td>548/600</td><td>5/6</td><td>69.3 tok/s</td><td>2224 tok/s</td><td class="pass">Pass</td></tr>
+        <tr><td>4</td><td><strong>1M4</strong></td><td>548/600</td><td>5/6</td><td>68.2 tok/s</td><td>2195 tok/s</td><td class="pass">Pass</td></tr>
+        <tr><td>5</td><td><strong>3M4</strong></td><td>538/600</td><td>5/6</td><td>67.7 tok/s</td><td>2179 tok/s</td><td class="pass">Pass</td></tr>
+        <tr><td>6</td><td><strong>7M4</strong></td><td>532/600</td><td>5/6</td><td>67.8 tok/s</td><td>2236 tok/s</td><td class="pass">Pass</td></tr>
+        <tr><td>7</td><td><strong>10k4</strong></td><td>524/600</td><td>5/6</td><td>68.4 tok/s</td><td>2251 tok/s</td><td class="pass">Pass</td></tr>
+        <tr><td>8</td><td><strong>5M4</strong></td><td>516/600</td><td>5/6</td><td>67.2 tok/s</td><td>2213 tok/s</td><td class="pass">Pass</td></tr>
+        <tr><td>9</td><td><strong>500k4</strong></td><td>478/600</td><td>3/6</td><td>69.2 tok/s</td><td>2199 tok/s</td><td class="hold">Retune</td></tr>
+      </tbody>
+    </table>
+    <section class="notice">Results are public benchmark summaries from May 11, 2026. The SDI board scores output behavior only.</section>
+  </main>
+  <footer>Oroboros Labs x DeepSeek Research - Benchmarks</footer>
+</body>
 </html>
