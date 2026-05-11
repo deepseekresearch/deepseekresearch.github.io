@@ -464,15 +464,16 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
     <!-- ── VIDEO PANE (create · play · analyze) ── -->
     <div class="rail-pane" id="pane-video">
       <div>
-        <div class="lbl">Create video <span>model-planned frames</span></div>
+        <div class="lbl">Create video <span>turbo / model-planned frames</span></div>
         <textarea class="fld" id="vidgen-prompt" placeholder="A glowing crystalline lattice slowly rotating in deep space, cinematic, volumetric light"></textarea>
       </div>
       <div class="btn-row">
         <div style="flex:1">
           <div class="lbl">Frames</div>
           <select class="fld" id="vidgen-frames">
+            <option value="4" selected>4</option>
             <option value="6">6</option>
-            <option value="8" selected>8</option>
+            <option value="8">8</option>
             <option value="12">12</option>
             <option value="16">16</option>
           </select>
@@ -481,8 +482,26 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
           <div class="lbl">Speed</div>
           <select class="fld" id="vidgen-fps">
             <option value="1">Slow</option>
-            <option value="2" selected>Medium</option>
-            <option value="4">Fast</option>
+            <option value="2">Medium</option>
+            <option value="4" selected>Fast</option>
+          </select>
+        </div>
+      </div>
+      <div class="btn-row">
+        <div style="flex:1">
+          <div class="lbl">Mode</div>
+          <select class="fld" id="vidgen-mode">
+            <option value="turbo" selected>Turbo</option>
+            <option value="planned">AI planned</option>
+          </select>
+        </div>
+        <div style="flex:1">
+          <div class="lbl">Render</div>
+          <select class="fld" id="vidgen-size">
+            <option value="512x288" selected>512x288</option>
+            <option value="640x360">640x360</option>
+            <option value="768x432">768x432</option>
+            <option value="1024x576">1024x576</option>
           </select>
         </div>
       </div>
@@ -765,10 +784,11 @@ function normalizePanelPlan(raw, command, executeNow) {
   const prompt = String(data.prompt || data.description || fallback.prompt || command).trim();
   const style = allowedValue(data.style, ['', 'cinematic', 'photo', '3d', 'anime', 'abstract'], '');
   const size = allowedValue(data.size || data.aspect, ['512', '768', '1024', '1024x576', '576x1024'], '1024');
-  const frames = closestNumber(data.frames, [6, 8, 12, 16], '8');
-  const fps = closestNumber(data.fps || data.speed, [1, 2, 4], '2');
+  const frames = closestNumber(data.frames, [4, 6, 8, 12, 16], '4');
+  const fps = closestNumber(data.fps || data.speed, [1, 2, 4], '4');
+  const videoMode = allowedValue(data.videoMode || data.modePreference, ['turbo', 'planned'], 'turbo');
   const voiceAction = allowedValue(data.voiceAction || data.action, ['read_last', 'test', 'stop'], 'read_last');
-  return { mode, prompt, style, size, frames, fps, voiceAction, run: !!executeNow, source: data.mode ? 'model' : fallback.source, message: String(data.message || fallback.message || '').trim() };
+  return { mode, prompt, style, size, frames, fps, videoMode, voiceAction, run: !!executeNow, source: data.mode ? 'model' : fallback.source, message: String(data.message || fallback.message || '').trim() };
 }
 function renderPanelPlan(plan, label) {
   const out = $('ctl-output');
@@ -801,6 +821,7 @@ function applyPanelPlan(plan) {
     $('vidgen-prompt').value = plan.prompt;
     $('vidgen-frames').value = plan.frames;
     $('vidgen-fps').value = plan.fps;
+    if ($('vidgen-mode')) $('vidgen-mode').value = plan.videoMode || 'turbo';
     if (plan.run) createVideo();
   } else if (plan.mode === 'web') {
     $('web-prompt').value = plan.prompt;
@@ -826,7 +847,7 @@ async function runPanelControl(executeNow) {
   $('ctl-output').innerHTML = '<b>Planning</b><div class="ctl-prompt">Asking the active model...</div><div class="ctl-meta">AI control</div>';
   let rawPlan = null;
   try {
-    const ask = `Return ONLY valid JSON for controlling this media panel. Allowed modes: image, video, web, voice. Schema: {"mode":"image|video|web|voice","prompt":"text to place in the target prompt field","style":"cinematic|photo|3d|anime|abstract|","size":"512|768|1024|1024x576|576x1024","frames":6|8|12|16,"fps":1|2|4,"voiceAction":"read_last|test|stop","message":"short status"}. Do not include markdown. User command: ${command}`;
+    const ask = `Return ONLY valid JSON for controlling this media panel. Allowed modes: image, video, web, voice. Schema: {"mode":"image|video|web|voice","prompt":"text to place in the target prompt field","style":"cinematic|photo|3d|anime|abstract|","size":"512|768|1024|1024x576|576x1024","frames":4|6|8|12|16,"fps":1|2|4,"videoMode":"turbo|planned","voiceAction":"read_last|test|stop","message":"short status"}. Prefer videoMode turbo unless the user explicitly asks for AI-planned frame prompts. Do not include markdown. User command: ${command}`;
     const res = await fetch(`${chatBase(currentModel)}/api/chat`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -1407,7 +1428,7 @@ videoFrame.addEventListener('drop', e => {
 });
 
 // ── free video creation: Pollinations frames → canvas → MediaRecorder → playable WebM ──
-function loadImg(url) { return new Promise((res, rej) => { const im = new Image(); im.crossOrigin = 'anonymous'; im.onload = () => res(im); im.onerror = () => rej(new Error('img')); im.src = url; }); }
+function loadImg(url) { return new Promise((res, rej) => { const im = new Image(); im.crossOrigin = 'anonymous'; im.decoding = 'async'; im.loading = 'eager'; im.onload = () => res(im); im.onerror = () => rej(new Error('img')); im.src = url; }); }
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
 async function createVideo() {
@@ -1415,33 +1436,51 @@ async function createVideo() {
   if (!prompt) { toast('Enter a video prompt'); return; }
   const canSupport = typeof MediaRecorder !== 'undefined' && !!document.createElement('canvas').captureStream;
   if (!canSupport) { toast('Video recording not supported in this browser'); return; }
-  const frameCount = +$('vidgen-frames').value || 8;
-  const holdMs = 1000 / (+$('vidgen-fps').value || 2);
+  const frameCount = +$('vidgen-frames').value || 4;
+  const fps = +$('vidgen-fps').value || 4;
+  const holdMs = 1000 / fps;
+  const mode = $('vidgen-mode') ? $('vidgen-mode').value : 'turbo';
+  const sizeRaw = $('vidgen-size') ? $('vidgen-size').value : '512x288';
   const btn = $('vidgen-go');
   const restore = () => { btn.classList.remove('busy'); btn.innerHTML = '<svg width="14" height="14"><use href="#i-film"/></svg> Generate Video'; };
   btn.classList.add('busy');
   openRail(); switchTab('video');
 
-  const W = 768, H = 432;
+  const parts = sizeRaw.split('x');
+  const W = Math.max(256, Math.min(1024, +(parts[0] || 512)));
+  const H = Math.max(144, Math.min(576, +(parts[1] || 288)));
   const base = Math.abs(hashCode(prompt)) % 900000;
-  btn.innerHTML = `<svg width="14" height="14"><use href="#i-spark"/></svg> Planning ${frameCount} frames...`;
-  let urls = [];
-  try {
-    const res = await fetch(`${chatBase(currentModel)}/api/video/frames`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ model: currentModel, prompt, frames: frameCount, width: W, height: H, seed: base })
-    });
-    if (!res.ok) throw new Error('Planner ' + res.status);
-    const data = await res.json();
-    if (!data.ok || !Array.isArray(data.urls) || !data.urls.length) throw new Error(data.error || 'No frames');
-    urls = data.urls.slice(0, frameCount);
-  } catch (err) {
-    urls = [];
+  const directUrls = () => {
+    const out = [];
     for (let i = 0; i < frameCount; i++) {
       const fp = `${prompt}, cinematic motion sequence, frame ${i + 1} of ${frameCount}`;
-      urls.push(`https://image.pollinations.ai/prompt/${encodeURIComponent(fp)}?width=${W}&height=${H}&seed=${base + i}&nologo=true`);
+      out.push(`https://image.pollinations.ai/prompt/${encodeURIComponent(fp)}?width=${W}&height=${H}&seed=${base + i}&nologo=true`);
     }
+    return out;
+  };
+  let urls = [];
+  if (mode === 'planned') {
+    btn.innerHTML = `<svg width="14" height="14"><use href="#i-spark"/></svg> Planning ${frameCount} frames...`;
+    const ctrl = new AbortController();
+    const timeout = setTimeout(() => ctrl.abort(), 14000);
+    try {
+      const res = await fetch(`${chatBase(currentModel)}/api/video/frames`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ model: currentModel, prompt, frames: frameCount, width: W, height: H, seed: base }),
+        signal: ctrl.signal
+      });
+      if (!res.ok) throw new Error('Planner ' + res.status);
+      const data = await res.json();
+      if (!data.ok || !Array.isArray(data.urls) || !data.urls.length) throw new Error(data.error || 'No frames');
+      urls = data.urls.slice(0, frameCount);
+    } catch (err) {
+      urls = directUrls();
+    } finally {
+      clearTimeout(timeout);
+    }
+  } else {
+    urls = directUrls();
   }
   btn.innerHTML = `<svg width="14" height="14"><use href="#i-spark"/></svg> Rendering ${urls.length} frames...`;
   let imgs = [];
@@ -1456,10 +1495,10 @@ async function createVideo() {
     const canvas = document.createElement('canvas'); canvas.width = W; canvas.height = H;
     const ctx = canvas.getContext('2d');
     ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H);
-    const stream = canvas.captureStream(25);
-    let mime = 'video/webm;codecs=vp9';
+    const stream = canvas.captureStream(Math.max(10, Math.min(25, fps * 6)));
+    let mime = 'video/webm;codecs=vp8';
     if (!(window.MediaRecorder && MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(mime))) mime = 'video/webm';
-    const rec = new MediaRecorder(stream, { mimeType: mime });
+    const rec = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: mode === 'turbo' ? 1200000 : 2400000 });
     const chunks = [];
     rec.ondataavailable = ev => { if (ev.data && ev.data.size) chunks.push(ev.data); };
     const stopped = new Promise(r => rec.onstop = r);
@@ -1471,7 +1510,7 @@ async function createVideo() {
       if (ar > car) { dh = W / ar; dy = (H - dh) / 2; } else { dw = H * ar; dx = (W - dw) / 2; }
       ctx.drawImage(im, dx, dy, dw, dh);
     };
-    const passes = imgs.length < 4 ? 3 : 2;
+    const passes = mode === 'turbo' ? 1 : (imgs.length < 4 ? 3 : 2);
     for (let p = 0; p < passes; p++) {
       for (const im of imgs) { drawFrame(im); await sleep(holdMs); }
     }
