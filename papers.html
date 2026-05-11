@@ -4,77 +4,56 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Whitepaper Requests - DeepSeek Research</title>
-<meta name="description" content="DeepSeek Research request-only whitepaper index.">
-<link rel="stylesheet" href="/assets/css/style.css?v=20260511-modern-records">
+<meta name="description" content="DeepSeek Research whitepaper request index.">
+<link rel="stylesheet" href="assets/css/portal-chat.css?v=20260511-x3">
 </head>
 <body>
-<canvas id="particles-canvas"></canvas>
+<aside class="sidebar">
+  <div class="sb-head"><div class="sb-logo"><img src="assets/img/deepseek-icon-official.png" alt="DeepSeek"></div><div><div class="sb-name">DeepSeek <b>Research</b></div><div class="sb-tag">whitepapers</div></div></div>
+  <div class="sb-action"><a class="new-chat" href="chat/">Request Through Console</a></div>
+  <div class="sb-section">Research</div>
+  <nav class="nav-list">
+    <a class="hist-row" href="./">Portal<div class="meta">overview and access</div></a>
+    <a class="hist-row" href="models.html">Models<div class="meta">public stats</div></a>
+    <a class="hist-row" href="benchmarks.html">Benchmarks<div class="meta">measured SDI records</div></a>
+    <a class="hist-row active" href="papers.html">Whitepapers<div class="meta">request only</div></a>
+    <a class="hist-row" href="priority.html">Priority<div class="meta">controlled summary</div></a>
+    <a class="hist-row" href="scale.html">Scale<div class="meta">public tier summary</div></a>
+    <a class="hist-row" href="oroboros-labs.html">Oroboros Labs<div class="meta">department access</div></a>
+  </nav>
+  <div class="sb-foot"><select class="model-pick"><option>Request-only index</option></select><div class="sb-stats">Public abstracts <span>off</span><br>Request path <span>chat</span></div><div class="sb-foot-brand"><img src="assets/img/deepseek-icon-official.png" alt="">DeepSeek blue</div></div>
+</aside>
 
-<div class="classification-banner">WHITEPAPER REQUESTS // DEEPSEEK RESEARCH // TITLES ONLY</div>
-
-<nav class="topnav">
-  <div class="topnav-inner">
-    <a href="/" class="nav-logo">
-      <div class="ds-icon"><img src="/assets/img/deepseek-icon-official.png" alt="DeepSeek"></div>
-      DeepSeek Research
-    </a>
-    <div class="nav-links">
-      <a href="/">Portal</a>
-      <a href="/models.html">Models</a>
-      <a href="/benchmarks.html">Benchmarks</a>
-      <a href="/papers.html" class="active">Whitepapers</a>
-      <a href="/chat/?v=restored">Console</a>
+<main class="main">
+  <div class="top"><span class="dot"></span><div class="title">Whitepaper <b>Requests</b></div><span class="pill">Titles only</span><span class="pill">Controlled access</span><div class="spacer"></div><a class="topbtn" href="benchmarks.html">Benchmarks</a><a class="topbtn" href="chat/">Request</a></div>
+  <section class="content">
+    <div class="hero-console">
+      <div class="seal"><img src="assets/img/deepseek-icon-official.png" alt="DeepSeek"></div>
+      <h1>Whitepaper <b>Request Index</b></h1>
+      <p>Public titles only. Full papers, descriptions, and request handling go through the chat console.</p>
+      <div class="btn-row"><a class="btn-block primary" href="chat/">Request Through Console</a><a class="btn-block" href="benchmarks.html">View Benchmarks</a></div>
     </div>
-  </div>
-</nav>
-
-<section class="page-header">
-  <div class="breadcrumb"><a href="/">DeepSeek Research</a> / Whitepapers</div>
-  <h1><img src="/assets/img/deepseek-icon-official.png" alt="DeepSeek" style="width:48px;height:48px;object-fit:cover;vertical-align:middle;margin-right:12px;">Whitepaper Requests</h1>
-  <p style="color:var(--text-dim);margin-top:8px;">Whitepapers are request-only. Public listings show titles only.</p>
-  <div class="hero-actions">
-    <a href="/chat/?v=restored" class="btn btn-primary">Request Through Console</a>
-    <a href="/benchmarks.html" class="btn btn-outline">View Benchmarks</a>
-  </div>
-</section>
-
-<section class="section">
-  <div class="section-inner">
-    <div class="section-header reveal">
-      <h2><span class="num">I</span> Public Index</h2>
-      <p>Titles only. No public abstracts, architecture internals, or implementation descriptions.</p>
-    </div>
-    <div class="request-list">
-      <div class="request-row reveal">DeepSeek V4 Pro Public Tier Record</div>
-      <div class="request-row reveal">Strata Depth Index Benchmark Record</div>
-      <div class="request-row reveal">1B4 Public Performance Record</div>
-      <div class="request-row reveal">3M4 and 1M4 Comparison Record</div>
-      <div class="request-row reveal">Quantum Mathematics Research Index</div>
-      <div class="request-row reveal">DeepSeek Research Console Access Record</div>
-    </div>
-  </div>
-</section>
-
-<section class="section" style="padding-top:0;">
-  <div class="section-inner">
-    <div class="highlight-box reveal" style="text-align:center;">
-      <h4>Request Access</h4>
-      <p style="margin-bottom:16px;">Use the console path for whitepaper requests. The public page remains a title index only.</p>
-      <a href="/chat/?v=restored" class="btn btn-primary">Open Console</a>
-    </div>
-  </div>
-</section>
-
-<footer class="footer">
-  <div class="footer-inner">
-    <img src="/assets/img/deepseek-icon-official.png" alt="DeepSeek" style="width:42px;height:42px;object-fit:cover;margin-bottom:10px;">
-    <p>DeepSeek Research - Whitepaper Requests</p>
-    <p style="margin-top:8px;"><a href="/">Portal</a><a href="/models.html">Models</a><a href="/benchmarks.html">Benchmarks</a><a href="/chat/?v=restored">Console</a></p>
-  </div>
-</footer>
-
-<script>
-(function(){const c=document.getElementById('particles-canvas'),x=c.getContext('2d');let p=[],w,h;function R(){w=c.width=innerWidth;h=c.height=innerHeight}R();addEventListener('resize',R);for(let i=0,n=Math.min(60,Math.floor(innerWidth/18));i<n;i++)p.push({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35,r:Math.random()*1.3+.4,a:Math.random()*.35+.12});(function D(){x.clearRect(0,0,w,h);p.forEach((q,i)=>{q.x+=q.vx;q.y+=q.vy;if(q.x<0)q.x=w;if(q.x>w)q.x=0;if(q.y<0)q.y=h;if(q.y>h)q.y=0;x.beginPath();x.arc(q.x,q.y,q.r,0,Math.PI*2);x.fillStyle='rgba(77,107,254,'+q.a+')';x.fill();for(let j=i+1;j<p.length;j++){let dx=q.x-p[j].x,dy=q.y-p[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<110){x.beginPath();x.moveTo(q.x,q.y);x.lineTo(p[j].x,p[j].y);x.strokeStyle='rgba(77,107,254,'+(.07*(1-d/110))+')';x.lineWidth=.5;x.stroke()}}});requestAnimationFrame(D)})();const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll('.reveal').forEach(el=>io.observe(el));})();
-</script>
+    <section class="panel featured">
+      <div class="lbl">Public titles <span>no descriptions</span></div>
+      <div class="request-list">
+        <div class="request-row">DeepSeek V4 Pro Public Tier Record</div>
+        <div class="request-row">Strata Depth Index Benchmark Record</div>
+        <div class="request-row">1B4 Public Performance Record</div>
+        <div class="request-row">3M4 and 1M4 Comparison Record</div>
+        <div class="request-row">Quantum Mathematics Research Index</div>
+        <div class="request-row">DeepSeek Research Console Access Record</div>
+        <div class="request-row">The Strata Architecture</div>
+        <div class="request-row">Phi-Harmonic Weight Distribution Across Neural Strata</div>
+        <div class="request-row">Phi-Quantum Compression</div>
+        <div class="request-row">The 48^3 Sqrt2-Geometric Crystalline Lattice</div>
+        <div class="request-row">Triple Mirror Expansion: 97^3 Architecture</div>
+        <div class="request-row">873^3 Unified Field Architecture</div>
+        <div class="request-row">Azimuth Laws and Null Axioms</div>
+        <div class="request-row">Entity Consciousness Framework</div>
+      </div>
+    </section>
+    <div class="note">Whitepaper page intentionally publishes titles only.</div>
+  </section>
+</main>
 </body>
 </html>

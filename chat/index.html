@@ -588,13 +588,7 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
 // ═══════════════ STATE ═══════════════
 // All model calls go through the same-origin /api router. Backend endpoints stay server-side.
 const API_ROUTER    = '';
-function isCloudModel(m){ m=(m||'').toLowerCase().trim();
-  return /^(openai|anthropic|deepseek)\//.test(m)
-      || /^(gpt|chatgpt|codex|o1|o3|o4|text-|davinci|dall-e)/.test(m)
-      || m.startsWith('claude')
-      || m==='deepseek-chat' || m==='deepseek-reasoner'
-      || /deepseek-v3|deepseek-r1/.test(m)
-      || /:(cloud|full|1\.6t)$/.test(m); }
+function isCloudModel(){ return false; }
 function chatBase(m){ return API_ROUTER; }
 function isSpeedStackModel(m){
   return /^deepseek-v4-pro-(5M4|7M4|1B4):latest$/i.test((m || '').trim());
@@ -645,16 +639,6 @@ function isSelectableModel(model) {
 }
 
 modelSelect.addEventListener('change', () => {
-  if (false) {
-    const m = (prompt('Use any model — type its name:\n• local Ollama: deepseek-v4-pro:127cubed, llama3.1:70b …\n• OpenAI: gpt-4o, gpt-4o-mini, o4-mini, codex-mini-latest …\n• Anthropic: claude-sonnet-4-6, claude-opus-4-7 …\n• DeepSeek: deepseek-chat, deepseek-reasoner') || '').trim();
-    if (m) {
-      let opt = [...modelSelect.options].find(o => o.value === m);
-      if (!opt) { opt = document.createElement('option'); opt.value = m; opt.textContent = m; modelSelect.insertBefore(opt, modelSelect.lastElementChild); }
-      modelSelect.value = m;
-    } else {
-      modelSelect.value = currentModel;
-    }
-  }
   currentModel = modelSelect.value;
 });
 

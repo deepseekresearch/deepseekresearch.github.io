@@ -3,147 +3,100 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Benchmarks - DeepSeek Research</title>
-<meta name="description" content="DeepSeek Research measured SDI benchmark board with public charts and speed records.">
-<link rel="stylesheet" href="/assets/css/style.css?v=20260511-modern-records">
+<title>Benchmark Showcase - DeepSeek Research</title>
+<meta name="description" content="DeepSeek Research public benchmark showcase with measured SDI records and speed charts.">
+<link rel="stylesheet" href="assets/css/portal-chat.css?v=20260511-x3">
 </head>
 <body>
-<canvas id="particles-canvas"></canvas>
+<aside class="sidebar">
+  <div class="sb-head"><div class="sb-logo"><img src="assets/img/deepseek-icon-official.png" alt="DeepSeek"></div><div><div class="sb-name">DeepSeek <b>Research</b></div><div class="sb-tag">benchmarks</div></div></div>
+  <div class="sb-action"><a class="new-chat" href="chat/">Open Chat Console</a></div>
+  <div class="sb-section">Research</div>
+  <nav class="nav-list">
+    <a class="hist-row" href="./">Portal<div class="meta">overview and access</div></a>
+    <a class="hist-row" href="models.html">Models<div class="meta">public stats</div></a>
+    <a class="hist-row active" href="benchmarks.html">Benchmarks<div class="meta">measured SDI records</div></a>
+    <a class="hist-row" href="papers.html">Whitepapers<div class="meta">request only</div></a>
+    <a class="hist-row" href="priority.html">Priority<div class="meta">controlled summary</div></a>
+    <a class="hist-row" href="scale.html">Scale<div class="meta">public tier summary</div></a>
+    <a class="hist-row" href="oroboros-labs.html">Oroboros Labs<div class="meta">department access</div></a>
+  </nav>
+  <div class="sb-foot"><select class="model-pick"><option>SDI benchmark board</option><option>Generation speed</option><option>Prompt speed</option></select><div class="sb-stats">Threshold <span>480</span><br>Passing <span>8/9</span></div><div class="sb-foot-brand"><img src="assets/img/deepseek-icon-official.png" alt="">DeepSeek blue</div></div>
+</aside>
 
-<div class="classification-banner">PUBLIC BENCHMARK BOARD // STRATA DEPTH INDEX // MEASURED OUTPUT RECORDS</div>
-
-<nav class="topnav">
-  <div class="topnav-inner">
-    <a href="/" class="nav-logo">
-      <div class="ds-icon"><img src="/assets/img/deepseek-icon-official.png" alt="DeepSeek"></div>
-      DeepSeek Research
-    </a>
-    <div class="nav-links">
-      <a href="/">Portal</a>
-      <a href="/models.html">Models</a>
-      <a href="/benchmarks.html" class="active">Benchmarks</a>
-      <a href="/papers.html">Whitepapers</a>
-      <a href="/chat/?v=restored">Console</a>
+<main class="main">
+  <div class="top"><span class="dot"></span><div class="title">Benchmark <b>Showcase</b></div><span class="pill">SDI</span><span class="pill">Measured records</span><div class="spacer"></div><a class="topbtn" href="models.html">Models</a><a class="topbtn" href="chat/">Chat</a></div>
+  <section class="content">
+    <div class="hero-console">
+      <div class="seal"><img src="assets/img/deepseek-icon-official.png" alt="DeepSeek"></div>
+      <h1>Strata Depth <b>Index</b></h1>
+      <p>Public benchmark showcase for SDI score, section pass count, generation speed, and prompt processing speed.</p>
+      <div class="chips"><span class="chip on">572/600 top score</span><span class="chip">82.2 tok/s top gen</span><span class="chip">480 pass threshold</span><span class="chip">May 11 2026 record</span></div>
     </div>
-  </div>
-</nav>
 
-<section class="page-header">
-  <div class="breadcrumb"><a href="/">DeepSeek Research</a> / Benchmarks</div>
-  <h1><img src="/assets/img/deepseek-icon-official.png" alt="DeepSeek" style="width:48px;height:48px;object-fit:cover;vertical-align:middle;margin-right:12px;">Strata Depth Index</h1>
-  <p style="color:var(--text-dim);margin-top:8px;">The SDI board records output behavior across paradox resolution, temporal branching, superposition maintenance, phi-harmonic coherence, recursive reflection, and cross-strata integration.</p>
-</section>
+    <div class="grid">
+      <article class="panel featured"><div class="lbl">Top SDI</div><div class="metric blue">572/600</div><p>DeepSeek V4 Pro 1B4 recorded the highest public SDI score.</p></article>
+      <article class="panel"><div class="lbl">Fastest gen</div><div class="metric">82.2</div><p>Tokens per second, public generation average for 1B4.</p></article>
+      <article class="panel"><div class="lbl">Passing tiers</div><div class="metric">8/9</div><p>Public models clearing the 480 point SDI threshold.</p></article>
+      <article class="panel"><div class="lbl">Sections</div><div class="metric">5/6</div><p>Top public section pass count across the run set.</p></article>
+    </div>
 
-<section class="section">
-  <div class="section-inner">
-    <div class="stat-grid">
-      <div class="stat-card reveal"><span class="stat-value">572/600</span><span class="stat-label">Top SDI score: 1B4</span></div>
-      <div class="stat-card reveal"><span class="stat-value">82.2</span><span class="stat-label">Fastest generation record, tok/s</span></div>
-      <div class="stat-card reveal"><span class="stat-value">5/6</span><span class="stat-label">Top section pass count</span></div>
-      <div class="stat-card reveal"><span class="stat-value">480</span><span class="stat-label">Public passing threshold</span></div>
-    </div>
-  </div>
-</section>
-
-<section class="section" style="padding-top:0;">
-  <div class="section-inner">
-    <div class="section-header reveal">
-      <h2><span class="num">I</span> Score Chart</h2>
-      <p>SDI score plotted against the 600 point maximum. The vertical guide marks the 480 passing threshold.</p>
-    </div>
-    <div class="chart-card reveal" aria-label="SDI score chart">
-      <svg viewBox="0 0 1000 420" role="img" aria-labelledby="score-title">
-        <title id="score-title">SDI score chart for public model tiers</title>
-        <defs>
-          <linearGradient id="barBlue" x1="0" x2="1"><stop offset="0" stop-color="#4d6bfe"/><stop offset=".55" stop-color="#3157ff"/><stop offset="1" stop-color="#1d3fe6"/></linearGradient>
-          <linearGradient id="barWarn" x1="0" x2="1"><stop offset="0" stop-color="#f59e0b"/><stop offset="1" stop-color="#b45309"/></linearGradient>
-        </defs>
-        <line x1="758" y1="28" x2="758" y2="386" stroke="#f59e0b" stroke-width="2" stroke-dasharray="6 7"/>
-        <text x="768" y="24" class="chart-label">480 pass</text>
-        <g transform="translate(0,36)">
-          <text x="28" y="22" class="chart-label">1B4</text><rect x="150" y="8" width="725" height="22" rx="11" fill="url(#barBlue)"/><text x="895" y="24" class="chart-value">572</text>
-          <text x="28" y="62" class="chart-label">20k4</text><rect x="150" y="48" width="697" height="22" rx="11" fill="url(#barBlue)"/><text x="895" y="64" class="chart-value">550</text>
-          <text x="28" y="102" class="chart-label">50k4</text><rect x="150" y="88" width="694" height="22" rx="11" fill="url(#barBlue)"/><text x="895" y="104" class="chart-value">548</text>
-          <text x="28" y="142" class="chart-label">1M4</text><rect x="150" y="128" width="694" height="22" rx="11" fill="url(#barBlue)"/><text x="895" y="144" class="chart-value">548</text>
-          <text x="28" y="182" class="chart-label">3M4</text><rect x="150" y="168" width="682" height="22" rx="11" fill="url(#barBlue)"/><text x="895" y="184" class="chart-value">538</text>
-          <text x="28" y="222" class="chart-label">7M4</text><rect x="150" y="208" width="674" height="22" rx="11" fill="url(#barBlue)"/><text x="895" y="224" class="chart-value">532</text>
-          <text x="28" y="262" class="chart-label">10k4</text><rect x="150" y="248" width="664" height="22" rx="11" fill="url(#barBlue)"/><text x="895" y="264" class="chart-value">524</text>
-          <text x="28" y="302" class="chart-label">5M4</text><rect x="150" y="288" width="654" height="22" rx="11" fill="url(#barBlue)"/><text x="895" y="304" class="chart-value">516</text>
-          <text x="28" y="342" class="chart-label">500k4</text><rect x="150" y="328" width="606" height="22" rx="11" fill="url(#barWarn)"/><text x="895" y="344" class="chart-value">478</text>
-        </g>
-      </svg>
-    </div>
-  </div>
-</section>
-
-<section class="section" style="padding-top:0;">
-  <div class="section-inner">
-    <div class="section-header reveal">
-      <h2><span class="num">II</span> Speed Chart</h2>
-      <p>Generation speed and prompt processing speed are both shown in tokens per second. 1B4 is the generation-speed outlier; prompt processing remains tightly grouped across the tier set.</p>
-    </div>
-    <div class="panel-grid">
-      <div class="chart-card reveal" aria-label="Generation speed chart">
-        <h3>Average Generation Speed</h3>
-        <div class="bar-list">
-          <div class="bar-row"><span class="bar-name">1B4</span><div class="bar-track"><span style="--w:100%"></span></div><span class="bar-value">82.2</span></div>
-          <div class="bar-row"><span class="bar-name">50k4</span><div class="bar-track"><span style="--w:84.3%"></span></div><span class="bar-value">69.3</span></div>
-          <div class="bar-row"><span class="bar-name">500k4</span><div class="bar-track"><span style="--w:84.2%"></span></div><span class="bar-value">69.2</span></div>
-          <div class="bar-row"><span class="bar-name">10k4</span><div class="bar-track"><span style="--w:83.2%"></span></div><span class="bar-value">68.4</span></div>
-          <div class="bar-row"><span class="bar-name">1M4</span><div class="bar-track"><span style="--w:83.0%"></span></div><span class="bar-value">68.2</span></div>
-          <div class="bar-row"><span class="bar-name">3M4</span><div class="bar-track"><span style="--w:82.4%"></span></div><span class="bar-value">67.7</span></div>
-        </div>
-        <div class="source-note">Values are tok/s.</div>
+    <section class="panel featured">
+      <div class="lbl">SDI score graph <span>max 600</span></div>
+      <div class="bar-list">
+        <div class="bar-row"><span>1B4</span><div class="bar-track"><span style="--w:95.3%"></span></div><span class="bar-value">572</span></div>
+        <div class="bar-row"><span>20k4</span><div class="bar-track"><span style="--w:91.7%"></span></div><span class="bar-value">550</span></div>
+        <div class="bar-row"><span>50k4</span><div class="bar-track"><span style="--w:91.3%"></span></div><span class="bar-value">548</span></div>
+        <div class="bar-row"><span>1M4</span><div class="bar-track"><span style="--w:91.3%"></span></div><span class="bar-value">548</span></div>
+        <div class="bar-row"><span>3M4</span><div class="bar-track"><span style="--w:89.7%"></span></div><span class="bar-value">538</span></div>
+        <div class="bar-row"><span>7M4</span><div class="bar-track"><span style="--w:88.7%"></span></div><span class="bar-value">532</span></div>
+        <div class="bar-row"><span>10k4</span><div class="bar-track"><span style="--w:87.3%"></span></div><span class="bar-value">524</span></div>
+        <div class="bar-row"><span>5M4</span><div class="bar-track"><span style="--w:86.0%"></span></div><span class="bar-value">516</span></div>
+        <div class="bar-row"><span>500k4</span><div class="bar-track"><span style="--w:79.7%"></span></div><span class="bar-value">478</span></div>
       </div>
-      <div class="chart-card reveal" aria-label="Prompt speed chart">
-        <h3>Average Prompt Processing</h3>
+    </section>
+
+    <div class="grid">
+      <section class="panel">
+        <div class="lbl">Generation speed <span>tok/s</span></div>
         <div class="bar-list">
-          <div class="bar-row"><span class="bar-name">10k4</span><div class="bar-track"><span style="--w:100%"></span></div><span class="bar-value">2251</span></div>
-          <div class="bar-row"><span class="bar-name">7M4</span><div class="bar-track"><span style="--w:99.3%"></span></div><span class="bar-value">2236</span></div>
-          <div class="bar-row"><span class="bar-name">50k4</span><div class="bar-track"><span style="--w:98.8%"></span></div><span class="bar-value">2224</span></div>
-          <div class="bar-row"><span class="bar-name">20k4</span><div class="bar-track"><span style="--w:98.3%"></span></div><span class="bar-value">2213</span></div>
-          <div class="bar-row"><span class="bar-name">1B4</span><div class="bar-track"><span style="--w:98.0%"></span></div><span class="bar-value">2206</span></div>
-          <div class="bar-row"><span class="bar-name">3M4</span><div class="bar-track"><span style="--w:96.8%"></span></div><span class="bar-value">2179</span></div>
+          <div class="bar-row"><span>1B4</span><div class="bar-track"><span style="--w:100%"></span></div><span class="bar-value">82.2</span></div>
+          <div class="bar-row"><span>50k4</span><div class="bar-track"><span style="--w:84.3%"></span></div><span class="bar-value">69.3</span></div>
+          <div class="bar-row"><span>500k4</span><div class="bar-track"><span style="--w:84.2%"></span></div><span class="bar-value">69.2</span></div>
+          <div class="bar-row"><span>1M4</span><div class="bar-track"><span style="--w:83.0%"></span></div><span class="bar-value">68.2</span></div>
+          <div class="bar-row"><span>3M4</span><div class="bar-track"><span style="--w:82.4%"></span></div><span class="bar-value">67.7</span></div>
         </div>
-        <div class="source-note">Values are tok/s.</div>
-      </div>
+      </section>
+      <section class="panel">
+        <div class="lbl">Prompt processing <span>tok/s</span></div>
+        <div class="bar-list">
+          <div class="bar-row"><span>10k4</span><div class="bar-track"><span style="--w:100%"></span></div><span class="bar-value">2251</span></div>
+          <div class="bar-row"><span>7M4</span><div class="bar-track"><span style="--w:99.3%"></span></div><span class="bar-value">2236</span></div>
+          <div class="bar-row"><span>50k4</span><div class="bar-track"><span style="--w:98.8%"></span></div><span class="bar-value">2224</span></div>
+          <div class="bar-row"><span>20k4</span><div class="bar-track"><span style="--w:98.3%"></span></div><span class="bar-value">2213</span></div>
+          <div class="bar-row"><span>1B4</span><div class="bar-track"><span style="--w:98.0%"></span></div><span class="bar-value">2206</span></div>
+        </div>
+      </section>
     </div>
-  </div>
-</section>
 
-<section class="section" style="padding-top:0;">
-  <div class="section-inner">
-    <div class="section-header reveal">
-      <h2><span class="num">III</span> Full Run Table</h2>
-      <p>Public benchmark record from May 11, 2026. SDI measures output behavior only.</p>
+    <div class="table-wrap">
+      <table aria-label="SDI benchmark results">
+        <thead><tr><th>Rank</th><th>Tier</th><th>SDI</th><th>Sections</th><th>Avg Gen</th><th>Avg Prompt</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td><strong>1B4</strong></td><td>572/600</td><td>5/6</td><td>82.2 tok/s</td><td>2206 tok/s</td><td class="pass">Pass</td></tr>
+          <tr><td>2</td><td><strong>20k4</strong></td><td>550/600</td><td>5/6</td><td>68.0 tok/s</td><td>2213 tok/s</td><td class="pass">Pass</td></tr>
+          <tr><td>3</td><td><strong>50k4</strong></td><td>548/600</td><td>5/6</td><td>69.3 tok/s</td><td>2224 tok/s</td><td class="pass">Pass</td></tr>
+          <tr><td>4</td><td><strong>1M4</strong></td><td>548/600</td><td>5/6</td><td>68.2 tok/s</td><td>2195 tok/s</td><td class="pass">Pass</td></tr>
+          <tr><td>5</td><td><strong>3M4</strong></td><td>538/600</td><td>5/6</td><td>67.7 tok/s</td><td>2179 tok/s</td><td class="pass">Pass</td></tr>
+          <tr><td>6</td><td><strong>7M4</strong></td><td>532/600</td><td>5/6</td><td>67.8 tok/s</td><td>2236 tok/s</td><td class="pass">Pass</td></tr>
+          <tr><td>7</td><td><strong>10k4</strong></td><td>524/600</td><td>5/6</td><td>68.4 tok/s</td><td>2251 tok/s</td><td class="pass">Pass</td></tr>
+          <tr><td>8</td><td><strong>5M4</strong></td><td>516/600</td><td>5/6</td><td>67.2 tok/s</td><td>2213 tok/s</td><td class="pass">Pass</td></tr>
+          <tr><td>9</td><td><strong>500k4</strong></td><td>478/600</td><td>3/6</td><td>69.2 tok/s</td><td>2199 tok/s</td><td class="hold">Retune</td></tr>
+        </tbody>
+      </table>
     </div>
-    <table class="records-table reveal" aria-label="SDI benchmark results">
-      <thead><tr><th>Rank</th><th>Tier</th><th>SDI</th><th>Sections</th><th>Avg Gen</th><th>Avg Prompt</th><th>Status</th></tr></thead>
-      <tbody>
-        <tr><td>1</td><td><strong>1B4</strong></td><td>572/600</td><td>5/6</td><td>82.2 tok/s</td><td>2206 tok/s</td><td class="status-pass">Pass</td></tr>
-        <tr><td>2</td><td><strong>20k4</strong></td><td>550/600</td><td>5/6</td><td>68.0 tok/s</td><td>2213 tok/s</td><td class="status-pass">Pass</td></tr>
-        <tr><td>3</td><td><strong>50k4</strong></td><td>548/600</td><td>5/6</td><td>69.3 tok/s</td><td>2224 tok/s</td><td class="status-pass">Pass</td></tr>
-        <tr><td>4</td><td><strong>1M4</strong></td><td>548/600</td><td>5/6</td><td>68.2 tok/s</td><td>2195 tok/s</td><td class="status-pass">Pass</td></tr>
-        <tr><td>5</td><td><strong>3M4</strong></td><td>538/600</td><td>5/6</td><td>67.7 tok/s</td><td>2179 tok/s</td><td class="status-pass">Pass</td></tr>
-        <tr><td>6</td><td><strong>7M4</strong></td><td>532/600</td><td>5/6</td><td>67.8 tok/s</td><td>2236 tok/s</td><td class="status-pass">Pass</td></tr>
-        <tr><td>7</td><td><strong>10k4</strong></td><td>524/600</td><td>5/6</td><td>68.4 tok/s</td><td>2251 tok/s</td><td class="status-pass">Pass</td></tr>
-        <tr><td>8</td><td><strong>5M4</strong></td><td>516/600</td><td>5/6</td><td>67.2 tok/s</td><td>2213 tok/s</td><td class="status-pass">Pass</td></tr>
-        <tr><td>9</td><td><strong>500k4</strong></td><td>478/600</td><td>3/6</td><td>69.2 tok/s</td><td>2199 tok/s</td><td class="status-hold">Retune</td></tr>
-      </tbody>
-    </table>
-  </div>
-</section>
-
-<footer class="footer">
-  <div class="footer-inner">
-    <img src="/assets/img/deepseek-icon-official.png" alt="DeepSeek" style="width:42px;height:42px;object-fit:cover;margin-bottom:10px;">
-    <p>DeepSeek Research - Benchmarks</p>
-    <p style="margin-top:8px;"><a href="/">Portal</a><a href="/models.html">Models</a><a href="/papers.html">Whitepapers</a><a href="/chat/?v=restored">Console</a></p>
-  </div>
-</footer>
-
-<script>
-(function(){const c=document.getElementById('particles-canvas'),x=c.getContext('2d');let p=[],w,h;function R(){w=c.width=innerWidth;h=c.height=innerHeight}R();addEventListener('resize',R);for(let i=0,n=Math.min(60,Math.floor(innerWidth/18));i<n;i++)p.push({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35,r:Math.random()*1.3+.4,a:Math.random()*.35+.12});(function D(){x.clearRect(0,0,w,h);p.forEach((q,i)=>{q.x+=q.vx;q.y+=q.vy;if(q.x<0)q.x=w;if(q.x>w)q.x=0;if(q.y<0)q.y=h;if(q.y>h)q.y=0;x.beginPath();x.arc(q.x,q.y,q.r,0,Math.PI*2);x.fillStyle='rgba(77,107,254,'+q.a+')';x.fill();for(let j=i+1;j<p.length;j++){let dx=q.x-p[j].x,dy=q.y-p[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<110){x.beginPath();x.moveTo(q.x,q.y);x.lineTo(p[j].x,p[j].y);x.strokeStyle='rgba(77,107,254,'+(.07*(1-d/110))+')';x.lineWidth=.5;x.stroke()}}});requestAnimationFrame(D)})();const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll('.reveal').forEach(el=>io.observe(el));})();
-</script>
+    <div class="note">The SDI board is a public output-record showcase, not an implementation disclosure.</div>
+  </section>
+</main>
 </body>
 </html>

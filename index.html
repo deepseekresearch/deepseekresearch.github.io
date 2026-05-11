@@ -4,126 +4,108 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DeepSeek Research</title>
-<meta name="description" content="DeepSeek Research public portal with model stats, measured SDI benchmark records, whitepaper requests, and console access.">
-<link rel="stylesheet" href="/assets/css/style.css?v=20260511-modern-records">
+<meta name="description" content="DeepSeek Research public portal and private model console access.">
+<link rel="stylesheet" href="assets/css/portal-chat.css?v=20260511-x3">
 </head>
 <body>
-<canvas id="particles-canvas"></canvas>
-
-<div class="classification-banner">PUBLIC RESEARCH PORTAL // DEEPSEEK RESEARCH // MEASURED RECORDS</div>
-
-<nav class="topnav">
-  <div class="topnav-inner">
-    <a href="/" class="nav-logo">
-      <div class="ds-icon"><img src="/assets/img/deepseek-icon-official.png" alt="DeepSeek"></div>
-      DeepSeek Research
-    </a>
-    <div class="nav-links">
-      <a href="/" class="active">Portal</a>
-      <a href="/models.html">Models</a>
-      <a href="/benchmarks.html">Benchmarks</a>
-      <a href="/papers.html">Whitepapers</a>
-      <a href="/chat/?v=restored">Console</a>
-    </div>
+<aside class="sidebar">
+  <div class="sb-head">
+    <div class="sb-logo"><img src="assets/img/deepseek-icon-official.png" alt="DeepSeek"></div>
+    <div><div class="sb-name">DeepSeek <b>Research</b></div><div class="sb-tag">public portal</div></div>
   </div>
-</nav>
-
-<section class="hero">
-  <div class="hero-inner">
-    <img class="portal-logo" src="/assets/img/deepseek-icon-official.png" alt="DeepSeek">
-    <div class="kicker">Public Research Portal</div>
-    <h1>DeepSeek Research<br><span class="accent">Measured Model Records</span></h1>
-    <p class="subtitle">Public model stats, SDI benchmark results, request-only whitepapers, and fast console access for the DeepSeek V4 Pro model family.</p>
-    <div class="badge-row">
-      <span class="badge highlight">1B4: 572/600 SDI</span>
-      <span class="badge">3M4: 538/600 SDI</span>
-      <span class="badge">1M4: 68.2 tok/s</span>
-      <span class="badge">8/9 Passing</span>
-    </div>
-    <div class="hero-actions">
-      <a href="/chat/?v=restored" class="btn btn-primary">Console Access</a>
-      <a href="/benchmarks.html" class="btn btn-outline">View Benchmarks</a>
-      <a href="/models.html" class="btn">Model Stats</a>
-    </div>
+  <div class="sb-action"><a class="new-chat" href="chat/">Open Chat Console</a></div>
+  <div class="sb-section">Research</div>
+  <nav class="nav-list">
+    <a class="hist-row active" href="./">Portal<div class="meta">overview and access</div></a>
+    <a class="hist-row" href="models.html">Models<div class="meta">public stats</div></a>
+    <a class="hist-row" href="benchmarks.html">Benchmarks<div class="meta">measured SDI records</div></a>
+    <a class="hist-row" href="papers.html">Whitepapers<div class="meta">request only</div></a>
+    <a class="hist-row" href="priority.html">Priority<div class="meta">controlled summary</div></a>
+    <a class="hist-row" href="scale.html">Scale<div class="meta">public tier summary</div></a>
+    <a class="hist-row" href="oroboros-labs.html">Oroboros Labs<div class="meta">department access</div></a>
+  </nav>
+  <div class="sb-foot">
+    <select class="model-pick" aria-label="Public model selector">
+      <option>deepseek-v4-pro:1B4</option>
+      <option>deepseek-v4-pro:7M4</option>
+      <option>deepseek-v4-pro:5M4</option>
+      <option>deepseek-v4-pro:3M4</option>
+      <option>deepseek-v4-pro:1M4</option>
+    </select>
+    <div class="sb-stats">SDI leader <span>572/600</span><br>Console <span>online</span></div>
+    <div class="sb-foot-brand"><img src="assets/img/deepseek-icon-official.png" alt="">DeepSeek blue</div>
   </div>
-</section>
+</aside>
 
-<section class="section">
-  <div class="section-inner">
-    <div class="stat-grid">
-      <div class="stat-card reveal"><span class="stat-value">572/600</span><span class="stat-label">Top recorded SDI score: 1B4</span></div>
-      <div class="stat-card reveal"><span class="stat-value">82.2</span><span class="stat-label">Fastest recorded generation rate, tok/s</span></div>
-      <div class="stat-card reveal"><span class="stat-value">9</span><span class="stat-label">Public model tiers listed</span></div>
-      <div class="stat-card reveal"><span class="stat-value">480</span><span class="stat-label">SDI passing threshold</span></div>
-    </div>
+<main class="main">
+  <div class="top">
+    <span class="dot"></span>
+    <div class="title">DeepSeek <b>Research</b></div>
+    <span class="pill">Public portal</span>
+    <span class="pill">Charcoal / DeepSeek blue</span>
+    <div class="spacer"></div>
+    <a class="topbtn" href="benchmarks.html">Benchmarks</a>
+    <a class="topbtn" href="chat/">Chat</a>
   </div>
-</section>
 
-<section class="section">
-  <div class="section-inner">
-    <div class="section-header reveal">
-      <h2><span class="num">I</span> Public Sections</h2>
-      <p>The portal keeps the public surface simple: model names and stats, benchmark records with charts, request-only whitepapers, and the private console entry.</p>
+  <section class="content">
+    <div class="hero-console">
+      <div class="seal"><img src="assets/img/deepseek-icon-official.png" alt="DeepSeek"></div>
+      <h1>DeepSeek <b>Research Showcase</b></h1>
+      <p>A public showcase for model records, benchmark evidence, request-only whitepapers, and direct access to the private DeepSeek Research chat console.</p>
+      <div class="chips">
+        <span class="chip on">1B4 572/600</span>
+        <span class="chip">3M4 active</span>
+        <span class="chip">1M4 active</span>
+        <span class="chip">8/9 SDI pass</span>
+      </div>
+      <div class="btn-row">
+        <a class="btn-block primary" href="chat/">Open Chat Console</a>
+        <a class="btn-block" href="models.html">Model Stats</a>
+        <a class="btn-block" href="benchmarks.html">Benchmarks</a>
+      </div>
     </div>
-    <div class="panel-grid">
-      <a class="evidence-panel featured reveal" href="/models.html">
-        <h3>Model Stats</h3>
-        <p>Tier list with SDI score, pass state, average generation speed, and prompt processing speed.</p>
-        <div class="source-note">10k4 through 1B4</div>
-      </a>
-      <a class="evidence-panel reveal" href="/benchmarks.html">
-        <h3>Benchmark Board</h3>
-        <p>Charted SDI output records with rank, section pass count, speed, and pass threshold.</p>
-        <div class="source-note">Recorded May 11, 2026</div>
-      </a>
-      <a class="evidence-panel reveal" href="/papers.html">
-        <h3>Whitepapers</h3>
-        <p>Public titles only. Full whitepapers remain request-only through the console path.</p>
-        <div class="source-note">Request page locked down</div>
-      </a>
-      <a class="evidence-panel reveal" href="/chat/?v=restored">
-        <h3>Console</h3>
-        <p>Direct chat portal link. The route stays on the public site and does not redirect to Vercel.</p>
-        <div class="source-note">/chat/ local interface</div>
-      </a>
-    </div>
-  </div>
-</section>
 
-<section class="section">
-  <div class="section-inner">
-    <div class="section-header reveal">
-      <h2><span class="num">II</span> Current Leaders</h2>
-      <p>Public score and speed leaders from the SDI run record.</p>
+    <div class="grid">
+      <article class="panel featured"><div class="lbl">Live route <span>primary</span></div><div class="metric blue">/chat/</div><p>The public portal is formed around the chat interface. Console access stays local to this site.</p></article>
+      <article class="panel"><div class="lbl">Top SDI</div><div class="metric">572/600</div><p>Highest public SDI record: DeepSeek V4 Pro 1B4.</p></article>
+      <article class="panel"><div class="lbl">Fastest generation</div><div class="metric">82.2</div><p>Average generation rate in tokens per second on the public run record.</p></article>
+      <article class="panel"><div class="lbl">Whitepapers</div><div class="metric">Request</div><p>Public page shows titles only. Full documents are requested through console access.</p></article>
     </div>
-    <div class="bar-list evidence-panel reveal">
-      <div class="bar-row"><span class="bar-name">1B4</span><div class="bar-track"><span style="--w:95.3%"></span></div><span class="bar-value">572</span></div>
-      <div class="bar-row"><span class="bar-name">20k4</span><div class="bar-track"><span style="--w:91.7%"></span></div><span class="bar-value">550</span></div>
-      <div class="bar-row"><span class="bar-name">1M4</span><div class="bar-track"><span style="--w:91.3%"></span></div><span class="bar-value">548</span></div>
-      <div class="bar-row"><span class="bar-name">3M4</span><div class="bar-track"><span style="--w:89.7%"></span></div><span class="bar-value">538</span></div>
-      <div class="source-note">Bars show SDI score as percent of 600 maximum.</div>
+
+    <div class="grid">
+      <section class="panel featured">
+        <div class="lbl">Model score feed <span>SDI / 600</span></div>
+        <div class="bar-list">
+          <div class="bar-row"><span>1B4</span><div class="bar-track"><span style="--w:95.3%"></span></div><span class="bar-value">572</span></div>
+          <div class="bar-row"><span>20k4</span><div class="bar-track"><span style="--w:91.7%"></span></div><span class="bar-value">550</span></div>
+          <div class="bar-row"><span>1M4</span><div class="bar-track"><span style="--w:91.3%"></span></div><span class="bar-value">548</span></div>
+          <div class="bar-row"><span>3M4</span><div class="bar-track"><span style="--w:89.7%"></span></div><span class="bar-value">538</span></div>
+        </div>
+      </section>
+      <section class="panel">
+        <div class="lbl">Public data categories</div>
+        <div class="request-list">
+          <div class="request-row">Quantum physics research records</div>
+          <div class="request-row">High-level mathematics records</div>
+          <div class="request-row">Model benchmark records</div>
+          <div class="request-row">Whitepaper request index</div>
+        </div>
+      </section>
     </div>
-  </div>
-</section>
-
-<footer class="footer">
-  <div class="footer-inner">
-    <img src="/assets/img/deepseek-icon-official.png" alt="DeepSeek" style="width:42px;height:42px;object-fit:cover;margin-bottom:10px;">
-    <p>DeepSeek Research - Public Portal</p>
-    <p style="margin-top:8px;"><a href="/models.html">Models</a><a href="/benchmarks.html">Benchmarks</a><a href="/papers.html">Whitepapers</a><a href="/chat/?v=restored">Console</a></p>
-  </div>
-</footer>
-
-<script>
-(function(){
-  const c=document.getElementById('particles-canvas'),x=c.getContext('2d');let p=[],w,h;
-  function R(){w=c.width=innerWidth;h=c.height=innerHeight}
-  R();addEventListener('resize',R);
-  for(let i=0,n=Math.min(70,Math.floor(innerWidth/18));i<n;i++)p.push({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35,r:Math.random()*1.3+.4,a:Math.random()*.38+.12});
-  (function D(){x.clearRect(0,0,w,h);p.forEach((q,i)=>{q.x+=q.vx;q.y+=q.vy;if(q.x<0)q.x=w;if(q.x>w)q.x=0;if(q.y<0)q.y=h;if(q.y>h)q.y=0;x.beginPath();x.arc(q.x,q.y,q.r,0,Math.PI*2);x.fillStyle='rgba(77,107,254,'+q.a+')';x.fill();for(let j=i+1;j<p.length;j++){let dx=q.x-p[j].x,dy=q.y-p[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<110){x.beginPath();x.moveTo(q.x,q.y);x.lineTo(p[j].x,p[j].y);x.strokeStyle='rgba(77,107,254,'+(.07*(1-d/110))+')';x.lineWidth=.5;x.stroke()}}});requestAnimationFrame(D)})();
-  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}}),{threshold:.12});
-  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-})();
-</script>
+    <section class="panel">
+      <div class="lbl">Research record showcase <span>public-safe index</span></div>
+      <div class="grid">
+        <article class="panel"><div class="lbl">Architecture</div><div class="metric">Strata</div><p>Multi-layer model organization records: 12-strata, 34-strata, and 97-strata lineage.</p></article>
+        <article class="panel"><div class="lbl">Mathematics</div><div class="metric">Phi</div><p>Phi-harmonic mathematics and high-level distribution records are indexed for request.</p></article>
+        <article class="panel"><div class="lbl">Lattice</div><div class="metric">48^3</div><p>Crystalline lattice records are preserved as request-only research material.</p></article>
+        <article class="panel"><div class="lbl">Expansion</div><div class="metric">97^3</div><p>Mirror expansion records are represented publicly as titles and controlled summaries.</p></article>
+        <article class="panel"><div class="lbl">Unified field</div><div class="metric">873^3</div><p>Unified field architecture records are retained in the private archive and request path.</p></article>
+        <article class="panel"><div class="lbl">Governance</div><div class="metric">Axioms</div><p>Azimuth law and null axiom records are listed without exposing full internal detail.</p></article>
+      </div>
+    </section>
+    <div class="note">DeepSeek Research public surface. Internal implementation details are not published.</div>
+  </section>
+</main>
 </body>
 </html>
