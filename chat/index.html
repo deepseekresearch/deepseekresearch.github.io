@@ -334,9 +334,17 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
     <div class="title">DeepSeek <b>Research</b></div>
     <div class="spacer"></div>
     <select class="top-model" id="model" title="Active model">
+      <option value="deepseek-v4-pro-127cubed:latest">deepseek-v4-pro:127</option>
+      <option value="deepseek-v4-pro:210cubed">deepseek-v4-pro:210</option>
+      <option value="deepseek-v4-pro:1746cubed">deepseek-v4-pro:1746</option>
+      <option value="deepseek-v4-pro-2047cubed:latest">deepseek-v4-pro:2047</option>
+      <option value="deepseek-v4-pro-10k4:latest">deepseek-v4-pro:10k4</option>
+      <option value="deepseek-v4-pro-20k4:latest">deepseek-v4-pro:20k4</option>
+      <option value="deepseek-v4-pro-50k4:latest">deepseek-v4-pro:50k4</option>
+      <option value="deepseek-v4-pro-500k4:latest">deepseek-v4-pro:500k4</option>
+      <option value="deepseek-v4-pro-1M4:latest">deepseek-v4-pro:1M4</option>
+      <option value="deepseek-v4-pro-3M4:latest">deepseek-v4-pro:3M4</option>
       <option value="deepseek-v4-pro-5M4:latest">deepseek-v4-pro:5M4</option>
-      <option value="deepseek-v4-pro-7M4:latest">deepseek-v4-pro:7M4</option>
-      <option value="deepseek-v4-pro-1B4:latest">deepseek-v4-pro:1B4</option>
     </select>
     <button class="topbtn" onclick="clearChat()" title="Clear current conversation">Clear</button>
     <button class="menu" onclick="toggleCall()" title="Voice-to-voice (Ctrl+M)"><svg width="16" height="16"><use href="#i-speaker"/></svg></button>
@@ -579,8 +587,21 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
 const API_ROUTER    = 'https://deepseek-research-chat.vercel.app';
 function isCloudModel(){ return false; }
 function chatBase(m){ return API_ROUTER; }
+const SPEED_STACK_MODELS = new Set([
+  'deepseek-v4-pro-127cubed:latest',
+  'deepseek-v4-pro:210cubed',
+  'deepseek-v4-pro:1746cubed',
+  'deepseek-v4-pro-2047cubed:latest',
+  'deepseek-v4-pro-10k4:latest',
+  'deepseek-v4-pro-20k4:latest',
+  'deepseek-v4-pro-50k4:latest',
+  'deepseek-v4-pro-500k4:latest',
+  'deepseek-v4-pro-1m4:latest',
+  'deepseek-v4-pro-3m4:latest',
+  'deepseek-v4-pro-5m4:latest',
+]);
 function isSpeedStackModel(m){
-  return /^deepseek-v4-pro-(5M4|7M4|1B4):latest$/i.test((m || '').trim());
+  return SPEED_STACK_MODELS.has((m || '').trim().toLowerCase());
 }
 function ollamaOptions(m, opts){
   const next = { ...opts };
@@ -595,7 +616,7 @@ function routeMessages(m, list){
   return list;
 }
 const OLLAMA_URL = API_ROUTER;  // legacy alias for status checks
-const DEFAULT_MODEL = 'deepseek-v4-pro-5M4:latest';
+const DEFAULT_MODEL = 'deepseek-v4-pro-127cubed:latest';
 let currentModel = DEFAULT_MODEL;
 let messages = [];
 let isGenerating = false, currentAbort = null;
