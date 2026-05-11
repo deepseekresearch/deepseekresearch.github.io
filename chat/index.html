@@ -152,7 +152,7 @@ input,select,textarea{font-family:inherit}
 .rail-handle .vert{writing-mode:vertical-rl;transform:rotate(180deg)}
 .rail-handle.open{display:none}
 .rail{width:0;border-left:1px solid var(--line);background:var(--bg1);display:flex;flex-direction:column;height:100vh;transition:width .3s ease;overflow:hidden}
-.rail.open{width:420px;min-width:420px}
+.rail.open{width:516px;min-width:516px}
 
 .rail-head{padding:12px 14px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
 .rail-title{font-size:13px;font-weight:500}
@@ -348,16 +348,6 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
       <option value="kaiju-frontend-1m4">kaiju-1M4</option>
       <option value="nyros-47cubed">nyros-47cubed</option>
       <option value="nyros-27cubed">nyros-27cubed</option>
-      <optgroup label="Cloud / other (needs key on backend)">
-        <option value="gpt-4o">gpt-4o</option>
-        <option value="gpt-4o-mini">gpt-4o-mini</option>
-        <option value="o4-mini">o4-mini</option>
-        <option value="codex-mini-latest">codex-mini-latest</option>
-        <option value="claude-sonnet-4-6">claude-sonnet-4-6</option>
-        <option value="deepseek-chat">deepseek-chat</option>
-        <option value="deepseek-reasoner">deepseek-reasoner</option>
-      </optgroup>
-      <option value="__custom__">+ Custom model…</option>
     </select>
     <button class="topbtn" onclick="clearChat()" title="Clear current conversation">Clear</button>
     <button class="menu" onclick="toggleCall()" title="Voice-to-voice (Ctrl+M)"><svg width="16" height="16"><use href="#i-speaker"/></svg></button>
@@ -622,7 +612,8 @@ function routeMessages(m, list){
   return list;
 }
 const OLLAMA_URL = API_ROUTER;  // legacy alias for status checks
-let currentModel = 'deepseek-v4-pro:3M4';
+const DEFAULT_MODEL = 'deepseek-v4-pro:3M4';
+let currentModel = DEFAULT_MODEL;
 let messages = [];
 let isGenerating = false, currentAbort = null;
 let recognition = null, isListening = false, isCallMode = false;
@@ -649,8 +640,12 @@ const log = $('log'), input = $('input'), empty = $('empty'),
       callSub = $('call-sub'), callWave = $('call-wave'),
       sendBtn = $('send');
 
+function isSelectableModel(model) {
+  return [...modelSelect.options].some(o => o.value === model);
+}
+
 modelSelect.addEventListener('change', () => {
-  if (modelSelect.value === '__custom__') {
+  if (false) {
     const m = (prompt('Use any model — type its name:\n• local Ollama: deepseek-v4-pro:127cubed, llama3.1:70b …\n• OpenAI: gpt-4o, gpt-4o-mini, o4-mini, codex-mini-latest …\n• Anthropic: claude-sonnet-4-6, claude-opus-4-7 …\n• DeepSeek: deepseek-chat, deepseek-reasoner') || '').trim();
     if (m) {
       let opt = [...modelSelect.options].find(o => o.value === m);
@@ -890,6 +885,10 @@ function attachFile() { toast('Attachments coming soon — load videos via the M
 
 function onSend(textOverride) {
   if (isGenerating) { if (currentAbort) currentAbort.abort(); return; }
+  if (!isSelectableModel(currentModel)) {
+    currentModel = DEFAULT_MODEL;
+    modelSelect.value = DEFAULT_MODEL;
+  }
   const text = (textOverride || input.value).trim();
   if (!text) return;
   if (!textOverride) { input.value = ''; grow(input); }
@@ -1183,8 +1182,8 @@ function renderHistory() {
 }
 function loadChat(id) {
   const entry = chatHistory[id]; if (!entry) return;
-  currentChatId = id; currentModel = entry.model;
-  modelSelect.value = entry.model;
+  currentChatId = id; currentModel = isSelectableModel(entry.model) ? entry.model : DEFAULT_MODEL;
+  modelSelect.value = currentModel;
   messages = [...entry.messages];
   log.innerHTML = ''; empty.style.display = 'none';
   messages.forEach((m, i) => {
