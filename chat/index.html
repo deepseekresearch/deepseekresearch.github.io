@@ -351,6 +351,7 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
       <option value="deepseek-v4-pro-1M4:latest">deepseek-v4-pro:1M4</option>
       <option value="deepseek-v4-pro-3M4:latest">deepseek-v4-pro:3M4</option>
       <option value="deepseek-v4-pro-5M4:latest">deepseek-v4-pro:5M4</option>
+      <option value="deepseek-v4-pro-1B4:latest">deepseek-v4-pro:1B4</option>
     </select>
     <button class="topbtn" onclick="clearChat()" title="Clear current conversation">Clear</button>
     <button class="menu" onclick="toggleCall()" title="Voice-to-voice (Ctrl+M)"><svg width="16" height="16"><use href="#i-speaker"/></svg></button>
@@ -646,6 +647,7 @@ const SPEED_STACK_MODELS = new Set([
   'deepseek-v4-pro-1m4:latest',
   'deepseek-v4-pro-3m4:latest',
   'deepseek-v4-pro-5m4:latest',
+  'deepseek-v4-pro-1b4:latest',
 ]);
 function isSpeedStackModel(m){
   return SPEED_STACK_MODELS.has((m || '').trim().toLowerCase());
