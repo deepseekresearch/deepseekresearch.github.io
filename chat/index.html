@@ -464,7 +464,7 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
     <!-- ── VIDEO PANE (create · play · analyze) ── -->
     <div class="rail-pane" id="pane-video">
       <div>
-        <div class="lbl">Create video <span>production MP4 / preview</span></div>
+        <div class="lbl">Create video <span>AI production / preview</span></div>
         <textarea class="fld" id="vidgen-prompt" placeholder="A glowing crystalline lattice slowly rotating in deep space, cinematic, volumetric light"></textarea>
       </div>
       <div class="btn-row">
@@ -494,7 +494,7 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
         <div style="flex:1">
           <div class="lbl">Mode</div>
           <select class="fld" id="vidgen-mode">
-            <option value="production" selected>Production MP4</option>
+            <option value="production" selected>AI Production MP4</option>
             <option value="turbo">Turbo preview</option>
             <option value="planned">AI planned preview</option>
           </select>
@@ -1442,12 +1442,13 @@ function productionResultUrl(taskId, data) {
   return videoApi(`/result/${encodeURIComponent(taskId)}`);
 }
 async function createProductionVideo({ prompt, frameCount, fps, W, H, base, btn, restore }) {
-  btn.innerHTML = '<svg width="14" height="14"><use href="#i-spark"/></svg> Queueing production...';
+  btn.innerHTML = '<svg width="14" height="14"><use href="#i-spark"/></svg> AI directing production...';
   try {
-    const res = await fetch(videoApi('/generate'), {
+    const res = await fetch(videoApi('/produce'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
+        model: currentModel,
         prompt,
         num_frames: frameCount,
         width: W,
@@ -1463,6 +1464,8 @@ async function createProductionVideo({ prompt, frameCount, fps, W, H, base, btn,
     if (!res.ok) throw new Error(queued.error || queued.detail || `Pipeline ${res.status}`);
     const taskId = queued.task_id || queued.id;
     if (!taskId) throw new Error('No production task id returned');
+    const plan = queued.production_plan || {};
+    const title = String(plan.title || 'oroboros-production').replace(/[^a-z0-9._-]+/gi, '-').replace(/^-+|-+$/g, '').slice(0, 64) || 'oroboros-production';
 
     for (let i = 0; i < 180; i++) {
       await sleep(i < 4 ? 1200 : 2500);
@@ -1477,14 +1480,14 @@ async function createProductionVideo({ prompt, frameCount, fps, W, H, base, btn,
         if (lastVideoUrl && lastVideoUrl.startsWith('blob:')) { try { URL.revokeObjectURL(lastVideoUrl); } catch {} }
         lastVideoUrl = result;
         video.src = result; video.loop = true; video.controls = false;
-        vidName.textContent = `oroboros-production-${taskId.slice(0, 8)}.mp4`;
-        vidSize.textContent = 'Production MP4';
+        vidName.textContent = `${title}-${taskId.slice(0, 8)}.mp4`;
+        vidSize.textContent = 'AI Production MP4';
         wireVideoEvents();
         showVideoControls();
         video.load();
         video.play().catch(()=>{});
         restore();
-        toast('Production video ready');
+        toast(plan.aiDirected === false ? 'Video ready - planner fallback used' : 'AI production video ready');
         return;
       }
       if (['failed', 'error'].includes(state)) throw new Error(status.error?.message || status.error || 'Production failed');
