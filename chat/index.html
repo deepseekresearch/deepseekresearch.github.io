@@ -351,7 +351,7 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
       <option value="deepseek-v4-pro-1M4:latest">deepseek-v4-pro:1M4</option>
       <option value="deepseek-v4-pro-3M4:latest">deepseek-v4-pro:3M4</option>
       <option value="deepseek-v4-pro-5M4:latest">deepseek-v4-pro:5M4</option>
-      <option value="deepseek-v4-pro-1B4:latest">deepseek-v4-pro:1B4</option>
+      <option value="deepseek-v4-pro:1B4">deepseek-v4-pro:1B4</option>
     </select>
     <button class="topbtn" onclick="clearChat()" title="Clear current conversation">Clear</button>
     <button class="menu" onclick="toggleCall()" title="Voice-to-voice (Ctrl+M)"><svg width="16" height="16"><use href="#i-speaker"/></svg></button>
@@ -647,7 +647,7 @@ const SPEED_STACK_MODELS = new Set([
   'deepseek-v4-pro-1m4:latest',
   'deepseek-v4-pro-3m4:latest',
   'deepseek-v4-pro-5m4:latest',
-  'deepseek-v4-pro-1b4:latest',
+  'deepseek-v4-pro:1b4',
 ]);
 function isSpeedStackModel(m){
   return SPEED_STACK_MODELS.has((m || '').trim().toLowerCase());
@@ -665,7 +665,31 @@ function routeMessages(m, list){
   return list;
 }
 const OLLAMA_URL = API_ROUTER;  // legacy alias for status checks
-const DEFAULT_MODEL = 'deepseek-v4-pro-127cubed:latest';
+function backendUrl(path){
+  const base = (chatBase(currentModel) || location.origin).replace(/\/$/, '');
+  return base + path;
+}
+async function backendError(res, label='Chat backend'){
+  let detail = '';
+  try {
+    const clone = res.clone();
+    const type = clone.headers.get('content-type') || '';
+    if (type.includes('application/json')) {
+      const data = await clone.json();
+      detail = data.error || data.detail || data.message || JSON.stringify(data);
+    } else {
+      detail = await clone.text();
+    }
+  } catch {}
+  detail = String(detail || '').trim().replace(/\s+/g, ' ').slice(0, 500);
+  const status = `${label} ${res.status}${res.statusText ? ' ' + res.statusText : ''}`;
+  return detail ? `${status}: ${detail}` : status;
+}
+function backendFailureMessage(err, label='Error'){
+  const detail = err && err.message ? err.message : String(err || 'unknown error');
+  return `[${label}: ${detail} (${backendUrl('/api/chat')})]`;
+}
+const DEFAULT_MODEL = 'deepseek-v4-pro:1B4';
 let currentModel = DEFAULT_MODEL;
 let messages = [];
 let isGenerating = false, currentAbort = null;
@@ -1081,7 +1105,7 @@ function onSend(textOverride) {
           options: ollamaOptions(currentModel, { num_ctx: 8192, temperature: 0.4 }) }),
         signal: currentAbort.signal
       });
-      if (!res.ok) throw new Error(`Ollama ${res.status}`);
+      if (!res.ok) throw new Error(await backendError(res, 'Chat backend'));
       thinkEl.remove();
       const reader = res.body.getReader(), dec = new TextDecoder();
       let buf = '';
@@ -1109,7 +1133,7 @@ function onSend(textOverride) {
     } catch (err) {
       thinkEl.remove();
       if (err.name !== 'AbortError') {
-        const e = appendBubble('bot', '[Error: cannot reach the chat backend' + (OLLAMA_URL ? ' (' + OLLAMA_URL + ')' : '') + ']');
+        const e = appendBubble('bot', backendFailureMessage(err));
         addActions(e, '');
       }
       messages.pop();
@@ -1635,7 +1659,7 @@ async function analyzeVideo() {
         options: { temperature: 0.5 }
       })
     });
-    if (!res.ok) throw new Error('Ollama ' + res.status);
+    if (!res.ok) throw new Error(await backendError(res, 'Analyze backend'));
     const data = await res.json();
     const outText = (data.message && data.message.content) ? data.message.content : '[No analysis returned]';
     thinkEl.remove();
@@ -1644,7 +1668,7 @@ async function analyzeVideo() {
     saveHistory(); renderHistory();
   } catch (err) {
     thinkEl.remove();
-    const b = appendBubble('bot', '[Analyze failed: cannot reach the chat backend' + (OLLAMA_URL ? ' (' + OLLAMA_URL + ')' : '') + ']'); addActions(b, '');
+    const b = appendBubble('bot', backendFailureMessage(err, 'Analyze failed')); addActions(b, '');
   }
   btn.classList.remove('busy'); btn.innerHTML = '<svg width="14" height="14"><use href="#i-spark"/></svg> Analyze';
   log.scrollTop = log.scrollHeight;
