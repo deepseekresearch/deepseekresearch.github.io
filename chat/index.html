@@ -464,18 +464,20 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
     <!-- ── VIDEO PANE (create · play · analyze) ── -->
     <div class="rail-pane" id="pane-video">
       <div>
-        <div class="lbl">Create video <span>turbo / model-planned frames</span></div>
+        <div class="lbl">Create video <span>production MP4 / preview</span></div>
         <textarea class="fld" id="vidgen-prompt" placeholder="A glowing crystalline lattice slowly rotating in deep space, cinematic, volumetric light"></textarea>
       </div>
       <div class="btn-row">
         <div style="flex:1">
           <div class="lbl">Frames</div>
           <select class="fld" id="vidgen-frames">
-            <option value="4" selected>4</option>
+            <option value="4">4</option>
             <option value="6">6</option>
             <option value="8">8</option>
             <option value="12">12</option>
             <option value="16">16</option>
+            <option value="24">24</option>
+            <option value="30" selected>30</option>
           </select>
         </div>
         <div style="flex:1">
@@ -483,7 +485,8 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
           <select class="fld" id="vidgen-fps">
             <option value="1">Slow</option>
             <option value="2">Medium</option>
-            <option value="4" selected>Fast</option>
+            <option value="4">Fast</option>
+            <option value="8" selected>Production</option>
           </select>
         </div>
       </div>
@@ -491,8 +494,9 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
         <div style="flex:1">
           <div class="lbl">Mode</div>
           <select class="fld" id="vidgen-mode">
-            <option value="turbo" selected>Turbo</option>
-            <option value="planned">AI planned</option>
+            <option value="production" selected>Production MP4</option>
+            <option value="turbo">Turbo preview</option>
+            <option value="planned">AI planned preview</option>
           </select>
         </div>
         <div style="flex:1">
@@ -784,9 +788,9 @@ function normalizePanelPlan(raw, command, executeNow) {
   const prompt = String(data.prompt || data.description || fallback.prompt || command).trim();
   const style = allowedValue(data.style, ['', 'cinematic', 'photo', '3d', 'anime', 'abstract'], '');
   const size = allowedValue(data.size || data.aspect, ['512', '768', '1024', '1024x576', '576x1024'], '1024');
-  const frames = closestNumber(data.frames, [4, 6, 8, 12, 16], '4');
-  const fps = closestNumber(data.fps || data.speed, [1, 2, 4], '4');
-  const videoMode = allowedValue(data.videoMode || data.modePreference, ['turbo', 'planned'], 'turbo');
+  const frames = closestNumber(data.frames, [4, 6, 8, 12, 16, 24, 30], '30');
+  const fps = closestNumber(data.fps || data.speed, [1, 2, 4, 8], '8');
+  const videoMode = allowedValue(data.videoMode || data.modePreference, ['production', 'turbo', 'planned'], 'production');
   const voiceAction = allowedValue(data.voiceAction || data.action, ['read_last', 'test', 'stop'], 'read_last');
   return { mode, prompt, style, size, frames, fps, videoMode, voiceAction, run: !!executeNow, source: data.mode ? 'model' : fallback.source, message: String(data.message || fallback.message || '').trim() };
 }
@@ -847,7 +851,7 @@ async function runPanelControl(executeNow) {
   $('ctl-output').innerHTML = '<b>Planning</b><div class="ctl-prompt">Asking the active model...</div><div class="ctl-meta">AI control</div>';
   let rawPlan = null;
   try {
-    const ask = `Return ONLY valid JSON for controlling this media panel. Allowed modes: image, video, web, voice. Schema: {"mode":"image|video|web|voice","prompt":"text to place in the target prompt field","style":"cinematic|photo|3d|anime|abstract|","size":"512|768|1024|1024x576|576x1024","frames":4|6|8|12|16,"fps":1|2|4,"videoMode":"turbo|planned","voiceAction":"read_last|test|stop","message":"short status"}. Prefer videoMode turbo unless the user explicitly asks for AI-planned frame prompts. Do not include markdown. User command: ${command}`;
+    const ask = `Return ONLY valid JSON for controlling this media panel. Allowed modes: image, video, web, voice. Schema: {"mode":"image|video|web|voice","prompt":"text to place in the target prompt field","style":"cinematic|photo|3d|anime|abstract|","size":"512|768|1024|1024x576|576x1024","frames":4|6|8|12|16|24|30,"fps":1|2|4|8,"videoMode":"production|turbo|planned","voiceAction":"read_last|test|stop","message":"short status"}. Prefer videoMode production for final video generation; use turbo for quick previews and planned only when the user explicitly asks for AI-planned frame prompts. Do not include markdown. User command: ${command}`;
     const res = await fetch(`${chatBase(currentModel)}/api/chat`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -1427,15 +1431,74 @@ videoFrame.addEventListener('drop', e => {
   if (f && f.type.startsWith('video/')) loadVideoFile({ target: { files: [f] } });
 });
 
-// ── free video creation: Pollinations frames → canvas → MediaRecorder → playable WebM ──
+// ── video creation: Oroboros production pipeline, plus browser preview modes ──
 function loadImg(url) { return new Promise((res, rej) => { const im = new Image(); im.crossOrigin = 'anonymous'; im.decoding = 'async'; im.loading = 'eager'; im.onload = () => res(im); im.onerror = () => rej(new Error('img')); im.src = url; }); }
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+function apiPath(path) { const base = (chatBase(currentModel) || '').replace(/\/$/, ''); return base + path; }
+function videoApi(path) { return apiPath('/api/video' + path); }
+function productionResultUrl(taskId, data) {
+  const raw = data?.result_url || data?.url || data?.result?.url || '';
+  if (/^https?:\/\//i.test(raw)) return raw;
+  return videoApi(`/result/${encodeURIComponent(taskId)}`);
+}
+async function createProductionVideo({ prompt, frameCount, fps, W, H, base, btn, restore }) {
+  btn.innerHTML = '<svg width="14" height="14"><use href="#i-spark"/></svg> Queueing production...';
+  try {
+    const res = await fetch(videoApi('/generate'), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        prompt,
+        num_frames: frameCount,
+        width: W,
+        height: H,
+        fps,
+        seed: base,
+        steps: 28,
+        guidance_scale: 7.5,
+        source_model: currentModel
+      })
+    });
+    const queued = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(queued.error || queued.detail || `Pipeline ${res.status}`);
+    const taskId = queued.task_id || queued.id;
+    if (!taskId) throw new Error('No production task id returned');
+
+    for (let i = 0; i < 180; i++) {
+      await sleep(i < 4 ? 1200 : 2500);
+      const sres = await fetch(videoApi(`/status/${encodeURIComponent(taskId)}`), { cache: 'no-store' });
+      const status = await sres.json().catch(() => ({}));
+      if (!sres.ok) throw new Error(status.error || status.detail || `Status ${sres.status}`);
+      const state = String(status.status || status.raw_status || '').toLowerCase();
+      const progress = Number(status.progress);
+      btn.innerHTML = `<svg width="14" height="14"><use href="#i-spark"/></svg> Production ${state || 'processing'}${Number.isFinite(progress) ? ` ${Math.round(progress)}%` : ''}`;
+      if (['completed', 'succeeded', 'done'].includes(state)) {
+        const result = productionResultUrl(taskId, status);
+        if (lastVideoUrl && lastVideoUrl.startsWith('blob:')) { try { URL.revokeObjectURL(lastVideoUrl); } catch {} }
+        lastVideoUrl = result;
+        video.src = result; video.loop = true; video.controls = false;
+        vidName.textContent = `oroboros-production-${taskId.slice(0, 8)}.mp4`;
+        vidSize.textContent = 'Production MP4';
+        wireVideoEvents();
+        showVideoControls();
+        video.load();
+        video.play().catch(()=>{});
+        restore();
+        toast('Production video ready');
+        return;
+      }
+      if (['failed', 'error'].includes(state)) throw new Error(status.error?.message || status.error || 'Production failed');
+    }
+    throw new Error('Production job timed out');
+  } catch (err) {
+    restore();
+    toast('Production failed: ' + (err && err.message ? err.message : 'error'));
+  }
+}
 
 async function createVideo() {
   const prompt = $('vidgen-prompt').value.trim();
   if (!prompt) { toast('Enter a video prompt'); return; }
-  const canSupport = typeof MediaRecorder !== 'undefined' && !!document.createElement('canvas').captureStream;
-  if (!canSupport) { toast('Video recording not supported in this browser'); return; }
   const frameCount = +$('vidgen-frames').value || 4;
   const fps = +$('vidgen-fps').value || 4;
   const holdMs = 1000 / fps;
@@ -1458,6 +1521,12 @@ async function createVideo() {
     }
     return out;
   };
+  if (mode === 'production') {
+    await createProductionVideo({ prompt, frameCount, fps, W, H, base, btn, restore });
+    return;
+  }
+  const canSupport = typeof MediaRecorder !== 'undefined' && !!document.createElement('canvas').captureStream;
+  if (!canSupport) { restore(); toast('Video recording not supported in this browser'); return; }
   let urls = [];
   if (mode === 'planned') {
     btn.innerHTML = `<svg width="14" height="14"><use href="#i-spark"/></svg> Planning ${frameCount} frames...`;
