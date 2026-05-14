@@ -213,12 +213,6 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
 .voice-bar .scrub .fill{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,var(--ds),var(--ds3));width:0%}
 .voice-bar .t{font-size:10.5px;color:var(--ink3);font-variant-numeric:tabular-nums;min-width:60px;text-align:right}
 
-/* AI CONTROL PANE */
-.control-status{background:var(--bg2);border:1px solid var(--line);border-radius:var(--rad);padding:13px;min-height:94px;color:var(--ink2);font-size:12px;line-height:1.55}
-.control-status b{color:var(--ds3);font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase}
-.control-status .ctl-prompt{margin-top:7px;color:var(--ink);word-break:break-word}
-.control-status .ctl-meta{margin-top:8px;color:var(--ink3);font-size:10.5px;letter-spacing:1px;text-transform:uppercase}
-
 /* ── IMAGE PANE ── */
 .img-result{width:100%;aspect-ratio:1/1;background:var(--bg2);border:1px solid var(--line);border-radius:var(--rad);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
 .img-result img{width:100%;height:100%;object-fit:contain}
@@ -340,18 +334,21 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
     <div class="title">DeepSeek <b>Research</b></div>
     <div class="spacer"></div>
     <select class="top-model" id="model" title="Active model">
-      <option value="deepseek-v4-pro-127cubed:latest">deepseek-v4-pro:127</option>
-      <option value="deepseek-v4-pro:210cubed">deepseek-v4-pro:210</option>
-      <option value="deepseek-v4-pro:1746cubed">deepseek-v4-pro:1746</option>
-      <option value="deepseek-v4-pro-2047cubed:latest">deepseek-v4-pro:2047</option>
-      <option value="deepseek-v4-pro-10k4:latest">deepseek-v4-pro:10k4</option>
-      <option value="deepseek-v4-pro-20k4:latest">deepseek-v4-pro:20k4</option>
-      <option value="deepseek-v4-pro-50k4:latest">deepseek-v4-pro:50k4</option>
-      <option value="deepseek-v4-pro-500k4:latest">deepseek-v4-pro:500k4</option>
-      <option value="deepseek-v4-pro-1M4:latest">deepseek-v4-pro:1M4</option>
-      <option value="deepseek-v4-pro-3M4:latest">deepseek-v4-pro:3M4</option>
       <option value="deepseek-v4-pro-5M4:latest">deepseek-v4-pro:5M4</option>
+      <option value="deepseek-v4-pro-7M4:latest">deepseek-v4-pro:7M4</option>
       <option value="deepseek-v4-pro:1B4">deepseek-v4-pro:1B4</option>
+      <option value="deepseek-v4-pro:3B4">deepseek-v4-pro:3B4</option>
+      <option value="deepseek-v4-pro:3M4">deepseek-v4-pro:3M4</option>
+      <option value="deepseek-v4-pro-500k4">deepseek-v4-pro:500k4</option>
+      <option value="deepseek-v4-pro-50k4">deepseek-v4-pro:50k4</option>
+      <option value="deepseek-v4-pro-10k4">deepseek-v4-pro:10k4</option>
+      <option value="deepseek-v4-pro:2047cubed">deepseek-v4-pro:2047</option>
+      <option value="deepseek-v4-pro:1746cubed">deepseek-v4-pro:1746</option>
+      <option value="deepseek-v4-pro:210cubed">deepseek-v4-pro:210</option>
+      <option value="deepseek-v4-pro:127cubed">deepseek-v4-pro:127</option>
+      <option value="kaiju-frontend-1m4">kaiju-1M4</option>
+      <option value="nyros-47cubed">nyros-47cubed</option>
+      <option value="nyros-27cubed">nyros-27cubed</option>
     </select>
     <button class="topbtn" onclick="clearChat()" title="Clear current conversation">Clear</button>
     <button class="menu" onclick="toggleCall()" title="Voice-to-voice (Ctrl+M)"><svg width="16" height="16"><use href="#i-speaker"/></svg></button>
@@ -399,7 +396,6 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
   </div>
   <div class="rail-tabs" id="rail-tabs">
     <button class="rail-tab active" data-pane="voice"><svg width="14" height="14"><use href="#i-speaker"/></svg> Voice</button>
-    <button class="rail-tab" data-pane="control"><svg width="14" height="14"><use href="#i-spark"/></svg> AI</button>
     <button class="rail-tab" data-pane="video"><svg width="14" height="14"><use href="#i-film"/></svg> Video</button>
     <button class="rail-tab" data-pane="image"><svg width="14" height="14"><use href="#i-image"/></svg> Image</button>
     <button class="rail-tab" data-pane="web"><svg width="14" height="14"><use href="#i-globe"/></svg> Web</button>
@@ -445,68 +441,28 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
       <button class="btn-block" onclick="testVoice()"><svg width="14" height="14"><use href="#i-speaker"/></svg> Test voice</button>
     </div>
 
-    <!-- AI CONTROL PANE -->
-    <div class="rail-pane" id="pane-control">
-      <div>
-        <div class="lbl">AI Control <span>panel command</span></div>
-        <textarea class="fld" id="ctl-prompt" placeholder="Make an image of a DeepSeek blue research console, or build a one-page site for a model benchmark." onkeydown="if(event.ctrlKey&&event.key==='Enter'){runPanelControl(true)}"></textarea>
-      </div>
-      <div class="btn-row">
-        <button class="btn-block" id="ctl-plan" onclick="runPanelControl(false)"><svg width="14" height="14"><use href="#i-spark"/></svg> Plan</button>
-        <button class="btn-block primary" id="ctl-run" onclick="runPanelControl(true)"><svg width="14" height="14"><use href="#i-spark"/></svg> Run</button>
-      </div>
-      <div class="control-status" id="ctl-output">
-        <b>Ready</b>
-        <div class="ctl-prompt">Type a panel command.</div>
-        <div class="ctl-meta">Voice / video / image / web</div>
-      </div>
-    </div>
-
     <!-- ── VIDEO PANE (create · play · analyze) ── -->
     <div class="rail-pane" id="pane-video">
       <div>
-        <div class="lbl">Create video <span>AI production / preview</span></div>
+        <div class="lbl">Create video <span>free · Pollinations frames</span></div>
         <textarea class="fld" id="vidgen-prompt" placeholder="A glowing crystalline lattice slowly rotating in deep space, cinematic, volumetric light"></textarea>
       </div>
       <div class="btn-row">
         <div style="flex:1">
           <div class="lbl">Frames</div>
           <select class="fld" id="vidgen-frames">
-            <option value="4">4</option>
             <option value="6">6</option>
-            <option value="8">8</option>
+            <option value="8" selected>8</option>
             <option value="12">12</option>
             <option value="16">16</option>
-            <option value="24">24</option>
-            <option value="30" selected>30</option>
           </select>
         </div>
         <div style="flex:1">
           <div class="lbl">Speed</div>
           <select class="fld" id="vidgen-fps">
             <option value="1">Slow</option>
-            <option value="2">Medium</option>
+            <option value="2" selected>Medium</option>
             <option value="4">Fast</option>
-            <option value="8" selected>Production</option>
-          </select>
-        </div>
-      </div>
-      <div class="btn-row">
-        <div style="flex:1">
-          <div class="lbl">Mode</div>
-          <select class="fld" id="vidgen-mode">
-            <option value="production" selected>AI Production MP4</option>
-            <option value="turbo">Turbo preview</option>
-            <option value="planned">AI planned preview</option>
-          </select>
-        </div>
-        <div style="flex:1">
-          <div class="lbl">Render</div>
-          <select class="fld" id="vidgen-size">
-            <option value="512x288" selected>512x288</option>
-            <option value="640x360">640x360</option>
-            <option value="768x432">768x432</option>
-            <option value="1024x576">1024x576</option>
           </select>
         </div>
       </div>
@@ -539,7 +495,7 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
       </div>
       <input type="file" id="video-input" accept="video/*" style="display:none" onchange="loadVideoFile(event)">
       <div class="vid-info" id="vid-info" style="display:none"><b>File:</b> <span id="vid-name">—</span><br><b>Size:</b> <span id="vid-size">—</span> · <b>Duration:</b> <span id="vid-dur2">—</span></div>
-      <div style="font-size:10.5px;color:var(--ink4);text-align:center;letter-spacing:1.5px;text-transform:uppercase;margin-top:auto;padding-top:14px">Model-planned / browser encoded / analyzed</div>
+      <div style="font-size:10.5px;color:var(--ink4);text-align:center;letter-spacing:1.5px;text-transform:uppercase;margin-top:auto;padding-top:14px">Created · played · analyzed locally</div>
     </div>
 
     <!-- ── IMAGE PANE ── -->
@@ -576,7 +532,7 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
         <div class="img-empty" id="img-empty">
           <svg width="36" height="36" style="color:var(--ink3);opacity:.5;display:block;margin:0 auto 12px"><use href="#i-image"/></svg>
           Image preview appears here.<br>
-          <span style="font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:var(--ink4);margin-top:6px;display:inline-block">Model-planned generation</span>
+          <span style="font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:var(--ink4);margin-top:6px;display:inline-block">Free generation via Pollinations</span>
         </div>
       </div>
       <div class="btn-row" id="img-actions" style="display:none">
@@ -631,26 +587,18 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
 
 <script>
 // ═══════════════ STATE ═══════════════
-// Hosted /chat runs on GitHub Pages; model calls route through the private Vercel API.
-const API_ROUTER    = 'https://deepseek-research-chat.vercel.app';
-function isCloudModel(){ return false; }
+// All model calls go through the same-origin /api router. Backend endpoints stay server-side.
+const API_ROUTER    = '';
+function isCloudModel(m){ m=(m||'').toLowerCase().trim();
+  return /^(openai|anthropic|deepseek)\//.test(m)
+      || /^(gpt|chatgpt|codex|o1|o3|o4|text-|davinci|dall-e)/.test(m)
+      || m.startsWith('claude')
+      || m==='deepseek-chat' || m==='deepseek-reasoner'
+      || /deepseek-v3|deepseek-r1/.test(m)
+      || /:(cloud|full|1\.6t)$/.test(m); }
 function chatBase(m){ return API_ROUTER; }
-const SPEED_STACK_MODELS = new Set([
-  'deepseek-v4-pro-127cubed:latest',
-  'deepseek-v4-pro:210cubed',
-  'deepseek-v4-pro:1746cubed',
-  'deepseek-v4-pro-2047cubed:latest',
-  'deepseek-v4-pro-10k4:latest',
-  'deepseek-v4-pro-20k4:latest',
-  'deepseek-v4-pro-50k4:latest',
-  'deepseek-v4-pro-500k4:latest',
-  'deepseek-v4-pro-1m4:latest',
-  'deepseek-v4-pro-3m4:latest',
-  'deepseek-v4-pro-5m4:latest',
-  'deepseek-v4-pro:1b4',
-]);
 function isSpeedStackModel(m){
-  return SPEED_STACK_MODELS.has((m || '').trim().toLowerCase());
+  return /^(deepseek-v4-pro-(5M4|7M4):latest|deepseek-v4-pro:1B4)$/i.test((m || '').trim());
 }
 function ollamaOptions(m, opts){
   const next = { ...opts };
@@ -722,6 +670,16 @@ function isSelectableModel(model) {
 }
 
 modelSelect.addEventListener('change', () => {
+  if (false) {
+    const m = (prompt('Use any model — type its name:\n• local Ollama: deepseek-v4-pro:127cubed, llama3.1:70b …\n• OpenAI: gpt-4o, gpt-4o-mini, o4-mini, codex-mini-latest …\n• Anthropic: claude-sonnet-4-6, claude-opus-4-7 …\n• DeepSeek: deepseek-chat, deepseek-reasoner') || '').trim();
+    if (m) {
+      let opt = [...modelSelect.options].find(o => o.value === m);
+      if (!opt) { opt = document.createElement('option'); opt.value = m; opt.textContent = m; modelSelect.insertBefore(opt, modelSelect.lastElementChild); }
+      modelSelect.value = m;
+    } else {
+      modelSelect.value = currentModel;
+    }
+  }
   currentModel = modelSelect.value;
 });
 
@@ -773,131 +731,6 @@ async function checkOllama() {
   } catch { dot.style.background = '#666'; $('conn-text').textContent = 'Offline'; $('conn-text').style.color = 'var(--err)'; }
 }
 setInterval(checkOllama, 30000);
-
-// AI panel control
-function panelControlFallback(command, executeNow) {
-  const text = (command || '').trim();
-  const low = text.toLowerCase();
-  let mode = 'image';
-  if (/\b(video|movie|clip|frames?|motion|animate)\b/.test(low)) mode = 'video';
-  else if (/\b(web|website|webpage|page|landing|site|html)\b/.test(low)) mode = 'web';
-  else if (/\b(voice|speak|read|audio|talk)\b/.test(low)) mode = 'voice';
-  const prompt = text.replace(/^\s*(please\s+)?(make|create|generate|build|render|plan|fill|open|switch|use|run)\s+/i, '').trim() || text;
-  return { mode, prompt, run: !!executeNow, source: 'local', message: 'Local control plan' };
-}
-function extractPanelJson(text) {
-  let raw = (text || '').trim();
-  raw = raw.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/i, '').trim();
-  try { return JSON.parse(raw); } catch {}
-  const start = raw.indexOf('{'), end = raw.lastIndexOf('}');
-  if (start >= 0 && end > start) {
-    try { return JSON.parse(raw.slice(start, end + 1)); } catch {}
-  }
-  return null;
-}
-function allowedValue(value, allowed, fallback) {
-  const v = String(value || '').toLowerCase().trim();
-  return allowed.includes(v) ? v : fallback;
-}
-function closestNumber(value, allowed, fallback) {
-  const n = Number(value);
-  if (!Number.isFinite(n)) return fallback;
-  return String(allowed.reduce((best, cur) => Math.abs(cur - n) < Math.abs(best - n) ? cur : best, allowed[0]));
-}
-function normalizePanelPlan(raw, command, executeNow) {
-  const fallback = panelControlFallback(command, executeNow);
-  const data = raw && typeof raw === 'object' ? raw : {};
-  let mode = String(data.mode || data.tool || fallback.mode).toLowerCase().trim();
-  if (mode === 'website' || mode === 'page' || mode === 'site') mode = 'web';
-  if (mode === 'imagegen' || mode === 'picture') mode = 'image';
-  if (!['voice', 'video', 'image', 'web'].includes(mode)) mode = fallback.mode;
-  const prompt = String(data.prompt || data.description || fallback.prompt || command).trim();
-  const style = allowedValue(data.style, ['', 'cinematic', 'photo', '3d', 'anime', 'abstract'], '');
-  const size = allowedValue(data.size || data.aspect, ['512', '768', '1024', '1024x576', '576x1024'], '1024');
-  const frames = closestNumber(data.frames, [4, 6, 8, 12, 16, 24, 30], '30');
-  const fps = closestNumber(data.fps || data.speed, [1, 2, 4, 8], '8');
-  const videoMode = allowedValue(data.videoMode || data.modePreference, ['production', 'turbo', 'planned'], 'production');
-  const voiceAction = allowedValue(data.voiceAction || data.action, ['read_last', 'test', 'stop'], 'read_last');
-  return { mode, prompt, style, size, frames, fps, videoMode, voiceAction, run: !!executeNow, source: data.mode ? 'model' : fallback.source, message: String(data.message || fallback.message || '').trim() };
-}
-function renderPanelPlan(plan, label) {
-  const out = $('ctl-output');
-  if (!out) return;
-  const title = label || (plan.run ? 'Run plan' : 'Panel plan');
-  const meta = `${plan.source || 'model'} / ${plan.mode}${plan.run ? ' / running' : ' / ready'}`;
-  out.innerHTML = `<b>${escapeHtml(title)}</b><div class="ctl-prompt">${escapeHtml(plan.prompt || '(no prompt)')}</div><div class="ctl-meta">${escapeHtml(meta)}</div>`;
-}
-function setControlBusy(busy) {
-  ['ctl-plan', 'ctl-run'].forEach(id => {
-    const btn = $(id);
-    if (btn) { btn.disabled = busy; btn.classList.toggle('busy', busy); }
-  });
-}
-function getLastAssistantText() {
-  for (let i = messages.length - 1; i >= 0; i--) {
-    if (messages[i].role === 'assistant' && messages[i].content) return messages[i].content;
-  }
-  return '';
-}
-function applyPanelPlan(plan) {
-  openRail();
-  switchTab(plan.mode);
-  if (plan.mode === 'image') {
-    $('img-prompt').value = plan.prompt;
-    $('img-style').value = plan.style;
-    $('img-size').value = plan.size;
-    if (plan.run) generateImage();
-  } else if (plan.mode === 'video') {
-    $('vidgen-prompt').value = plan.prompt;
-    $('vidgen-frames').value = plan.frames;
-    $('vidgen-fps').value = plan.fps;
-    if ($('vidgen-mode')) $('vidgen-mode').value = plan.videoMode || 'turbo';
-    if (plan.run) createVideo();
-  } else if (plan.mode === 'web') {
-    $('web-prompt').value = plan.prompt;
-    if (plan.run) generateWebsite();
-  } else if (plan.mode === 'voice' && plan.run) {
-    if (plan.voiceAction === 'stop') stopPanel();
-    else if (plan.voiceAction === 'test') testVoice();
-    else {
-      const text = getLastAssistantText();
-      if (text) playInPanel(text.replace(/[#*`~_>|]/g, ''), false);
-      else testVoice();
-    }
-  }
-}
-async function runPanelControl(executeNow) {
-  const command = $('ctl-prompt').value.trim();
-  if (!command) { toast('Enter a panel command'); return; }
-  if (!isSelectableModel(currentModel)) {
-    currentModel = DEFAULT_MODEL;
-    modelSelect.value = DEFAULT_MODEL;
-  }
-  setControlBusy(true);
-  $('ctl-output').innerHTML = '<b>Planning</b><div class="ctl-prompt">Asking the active model...</div><div class="ctl-meta">AI control</div>';
-  let rawPlan = null;
-  try {
-    const ask = `Return ONLY valid JSON for controlling this media panel. Allowed modes: image, video, web, voice. Schema: {"mode":"image|video|web|voice","prompt":"text to place in the target prompt field","style":"cinematic|photo|3d|anime|abstract|","size":"512|768|1024|1024x576|576x1024","frames":4|6|8|12|16|24|30,"fps":1|2|4|8,"videoMode":"production|turbo|planned","voiceAction":"read_last|test|stop","message":"short status"}. Prefer videoMode production for final video generation; use turbo for quick previews and planned only when the user explicitly asks for AI-planned frame prompts. Do not include markdown. User command: ${command}`;
-    const res = await fetch(`${chatBase(currentModel)}/api/chat`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: currentModel,
-        stream: false,
-        messages: [{ role: 'user', content: ask }],
-        keep_alive: ollamaKeepAlive(currentModel),
-        options: ollamaOptions(currentModel, { num_ctx: 8192, num_predict: 260, temperature: 0.1 })
-      })
-    });
-    if (!res.ok) throw new Error('Control planner ' + res.status);
-    const data = await res.json();
-    rawPlan = extractPanelJson(data.message?.content || '');
-  } catch {}
-  const plan = normalizePanelPlan(rawPlan, command, executeNow);
-  renderPanelPlan(plan);
-  applyPanelPlan(plan);
-  setControlBusy(false);
-}
 
 // ═══════════════ VOICES (all Windows voices loaded) ═══════════════
 function loadVoices() {
@@ -1457,130 +1290,30 @@ videoFrame.addEventListener('drop', e => {
   if (f && f.type.startsWith('video/')) loadVideoFile({ target: { files: [f] } });
 });
 
-// ── video creation: Oroboros production pipeline, plus browser preview modes ──
-function loadImg(url) { return new Promise((res, rej) => { const im = new Image(); im.crossOrigin = 'anonymous'; im.decoding = 'async'; im.loading = 'eager'; im.onload = () => res(im); im.onerror = () => rej(new Error('img')); im.src = url; }); }
+// ── free video creation: Pollinations frames → canvas → MediaRecorder → playable WebM ──
+function loadImg(url) { return new Promise((res, rej) => { const im = new Image(); im.crossOrigin = 'anonymous'; im.onload = () => res(im); im.onerror = () => rej(new Error('img')); im.src = url; }); }
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
-function apiPath(path) { const base = (chatBase(currentModel) || '').replace(/\/$/, ''); return base + path; }
-function videoApi(path) { return apiPath('/api/video' + path); }
-function productionResultUrl(taskId, data) {
-  const raw = data?.result_url || data?.url || data?.result?.url || '';
-  if (/^https?:\/\//i.test(raw)) return raw;
-  return videoApi(`/result/${encodeURIComponent(taskId)}`);
-}
-async function createProductionVideo({ prompt, frameCount, fps, W, H, base, btn, restore }) {
-  btn.innerHTML = '<svg width="14" height="14"><use href="#i-spark"/></svg> AI directing production...';
-  try {
-    const res = await fetch(videoApi('/produce'), {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: currentModel,
-        prompt,
-        num_frames: frameCount,
-        width: W,
-        height: H,
-        fps,
-        seed: base,
-        steps: 28,
-        guidance_scale: 7.5,
-        source_model: currentModel
-      })
-    });
-    const queued = await res.json().catch(() => ({}));
-    if (!res.ok) throw new Error(queued.error || queued.detail || `Pipeline ${res.status}`);
-    const taskId = queued.task_id || queued.id;
-    if (!taskId) throw new Error('No production task id returned');
-    const plan = queued.production_plan || {};
-    const title = String(plan.title || 'oroboros-production').replace(/[^a-z0-9._-]+/gi, '-').replace(/^-+|-+$/g, '').slice(0, 64) || 'oroboros-production';
-
-    for (let i = 0; i < 180; i++) {
-      await sleep(i < 4 ? 1200 : 2500);
-      const sres = await fetch(videoApi(`/status/${encodeURIComponent(taskId)}`), { cache: 'no-store' });
-      const status = await sres.json().catch(() => ({}));
-      if (!sres.ok) throw new Error(status.error || status.detail || `Status ${sres.status}`);
-      const state = String(status.status || status.raw_status || '').toLowerCase();
-      const progress = Number(status.progress);
-      btn.innerHTML = `<svg width="14" height="14"><use href="#i-spark"/></svg> Production ${state || 'processing'}${Number.isFinite(progress) ? ` ${Math.round(progress)}%` : ''}`;
-      if (['completed', 'succeeded', 'done'].includes(state)) {
-        const result = productionResultUrl(taskId, status);
-        if (lastVideoUrl && lastVideoUrl.startsWith('blob:')) { try { URL.revokeObjectURL(lastVideoUrl); } catch {} }
-        lastVideoUrl = result;
-        video.src = result; video.loop = true; video.controls = false;
-        vidName.textContent = `${title}-${taskId.slice(0, 8)}.mp4`;
-        vidSize.textContent = 'AI Production MP4';
-        wireVideoEvents();
-        showVideoControls();
-        video.load();
-        video.play().catch(()=>{});
-        restore();
-        toast(plan.aiDirected === false ? 'Video ready - planner fallback used' : 'AI production video ready');
-        return;
-      }
-      if (['failed', 'error'].includes(state)) throw new Error(status.error?.message || status.error || 'Production failed');
-    }
-    throw new Error('Production job timed out');
-  } catch (err) {
-    restore();
-    toast('Production failed: ' + (err && err.message ? err.message : 'error'));
-  }
-}
 
 async function createVideo() {
   const prompt = $('vidgen-prompt').value.trim();
   if (!prompt) { toast('Enter a video prompt'); return; }
-  const frameCount = +$('vidgen-frames').value || 4;
-  const fps = +$('vidgen-fps').value || 4;
-  const holdMs = 1000 / fps;
-  const mode = $('vidgen-mode') ? $('vidgen-mode').value : 'turbo';
-  const sizeRaw = $('vidgen-size') ? $('vidgen-size').value : '512x288';
+  const canSupport = typeof MediaRecorder !== 'undefined' && !!document.createElement('canvas').captureStream;
+  if (!canSupport) { toast('Video recording not supported in this browser'); return; }
+  const frameCount = +$('vidgen-frames').value || 8;
+  const holdMs = 1000 / (+$('vidgen-fps').value || 2);
   const btn = $('vidgen-go');
   const restore = () => { btn.classList.remove('busy'); btn.innerHTML = '<svg width="14" height="14"><use href="#i-film"/></svg> Generate Video'; };
   btn.classList.add('busy');
   openRail(); switchTab('video');
 
-  const parts = sizeRaw.split('x');
-  const W = Math.max(256, Math.min(1024, +(parts[0] || 512)));
-  const H = Math.max(144, Math.min(576, +(parts[1] || 288)));
+  const W = 768, H = 432;
   const base = Math.abs(hashCode(prompt)) % 900000;
-  const directUrls = () => {
-    const out = [];
-    for (let i = 0; i < frameCount; i++) {
-      const fp = `${prompt}, cinematic motion sequence, frame ${i + 1} of ${frameCount}`;
-      out.push(`https://image.pollinations.ai/prompt/${encodeURIComponent(fp)}?width=${W}&height=${H}&seed=${base + i}&nologo=true`);
-    }
-    return out;
-  };
-  if (mode === 'production') {
-    await createProductionVideo({ prompt, frameCount, fps, W, H, base, btn, restore });
-    return;
+  const urls = [];
+  for (let i = 0; i < frameCount; i++) {
+    const fp = `${prompt}, cinematic motion sequence, frame ${i + 1} of ${frameCount}`;
+    urls.push(`https://image.pollinations.ai/prompt/${encodeURIComponent(fp)}?width=${W}&height=${H}&seed=${base + i}&nologo=true`);
   }
-  const canSupport = typeof MediaRecorder !== 'undefined' && !!document.createElement('canvas').captureStream;
-  if (!canSupport) { restore(); toast('Video recording not supported in this browser'); return; }
-  let urls = [];
-  if (mode === 'planned') {
-    btn.innerHTML = `<svg width="14" height="14"><use href="#i-spark"/></svg> Planning ${frameCount} frames...`;
-    const ctrl = new AbortController();
-    const timeout = setTimeout(() => ctrl.abort(), 14000);
-    try {
-      const res = await fetch(`${chatBase(currentModel)}/api/video/frames`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ model: currentModel, prompt, frames: frameCount, width: W, height: H, seed: base }),
-        signal: ctrl.signal
-      });
-      if (!res.ok) throw new Error('Planner ' + res.status);
-      const data = await res.json();
-      if (!data.ok || !Array.isArray(data.urls) || !data.urls.length) throw new Error(data.error || 'No frames');
-      urls = data.urls.slice(0, frameCount);
-    } catch (err) {
-      urls = directUrls();
-    } finally {
-      clearTimeout(timeout);
-    }
-  } else {
-    urls = directUrls();
-  }
-  btn.innerHTML = `<svg width="14" height="14"><use href="#i-spark"/></svg> Rendering ${urls.length} frames...`;
+  btn.innerHTML = `<svg width="14" height="14"><use href="#i-spark"/></svg> Generating ${frameCount} frames…`;
   let imgs = [];
   try {
     const settled = await Promise.allSettled(urls.map(loadImg));
@@ -1593,10 +1326,10 @@ async function createVideo() {
     const canvas = document.createElement('canvas'); canvas.width = W; canvas.height = H;
     const ctx = canvas.getContext('2d');
     ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H);
-    const stream = canvas.captureStream(Math.max(10, Math.min(25, fps * 6)));
-    let mime = 'video/webm;codecs=vp8';
+    const stream = canvas.captureStream(25);
+    let mime = 'video/webm;codecs=vp9';
     if (!(window.MediaRecorder && MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(mime))) mime = 'video/webm';
-    const rec = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: mode === 'turbo' ? 1200000 : 2400000 });
+    const rec = new MediaRecorder(stream, { mimeType: mime });
     const chunks = [];
     rec.ondataavailable = ev => { if (ev.data && ev.data.size) chunks.push(ev.data); };
     const stopped = new Promise(r => rec.onstop = r);
@@ -1608,7 +1341,7 @@ async function createVideo() {
       if (ar > car) { dh = W / ar; dy = (H - dh) / 2; } else { dw = H * ar; dx = (W - dw) / 2; }
       ctx.drawImage(im, dx, dy, dw, dh);
     };
-    const passes = mode === 'turbo' ? 1 : (imgs.length < 4 ? 3 : 2);
+    const passes = imgs.length < 4 ? 3 : 2;
     for (let p = 0; p < passes; p++) {
       for (const im of imgs) { drawFrame(im); await sleep(holdMs); }
     }
@@ -1685,25 +1418,11 @@ async function generateImage(reroll) {
   else { w = h = +sizeRaw; }
   const styled = style ? `${prompt}, ${style} style` : prompt;
   const seed = reroll ? Math.floor(Math.random()*999999) : Math.abs(hashCode(styled)) % 999999;
+  const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(styled)}?width=${w}&height=${h}&seed=${seed}&nologo=true`;
   const btn = $('img-go');
-  btn.classList.add('busy'); btn.innerHTML = '<svg width="14" height="14"><use href="#i-spark"/></svg> Planning...';
+  btn.classList.add('busy'); btn.innerHTML = '<svg width="14" height="14"><use href="#i-spark"/></svg> Generating…';
   $('img-empty').style.display = 'none';
-  $('img-result').innerHTML = '<div class="img-overlay">Planning...</div>';
-  let url = '';
-  try {
-    const res = await fetch(`${chatBase(currentModel)}/api/image`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ model: currentModel, prompt, style, size: sizeRaw, seed })
-    });
-    if (!res.ok) throw new Error('Image planner ' + res.status);
-    const data = await res.json();
-    if (!data.ok || !data.url) throw new Error(data.error || 'No image URL');
-    url = data.url;
-  } catch (err) {
-    url = `https://image.pollinations.ai/prompt/${encodeURIComponent(styled)}?width=${w}&height=${h}&seed=${seed}&nologo=true`;
-  }
-  $('img-result').innerHTML = '<div class="img-overlay">Rendering...</div>';
+  $('img-result').innerHTML = '<div class="img-overlay">Rendering…</div>';
   const img = new Image();
   img.onload = () => {
     $('img-result').innerHTML = '';
@@ -1731,25 +1450,47 @@ async function generateWebsite() {
   const prompt = $('web-prompt').value.trim();
   if (!prompt) { toast('Describe the website'); return; }
   const btn = $('web-go');
-  btn.classList.add('busy'); btn.innerHTML = '<svg width="14" height="14"><use href="#i-spark"/></svg> Building...';
+  btn.classList.add('busy'); btn.innerHTML = '<svg width="14" height="14"><use href="#i-spark"/></svg> Building…';
   $('web-empty') && ($('web-empty').style.display = 'none');
-  $('web-frame').innerHTML = '<div class="web-empty" style="color:var(--ds3)">Building HTML...</div>';
+  $('web-frame').innerHTML = '<div class="web-empty" style="color:var(--ds3)">Streaming HTML…</div>';
   $('web-url').textContent = 'preview://generating';
   try {
-    const res = await fetch(`${chatBase(currentModel)}/api/website`, {
+    const res = await fetch(`${chatBase(currentModel)}/api/chat`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ model: currentModel, prompt })
+      body: JSON.stringify({
+        model: currentModel,
+        messages: [{
+          role: 'user',
+          content: `Create a complete single-file HTML5 website. Requirements: ${prompt}\n\nOutput ONLY the HTML code starting with <!DOCTYPE html> and ending with </html>. No explanation, no markdown fences. All CSS and JS inline. Modern, responsive, dark theme by default unless specified.`
+        }],
+        stream: true,
+        keep_alive: ollamaKeepAlive(currentModel),
+        options: ollamaOptions(currentModel, { num_ctx: 8192, temperature: 0.7 })
+      })
     });
     if (!res.ok) throw new Error('Build failed: ' + res.status);
-    const data = await res.json();
-    if (!data.ok || !data.html) throw new Error(data.error || 'No HTML returned');
-    const html = data.html;
+    const reader = res.body.getReader(), dec = new TextDecoder();
+    let buf = '', full = '';
+    while (true) {
+      const { done, value } = await reader.read(); if (done) break;
+      buf += dec.decode(value, { stream:true });
+      const lines = buf.split('\n'); buf = lines.pop() || '';
+      for (const line of lines) {
+        if (!line.trim()) continue;
+        try { full += JSON.parse(line).message?.content || ''; } catch {}
+      }
+    }
+    // strip markdown fences if model included them
+    let html = full.replace(/^```html\s*\n?/i,'').replace(/^```\s*\n?/m,'').replace(/```\s*$/m,'').trim();
+    if (!html.toLowerCase().includes('<!doctype') && !html.toLowerCase().includes('<html')) {
+      html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Generated</title></head><body>${html}</body></html>`;
+    }
     lastWebsiteHtml = html;
     const frame = $('web-frame');
     frame.innerHTML = '<iframe sandbox="allow-scripts allow-same-origin" srcdoc=""></iframe>';
     frame.querySelector('iframe').srcdoc = html;
-    $('web-url').textContent = 'preview://generated / ' + Math.round(html.length/1024) + ' KB';
+    $('web-url').textContent = 'preview://generated · ' + Math.round(html.length/1024) + ' KB';
     btn.classList.remove('busy'); btn.innerHTML = '<svg width="14" height="14"><use href="#i-spark"/></svg> Build';
   } catch (err) {
     $('web-frame').innerHTML = '<div class="web-empty" style="color:var(--err)">' + escapeHtml(err.message) + '</div>';
@@ -1792,4 +1533,3 @@ document.addEventListener('keydown', (e) => {
 </script>
 </body>
 </html>
-
