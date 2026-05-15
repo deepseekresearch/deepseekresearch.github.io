@@ -1,102 +1,93 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DeepSeek Research - Benchmarks</title>
+<title>Benchmarks — DeepSeek Research</title>
 <meta name="description" content="DeepSeek Research public benchmark records.">
-<link rel="stylesheet" href="assets/css/portal-chat.css?v=20260511-flat">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/css/research-2.css?v=20260515">
+<style>
+table.bench{width:100%;border-collapse:collapse;margin:14px 0 22px;font-size:14px}
+table.bench th{font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--ink3);font-weight:700;text-align:left;padding:10px 12px;border-bottom:1px solid var(--rule)}
+table.bench td{padding:10px 12px;border-bottom:1px solid var(--rule);color:var(--ink2)}
+table.bench tr:last-child td{border-bottom:0}
+table.bench td strong{color:var(--ink)}
+table.bench .pass{color:var(--accent);font-weight:700}
+table.bench .hold{color:var(--ink3);font-weight:700}
+table.bench .num{font-family:'JetBrains Mono',monospace;color:var(--ink)}
+</style>
 </head>
 <body>
-<div class="site-shell">
+<div class="shell">
+
   <header class="topbar">
     <div class="topbar-inner">
-      <a class="brand" href="./"><img src="assets/img/deepseek-icon-official.png" alt="DeepSeek"><span>DeepSeek <b>Research</b></span></a>
-      <nav class="nav" aria-label="Public navigation">
+      <a class="brand" href="./">
+        DeepSeek <span class="sub">Research</span>
+        <span class="dept">Department · 2.0</span>
+      </a>
+      <nav class="nav" aria-label="Primary">
         <a href="./">Portal</a>
         <a class="active" href="benchmarks.html">Benchmarks</a>
         <a href="papers.html">Whitepapers</a>
         <a href="open-research.html">Open Research</a>
-        <a href="chat/">Chat Interface</a>
+        <a href="chat/">Chat</a>
+        <button class="theme-toggle" data-theme-toggle aria-label="Theme toggle">☼</button>
       </nav>
     </div>
   </header>
 
   <main class="wrap">
-    <section class="intro">
-      <div>
-        <div class="eyebrow">Measured Public Records</div>
-        <h1>Benchmark Board</h1>
-        <p>Business view of SDI score, generation speed, prompt processing speed, section pass count, and status.</p>
-      </div>
-      <div class="actions">
-        <a class="btn primary" href="chat/">Chat Interface</a>
-        <a class="btn" href="benchmarks.html">Benchmarks</a>
-      </div>
-    </section>
 
-    <section class="section-grid four" aria-label="Benchmark summary">
-      <article class="square small"><div class="label">Top SDI</div><div class="title">1B4</div><div class="metric">572/600</div></article>
-      <article class="square small"><div class="label">Fastest generation</div><div class="title">1B4</div><div class="metric">82.2</div><p>tok/s</p></article>
-      <article class="square small"><div class="label">Fastest prompt</div><div class="title">10k4</div><div class="metric">2251</div><p>tok/s</p></article>
-      <article class="square small"><div class="label">Passing tiers</div><div class="title">Public record</div><div class="metric">8/9</div></article>
-    </section>
+    <div class="eyebrow">Measured Public Records</div>
+    <h1>Benchmarks</h1>
+    <p class="lede">Strata Depth Index, generation speed, prompt processing, and section pass counts. Public scorecard for the research department's model line.</p>
 
-    <section class="panel">
-      <div class="panel-head"><div class="label">SDI score graph</div><span>max 600</span></div>
-      <div class="bar-list">
-        <div class="bar-row"><span>1B4</span><div class="bar-track"><span style="--w:95.3%"></span></div><span class="bar-value">572</span></div>
-        <div class="bar-row"><span>20k4</span><div class="bar-track"><span style="--w:91.7%"></span></div><span class="bar-value">550</span></div>
-        <div class="bar-row"><span>50k4</span><div class="bar-track"><span style="--w:91.3%"></span></div><span class="bar-value">548</span></div>
-        <div class="bar-row"><span>1M4</span><div class="bar-track"><span style="--w:91.3%"></span></div><span class="bar-value">548</span></div>
-        <div class="bar-row"><span>3M4</span><div class="bar-track"><span style="--w:89.7%"></span></div><span class="bar-value">538</span></div>
-        <div class="bar-row"><span>7M4</span><div class="bar-track"><span style="--w:88.7%"></span></div><span class="bar-value">532</span></div>
-        <div class="bar-row"><span>10k4</span><div class="bar-track"><span style="--w:87.3%"></span></div><span class="bar-value">524</span></div>
-        <div class="bar-row"><span>5M4</span><div class="bar-track"><span style="--w:86.0%"></span></div><span class="bar-value">516</span></div>
-        <div class="bar-row"><span>500k4</span><div class="bar-track"><span style="--w:79.7%"></span></div><span class="bar-value">478</span></div>
-      </div>
-    </section>
+    <h2>Headline</h2>
+    <dl class="spec">
+      <dt>Top SDI</dt>                    <dd><strong>1B4</strong> — 572 / 600</dd>
+      <dt>Fastest generation</dt>          <dd><strong>1B4</strong> — 82.2 <span class="muted">tok/s</span></dd>
+      <dt>Fastest prompt</dt>              <dd><strong>10k4</strong> — 2,251 <span class="muted">tok/s</span></dd>
+      <dt>Passing tiers</dt>               <dd>8 of 9</dd>
+    </dl>
 
-    <div class="data-grid">
-      <section class="panel">
-        <div class="panel-head"><div class="label">Generation speed</div><span>tok/s</span></div>
-        <div class="bar-list">
-          <div class="bar-row"><span>1B4</span><div class="bar-track"><span style="--w:100%"></span></div><span class="bar-value">82.2</span></div>
-          <div class="bar-row"><span>50k4</span><div class="bar-track"><span style="--w:84.3%"></span></div><span class="bar-value">69.3</span></div>
-          <div class="bar-row"><span>500k4</span><div class="bar-track"><span style="--w:84.2%"></span></div><span class="bar-value">69.2</span></div>
-          <div class="bar-row"><span>1M4</span><div class="bar-track"><span style="--w:83.0%"></span></div><span class="bar-value">68.2</span></div>
-          <div class="bar-row"><span>3M4</span><div class="bar-track"><span style="--w:82.4%"></span></div><span class="bar-value">67.7</span></div>
-        </div>
-      </section>
-      <section class="panel">
-        <div class="panel-head"><div class="label">Prompt processing</div><span>tok/s</span></div>
-        <div class="bar-list">
-          <div class="bar-row"><span>10k4</span><div class="bar-track"><span style="--w:100%"></span></div><span class="bar-value">2251</span></div>
-          <div class="bar-row"><span>7M4</span><div class="bar-track"><span style="--w:99.3%"></span></div><span class="bar-value">2236</span></div>
-          <div class="bar-row"><span>50k4</span><div class="bar-track"><span style="--w:98.8%"></span></div><span class="bar-value">2224</span></div>
-          <div class="bar-row"><span>20k4</span><div class="bar-track"><span style="--w:98.3%"></span></div><span class="bar-value">2213</span></div>
-          <div class="bar-row"><span>1B4</span><div class="bar-track"><span style="--w:98.0%"></span></div><span class="bar-value">2206</span></div>
-        </div>
-      </section>
-    </div>
+    <h2>Full results</h2>
+    <table class="bench">
+      <thead><tr><th>Rank</th><th>Tier</th><th>SDI</th><th>Sections</th><th>Gen</th><th>Prompt</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><strong>1B4</strong></td><td class="num">572 / 600</td><td>5 / 6</td><td class="num">82.2</td><td class="num">2,206</td><td class="pass">Pass</td></tr>
+        <tr><td>2</td><td><strong>20k4</strong></td><td class="num">550 / 600</td><td>5 / 6</td><td class="num">68.0</td><td class="num">2,213</td><td class="pass">Pass</td></tr>
+        <tr><td>3</td><td><strong>50k4</strong></td><td class="num">548 / 600</td><td>5 / 6</td><td class="num">69.3</td><td class="num">2,224</td><td class="pass">Pass</td></tr>
+        <tr><td>4</td><td><strong>1M4</strong></td><td class="num">548 / 600</td><td>5 / 6</td><td class="num">68.2</td><td class="num">2,195</td><td class="pass">Pass</td></tr>
+        <tr><td>5</td><td><strong>3M4</strong></td><td class="num">538 / 600</td><td>5 / 6</td><td class="num">67.7</td><td class="num">2,179</td><td class="pass">Pass</td></tr>
+        <tr><td>6</td><td><strong>7M4</strong></td><td class="num">532 / 600</td><td>5 / 6</td><td class="num">67.8</td><td class="num">2,236</td><td class="pass">Pass</td></tr>
+        <tr><td>7</td><td><strong>10k4</strong></td><td class="num">524 / 600</td><td>5 / 6</td><td class="num">68.4</td><td class="num">2,251</td><td class="pass">Pass</td></tr>
+        <tr><td>8</td><td><strong>5M4</strong></td><td class="num">516 / 600</td><td>5 / 6</td><td class="num">67.2</td><td class="num">2,213</td><td class="pass">Pass</td></tr>
+        <tr><td>9</td><td><strong>500k4</strong></td><td class="num">478 / 600</td><td>3 / 6</td><td class="num">69.2</td><td class="num">2,199</td><td class="hold">Retune</td></tr>
+      </tbody>
+    </table>
 
-    <div class="table-wrap">
-      <table aria-label="SDI benchmark results">
-        <thead><tr><th>Rank</th><th>Tier</th><th>SDI</th><th>Sections</th><th>Avg Gen</th><th>Avg Prompt</th><th>Status</th></tr></thead>
-        <tbody>
-          <tr><td>1</td><td><strong>1B4</strong></td><td>572/600</td><td>5/6</td><td>82.2 tok/s</td><td>2206 tok/s</td><td class="pass">Pass</td></tr>
-          <tr><td>2</td><td><strong>20k4</strong></td><td>550/600</td><td>5/6</td><td>68.0 tok/s</td><td>2213 tok/s</td><td class="pass">Pass</td></tr>
-          <tr><td>3</td><td><strong>50k4</strong></td><td>548/600</td><td>5/6</td><td>69.3 tok/s</td><td>2224 tok/s</td><td class="pass">Pass</td></tr>
-          <tr><td>4</td><td><strong>1M4</strong></td><td>548/600</td><td>5/6</td><td>68.2 tok/s</td><td>2195 tok/s</td><td class="pass">Pass</td></tr>
-          <tr><td>5</td><td><strong>3M4</strong></td><td>538/600</td><td>5/6</td><td>67.7 tok/s</td><td>2179 tok/s</td><td class="pass">Pass</td></tr>
-          <tr><td>6</td><td><strong>7M4</strong></td><td>532/600</td><td>5/6</td><td>67.8 tok/s</td><td>2236 tok/s</td><td class="pass">Pass</td></tr>
-          <tr><td>7</td><td><strong>10k4</strong></td><td>524/600</td><td>5/6</td><td>68.4 tok/s</td><td>2251 tok/s</td><td class="pass">Pass</td></tr>
-          <tr><td>8</td><td><strong>5M4</strong></td><td>516/600</td><td>5/6</td><td>67.2 tok/s</td><td>2213 tok/s</td><td class="pass">Pass</td></tr>
-          <tr><td>9</td><td><strong>500k4</strong></td><td>478/600</td><td>3/6</td><td>69.2 tok/s</td><td>2199 tok/s</td><td class="hold">Retune</td></tr>
-        </tbody>
-      </table>
-    </div>
+    <p class="note">Gen and Prompt values shown in tok/s. SDI maximum is 600. Tier ordering by SDI descending. Passing threshold: 5 sections of 6.</p>
+
   </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="left">
+        <span>DeepSeek Research · Department</span>
+        <span>·</span>
+        <span>2.0</span>
+      </div>
+      <div class="right">
+        <a href="./">Portal</a>
+      </div>
+    </div>
+  </footer>
+
 </div>
+<script src="assets/js/theme.js?v=20260515"></script>
 </body>
 </html>
