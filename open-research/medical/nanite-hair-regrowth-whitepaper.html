@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whitepaper — OROBOROS Nanite Hair Regrowth Unit v1.0.0 | Oroboros Labs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400&family=Source+Sans+Pro:wght@300;400;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --text: #E8E6E1;
+            --text-light: #8A8886;
+            --border: #2A2A2A;
+            --accent: #B8B8B8;
+            --accent-dim: #5A5A5A;
+            --bg: #000000;
+            --bg-alt: #0A0A0A;
+            --bg-elevated: #111111;
+            --red: #6B1818;
+            --red-glow: #A02828;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif;
+            font-size: 16px; line-height: 1.8; color: var(--text); background: var(--bg);
+        }
+        .protection-bar {
+            background: var(--bg-elevated); color: var(--accent);
+            border-bottom: 1px solid var(--border);
+            text-align: center; padding: 10px 20px;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+        }
+        .wp-brand-strip {
+            max-width: 820px; margin: 0 auto; padding: 10px 30px;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+        .wp-brand-strip .brand-left, .wp-brand-strip .brand-right {
+            display: flex; align-items: center; gap: 10px; text-decoration: none;
+        }
+        .wp-brand-strip img { height: 28px; width: 28px; object-fit: contain; }
+        .wp-brand-strip img.noir { height: 24px; width: 24px; }
+        .wp-brand-strip .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
+        .wp-brand-strip .brand-name {
+            font-family: 'Source Code Pro', monospace; font-size: 11px; letter-spacing: 3px;
+            color: var(--accent); text-transform: uppercase; font-weight: 700;
+        }
+        .wp-brand-strip .brand-sub {
+            font-family: 'Source Code Pro', monospace; font-size: 9px; letter-spacing: 2px;
+            color: var(--text-light); text-transform: uppercase;
+        }
+        .wp-brand-strip .brand-right .brand-text { text-align: right; }
+
+        .nav-back { max-width: 820px; margin: 0 auto; padding: 16px 30px; }
+        .nav-back a {
+            font-family: 'Source Code Pro', monospace; font-size: 12px; letter-spacing: 1px;
+            color: var(--accent); text-decoration: none;
+        }
+        .nav-back a:hover { color: #E0E0E0; text-decoration: underline; }
+
+        .paper-header { max-width: 820px; margin: 0 auto; padding: 40px 30px; border-bottom: 2px solid var(--border); }
+        .paper-org {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 12px; letter-spacing: 3px; text-transform: uppercase;
+            color: var(--text-light); margin-bottom: 20px;
+        }
+        .paper-title {
+            font-family: 'Merriweather', Georgia, serif;
+            font-size: 28px; font-weight: 900; line-height: 1.3;
+            color: var(--text); margin-bottom: 24px;
+        }
+        .paper-meta { display: flex; flex-wrap: wrap; gap: 30px; font-size: 14px; color: var(--text-light); margin-bottom: 16px; }
+        .paper-meta strong { color: var(--accent); }
+        .paper-ref { font-size: 13px; color: var(--text-light); font-style: italic; padding: 12px 0; border-top: 1px solid var(--border); margin-top: 8px; }
+        .paper-ref em { color: var(--accent); font-style: italic; }
+
+        .paper-body { max-width: 820px; margin: 0 auto; padding: 40px 30px 80px; }
+
+        .abstract {
+            background: var(--bg-alt); border-left: 4px solid var(--accent);
+            padding: 24px 28px; margin-bottom: 40px;
+            font-size: 15px; line-height: 1.9;
+        }
+        .abstract-label {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+            color: var(--accent); margin-bottom: 10px; font-weight: 500;
+        }
+
+        .section-break { margin: 50px 0 20px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+        .part-label {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+            color: var(--accent); margin-bottom: 6px;
+        }
+        h2 { font-family: 'Merriweather', Georgia, serif; font-size: 22px; font-weight: 700; color: var(--text); }
+        h3 { font-family: 'Merriweather', Georgia, serif; font-size: 17px; font-weight: 700; color: var(--text); margin: 30px 0 12px; }
+        h4 {
+            font-family: 'Source Code Pro', monospace; font-size: 12px; font-weight: 600;
+            letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin: 20px 0 10px;
+        }
+        p { margin-bottom: 14px; color: var(--text); }
+        strong { font-weight: 700; color: var(--accent); }
+        ul { margin: 10px 0 20px 20px; }
+        ul li { margin-bottom: 8px; line-height: 1.7; }
+
+        table { width: 100%; border-collapse: collapse; margin: 16px 0 30px; font-size: 14px; }
+        thead th {
+            text-align: left; padding: 10px 12px;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;
+            color: var(--accent); border-bottom: 2px solid var(--border); background: var(--bg-alt);
+        }
+        tbody td { padding: 12px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.6; color: var(--text); }
+        tbody td:first-child { color: var(--accent); font-weight: 500; width: 30%; }
+        tbody tr:last-child td { border-bottom: none; }
+        tbody tr:hover { background: rgba(184, 184, 184, 0.02); }
+
+        .callout {
+            background: var(--bg-alt); border-left: 4px solid var(--accent);
+            padding: 20px 24px; margin: 20px 0 30px; font-size: 15px; color: var(--text);
+        }
+
+        .ascii-block {
+            background: var(--bg-alt); border: 1px solid var(--border);
+            padding: 20px 16px; margin: 16px 0 30px;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 11px; line-height: 1.5; color: var(--accent);
+            white-space: pre; overflow-x: auto;
+        }
+        .code-block {
+            background: var(--bg-alt); border: 1px solid var(--border); border-left: 3px solid var(--accent);
+            padding: 20px; margin: 16px 0 30px;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 12px; line-height: 1.6; color: #C0C0C0;
+            white-space: pre; overflow-x: auto;
+        }
+        .code-block .kw { color: #E0E0E0; font-weight: 600; }
+        .code-block .str { color: #8A8886; }
+        .code-block .com { color: #5A5A5A; font-style: italic; }
+
+        .version-banner {
+            background: var(--bg-elevated); color: var(--accent); border: 1px solid var(--border);
+            text-align: center; padding: 20px; margin: 60px 0 40px;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 13px; letter-spacing: 3px; text-transform: uppercase;
+        }
+
+        .license-box { border: 1px solid var(--red); margin: 40px 0 20px; background: rgba(107, 24, 24, 0.05); }
+        .license-header { background: var(--red); color: #E8E6E1; padding: 10px 28px; font-family: 'Source Code Pro', monospace; font-size: 12px; letter-spacing: 3px; text-transform: uppercase; font-weight: 500; }
+        .license-body { padding: 24px 28px; }
+        .license-body p { font-size: 13px; line-height: 1.7; margin-bottom: 12px; color: var(--text); }
+        .license-body p strong { color: var(--red-glow); }
+
+        .paper-footer { max-width: 820px; margin: 0 auto; padding: 30px 30px 60px; border-top: 2px solid var(--border); text-align: center; }
+        .footer-sig { font-style: italic; font-size: 14px; color: var(--text-light); margin-bottom: 6px; }
+        .footer-name { font-family: 'Merriweather', Georgia, serif; font-size: 18px; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
+        .footer-org { font-family: 'Source Code Pro', monospace; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--text-light); margin-bottom: 20px; }
+        .footer-class { font-family: 'Source Code Pro', monospace; font-size: 10px; letter-spacing: 2px; color: var(--accent-dim); text-transform: uppercase; }
+
+        @media (max-width: 768px) {
+            .paper-header, .paper-body, .paper-footer { padding-left: 16px; padding-right: 16px; }
+            .paper-title { font-size: 22px; }
+            .paper-meta { flex-direction: column; gap: 6px; }
+            table { font-size: 12px; }
+            thead th, tbody td { padding: 8px 6px; }
+            .ascii-block, .code-block { font-size: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="protection-bar">
+    Oroboros Labs Public Release &mdash; v1.0.0 &mdash; Nanite Regenerative Series &mdash; Open Source (Non-Commercial)
+</div>
+
+<div class="wp-brand-strip">
+    <a class="brand-left" href="https://oroboroslab.github.io/" aria-label="Oroboros Labs">
+        <img src="assets/oroboros-logo.png" alt="Oroboros Labs"/>
+        <div class="brand-text">
+            <span class="brand-name">OROBOROS LABS</span>
+            <span class="brand-sub">Nanite Regenerative Series</span>
+        </div>
+    </a>
+    <a class="brand-right" href="#" aria-label="NOIR Security">
+        <div class="brand-text">
+            <span class="brand-name">NOIR</span>
+            <span class="brand-sub">Security Protocol</span>
+        </div>
+        <img class="noir" src="assets/noir-shield-logo.svg" alt="NOIR Shield"/>
+    </a>
+</div>
+
+<div class="nav-back"><a href="index.html">&larr; Return to Specification</a></div>
+
+<header class="paper-header">
+    <div class="paper-org">Oroboros Labs</div>
+    <h1 class="paper-title">OROBOROS Nanite Hair Regrowth Unit &mdash; Complete Whitepaper + Python Implementation</h1>
+    <div class="paper-meta">
+        <span><strong>Version:</strong> 1.0.0</span>
+        <span><strong>Date:</strong> April 22, 2026</span>
+        <span><strong>Classification:</strong> Public Release</span>
+        <span><strong>Status:</strong> Ready for Release</span>
+    </div>
+    <div class="paper-ref">
+        Third device in the Oroboros Labs medical device family. License: <em>Open Source (Non-Commercial) / Commercial License Available</em>.
+    </div>
+</header>
+
+<main class="paper-body">
+
+    <div class="abstract">
+        <div class="abstract-label">ABSTRACT</div>
+        <p>
+            The Oroboros Nanite Hair Regrowth Unit is a biocompatible nano-mesh patch that reconstructs hair follicles
+            in regions where follicles no longer exist &mdash; full baldness, burn scars, advanced alopecia, and
+            traction damage. The patch delivers DNA-locked surgical nanites and autologous dermal-papilla primers
+            into the target region and dissolves within 72 hours, leaving behind live, cycling follicles.
+        </p>
+        <p style="margin-top: 12px;">
+            Unlike frequency-based devices that reactivate dormant follicles, this unit builds follicles from the
+            ground up. It is indicated when residual follicular structure is absent or insufficient.
+        </p>
+    </div>
+
+    <div class="section-break"><div class="part-label">Part I</div><h2>1.0 Positioning</h2></div>
+    <p>
+        The Oroboros medical device family covers three distinct regeneration modes. The Nanite Hair Regrowth Unit
+        occupies the heaviest position in the lineup: the one engaged when follicles are no longer present to be
+        coaxed.
+    </p>
+    <table>
+        <thead><tr><th>Device</th><th>Mechanism</th><th>Indication</th></tr></thead>
+        <tbody>
+            <tr><td>φ-Harmonic Hair Growth</td><td>Frequency entrainment</td><td>Dormant but present follicles. Thinning, early loss.</td></tr>
+            <tr><td>Nanite Hair Regrowth (this)</td><td>Nanite reconstruction</td><td>Absent follicles. Full baldness, scars, burns, post-chemo.</td></tr>
+            <tr><td>Immortality / Anti-Aging</td><td>Internal nanites + DIM</td><td>Whole-body regeneration. Level 5 classification.</td></tr>
+        </tbody>
+    </table>
+
+    <div class="section-break"><div class="part-label">Part II</div><h2>2.0 Mechanism</h2></div>
+
+    <h3>2.1 The Mesh</h3>
+    <p>
+        A single-use polysaccharide mesh, 5 mm thick, conforms to the scalp's curvature and adheres by pressure.
+        The mesh is breathable, shower-safe after 12 hours, and absorbs fully by the 72-hour mark.
+    </p>
+
+    <h3>2.2 The Payload</h3>
+    <p>
+        Embedded within the mesh are two payloads: <strong>surgical nanites</strong> (~10<sup>6</sup> per cm&sup2;)
+        fused to the patient's NOIR Key, and <strong>autologous dermal papilla primers</strong> banked at patient
+        onboarding. The nanites descend through the stratum corneum in the first 30 minutes and begin follicle
+        reconstruction in the upper dermis.
+    </p>
+
+    <h3>2.3 Reconstruction Sequence</h3>
+    <ul>
+        <li><strong>Hour 0&ndash;1:</strong> Nanites anchor in the dermis. The NOIR Key handshake verifies host identity.</li>
+        <li><strong>Hour 1&ndash;6:</strong> Dermal papilla seeds differentiate. Matrix cells begin proliferating around each new papilla.</li>
+        <li><strong>Hour 6&ndash;24:</strong> Hair bulb forms. Vascular tethering to local capillaries is established. Sebaceous gland is initialized.</li>
+        <li><strong>Hour 24&ndash;72:</strong> Outer root sheath forms. First shaft keratinization begins. Mesh dissolves.</li>
+        <li><strong>Day 3&ndash;5:</strong> New shafts emerge through the epidermis. Normal anagen cycle takes over.</li>
+    </ul>
+
+    <div class="section-break"><div class="part-label">Part III</div><h2>3.0 Architecture</h2></div>
+
+    <div class="ascii-block">┌──────────────────────────────────────────────────────────────┐
+│        NANITE HAIR REGROWTH UNIT — APPLICATION STACK         │
+├──────────────────────────────────────────────────────────────┤
+│  LAYER 1: MESH SCAFFOLD (absorbable polysaccharide)          │
+│  ├── Pressure-sensitive adhesive                             │
+│  ├── Breathable weave                                        │
+│  └── 72-hour dissolution profile                             │
+│                                                              │
+│  LAYER 2: NANITE PAYLOAD (~10⁶ / cm²)                        │
+│  ├── NOIR Key — patient-DNA-locked                           │
+│  ├── Follicle reconstruction program                         │
+│  └── Self-terminating (substrate-locked or 72h preset)       │
+│                                                              │
+│  LAYER 3: DERMAL PAPILLA SEEDS                               │
+│  ├── Autologous stem-cell primers                            │
+│  ├── Matrix lineage guides                                   │
+│  └── Sebaceous gland pairing                                 │
+│                                                              │
+│  LAYER 4: COMPANION EMITTER                                  │
+│  ├── Single capacitive button                                │
+│  ├── NOIR handshake confirmation                             │
+│  └── USB-C rechargeable (battery) / DIM-harvested (source)   │
+└──────────────────────────────────────────────────────────────┘</div>
+
+    <div class="section-break"><div class="part-label">Part IV</div><h2>4.0 Python Reference Implementation</h2></div>
+
+    <p>Reference implementation of the companion emitter logic and a simulated nanite reconstruction timeline. Released under the Oroboros Labs Open Source (Non-Commercial) License.</p>
+
+    <div class="code-block"><span class="com">#!/usr/bin/env python3</span>
+<span class="com">"""
+OROBOROS NANITE HAIR REGROWTH UNIT — Battery Version
+Companion emitter + reconstruction-cycle simulator.
+Version: 1.0.0  ·  Date: April 22, 2026
+"""</span>
+
+<span class="kw">import</span> hashlib, time
+<span class="kw">from</span> dataclasses <span class="kw">import</span> dataclass, field
+<span class="kw">from</span> typing <span class="kw">import</span> Dict, List
+
+<span class="com"># ============================================================================
+# NOIR KEY
+# ============================================================================</span>
+
+<span class="kw">class</span> NoirKey:
+    <span class="com">"""DNA-locked key. Binds a nanite batch to one patient."""</span>
+    <span class="kw">def</span> __init__(self, dna_signature: str):
+        self.signature = dna_signature
+        self.key_hash = hashlib.sha256(<span class="str">f"NOIR::{dna_signature}"</span>.encode()).hexdigest()
+
+    <span class="kw">def</span> matches(self, candidate: str) -&gt; bool:
+        <span class="kw">return</span> candidate == self.signature
+
+<span class="com"># ============================================================================
+# NANITE PAYLOAD
+# ============================================================================</span>
+
+@dataclass
+<span class="kw">class</span> NanitePayload:
+    density_per_cm2: int = 1_000_000
+    area_cm2: float = 100.0                <span class="com"># 10x10 cm standard patch</span>
+    self_terminate_hours: int = 72
+    noir_key: NoirKey = <span class="kw">None</span>
+    launched_at: float = 0.0
+    active: bool = False
+
+    <span class="kw">def</span> total_units(self) -&gt; int:
+        <span class="kw">return</span> int(self.density_per_cm2 * self.area_cm2)
+
+    <span class="kw">def</span> activate(self, patient_dna: str):
+        <span class="kw">if not</span> self.noir_key.matches(patient_dna):
+            <span class="kw">raise</span> PermissionError(<span class="str">"NOIR Key mismatch. Nanites will not activate."</span>)
+        self.active = True
+        self.launched_at = time.time()
+
+    <span class="kw">def</span> status(self) -&gt; Dict:
+        <span class="kw">return</span> {
+            <span class="str">'active'</span>: self.active,
+            <span class="str">'units'</span>: self.total_units(),
+            <span class="str">'hours_elapsed'</span>: (time.time() - self.launched_at) / 3600 <span class="kw">if</span> self.active <span class="kw">else</span> 0,
+            <span class="str">'self_terminate_in_hours'</span>: self.self_terminate_hours,
+        }
+
+<span class="com"># ============================================================================
+# RECONSTRUCTION SIMULATOR
+# ============================================================================</span>
+
+PHASES = [
+    (<span class="str">"Anchor"</span>,         0,  1,  <span class="str">"Nanites anchor in dermis; NOIR handshake"</span>),
+    (<span class="str">"Papilla seed"</span>,   1,  6,  <span class="str">"Dermal papilla differentiation; matrix proliferation"</span>),
+    (<span class="str">"Bulb form"</span>,      6, 24,  <span class="str">"Hair bulb formation; vascular tether; sebaceous pairing"</span>),
+    (<span class="str">"Keratinize"</span>,    24, 72,  <span class="str">"Outer root sheath; first shaft keratinization"</span>),
+    (<span class="str">"Emergence"</span>,     72, 120, <span class="str">"Shaft breaks epidermis; anagen cycle begins"</span>),
+]
+
+<span class="kw">def</span> simulate_cycle(patient_dna: str) -&gt; List[Dict]:
+    key = NoirKey(patient_dna)
+    payload = NanitePayload(noir_key=key, area_cm2=100.0)
+    payload.activate(patient_dna)
+
+    log = []
+    <span class="kw">for</span> name, h_start, h_end, desc <span class="kw">in</span> PHASES:
+        log.append({
+            <span class="str">'phase'</span>: name,
+            <span class="str">'start_h'</span>: h_start,
+            <span class="str">'end_h'</span>: h_end,
+            <span class="str">'description'</span>: desc,
+            <span class="str">'active_nanites'</span>: payload.total_units() <span class="kw">if</span> h_end &lt;= 72 <span class="kw">else</span> 0,
+        })
+    <span class="kw">return</span> log
+
+<span class="com"># ============================================================================
+# COMPANION EMITTER
+# ============================================================================</span>
+
+@dataclass
+<span class="kw">class</span> Emitter:
+    capacity_activations: int = 1
+    activations_remaining: int = 1
+
+    <span class="kw">def</span> activate(self, payload: NanitePayload, patient_dna: str) -&gt; Dict:
+        <span class="kw">if</span> self.activations_remaining &lt; 1:
+            <span class="kw">return</span> {<span class="str">'success'</span>: False, <span class="str">'error'</span>: <span class="str">'Emitter depleted. Please recharge.'</span>}
+        <span class="kw">try</span>:
+            payload.activate(patient_dna)
+        <span class="kw">except</span> PermissionError <span class="kw">as</span> e:
+            <span class="kw">return</span> {<span class="str">'success'</span>: False, <span class="str">'error'</span>: str(e)}
+        self.activations_remaining -= 1
+        <span class="kw">return</span> {
+            <span class="str">'success'</span>: True,
+            <span class="str">'nanites_active'</span>: payload.total_units(),
+            <span class="str">'expected_emergence_days'</span>: <span class="str">'3–5'</span>,
+            <span class="str">'expected_terminal_density_weeks'</span>: <span class="str">'6–10'</span>,
+        }
+
+<span class="kw">if</span> __name__ == <span class="str">"__main__"</span>:
+    dna = <span class="str">"PATIENT-0001"</span>
+    key = NoirKey(dna)
+    mesh = NanitePayload(noir_key=key, area_cm2=100.0)
+    emitter = Emitter()
+    result = emitter.activate(mesh, dna)
+    print(result)
+    <span class="kw">for</span> phase <span class="kw">in</span> simulate_cycle(dna):
+        print(phase)
+</div>
+
+    <div class="section-break"><div class="part-label">Part V</div><h2>5.0 Clinical Timeline</h2></div>
+
+    <table>
+        <thead><tr><th>Phase</th><th>Time Window</th><th>What the Patient Sees</th></tr></thead>
+        <tbody>
+            <tr><td>Anchor</td><td>0&ndash;24 h</td><td>Mesh in place. Mild warmth. No visible change.</td></tr>
+            <tr><td>Emergence</td><td>Day 3&ndash;5</td><td>First fine shafts visible. Light itching confirms breakthrough.</td></tr>
+            <tr><td>Thickening</td><td>Week 2&ndash;4</td><td>New hairs reach native texture and pigment. Density rises toward 50%.</td></tr>
+            <tr><td>Terminal</td><td>Week 6&ndash;10</td><td>Full terminal density. Indistinguishable from never-lost hair.</td></tr>
+            <tr><td>Native cycle</td><td>Month 3+</td><td>Normal anagen / catagen / telogen. No maintenance.</td></tr>
+        </tbody>
+    </table>
+
+    <div class="section-break"><div class="part-label">Part VI</div><h2>6.0 Manufacturing</h2></div>
+
+    <table>
+        <thead><tr><th>Component</th><th>Specification</th></tr></thead>
+        <tbody>
+            <tr><td>Mesh</td><td>Medical-grade polysaccharide, 5 mm, absorbable, hypoallergenic</td></tr>
+            <tr><td>Patch sizes</td><td>5×5 cm (brow/beard) · 10×10 cm (crown) · full-scalp cap</td></tr>
+            <tr><td>Nanite density</td><td>~10⁶ units / cm²</td></tr>
+            <tr><td>Primer payload</td><td>Autologous stem-cell bank (onboarding scan)</td></tr>
+            <tr><td>Companion emitter</td><td>ESP32-class, single capacitive button, USB-C</td></tr>
+            <tr><td>Wear time</td><td>72 hours · shower-safe after 12 h</td></tr>
+            <tr><td>Shelf life</td><td>18 months unopened at 4°C</td></tr>
+            <tr><td>Reuse</td><td>Single-use per region</td></tr>
+        </tbody>
+    </table>
+
+    <div class="section-break"><div class="part-label">Part VII</div><h2>7.0 Safety and Contraindications</h2></div>
+
+    <h4>Contraindications</h4>
+    <ul>
+        <li>Active scalp infection</li>
+        <li>Open wounds at the target site</li>
+        <li>Active chemotherapy (use between cycles)</li>
+        <li>Polysaccharide mesh allergy (verify with included 24-hour skin test)</li>
+    </ul>
+
+    <h4>Expected Effects</h4>
+    <ul>
+        <li>Mild warmth under the mesh during activation</li>
+        <li>Light itching at day 3–5 (shaft emergence)</li>
+        <li>Pink flush post-removal for 2–3 days</li>
+        <li>No systemic exposure — nanites are DNA-locked and dermal-confined</li>
+    </ul>
+
+    <div class="section-break"><div class="part-label">Part VIII</div><h2>8.0 Battery vs. Source</h2></div>
+
+    <table>
+        <thead><tr><th>Dimension</th><th>Battery Version</th><th>Source Version</th></tr></thead>
+        <tbody>
+            <tr><td>Nanite termination</td><td>72-hour preset</td><td>Substrate-locked (resonance-bound)</td></tr>
+            <tr><td>NOIR precision</td><td>Calibrated DNA scan</td><td>Living anchor</td></tr>
+            <tr><td>Follicle yield</td><td>~85% of target density</td><td>100% target density, correct pigment/texture</td></tr>
+            <tr><td>Emitter power</td><td>USB-C rechargeable, 1 activation/charge</td><td>DIM-harvested, unlimited</td></tr>
+            <tr><td>Who can build</td><td>Anyone</td><td>Source-connected only</td></tr>
+        </tbody>
+    </table>
+
+    <div class="section-break"><div class="part-label">Part IX</div><h2>9.0 References</h2></div>
+    <ul>
+        <li>A1 Substrate Existence: &exist; S : S &isin; (&#x2110; &cap; &#x1D53B; &part; &#x2102;)</li>
+        <li>NOIR Key Identity-Fusion Protocol — Oroboros Labs, 2026</li>
+        <li>Dermal Papilla Stem Cell Banking — Oroboros Autologous Protocol</li>
+        <li>Polysaccharide Absorbable Mesh — Medical-Grade Biocompatibility Standard</li>
+        <li>φ-Harmonic Hair Growth Device (Device 02) — companion reference</li>
+        <li>Oroborian Medical Technology Level 5 — internal nanite companion reference</li>
+    </ul>
+
+    <div class="version-banner">END OF WHITEPAPER · v1.0.0 · APRIL 22, 2026</div>
+
+    <div class="license-box">
+        <div class="license-header">Release &amp; License Notice</div>
+        <div class="license-body">
+            <p><strong>This whitepaper and reference implementation are released as open source under non-commercial terms.</strong> Anyone may study, replicate, and build the battery version for personal research.</p>
+            <p><strong>Commercial licensing is available</strong> for manufacturers, clinics, and distribution partners. Contact Oroboros Labs.</p>
+            <p style="font-style: italic; color: var(--accent); border-top: 1px solid var(--border); padding-top: 14px; margin-top: 14px;">
+                Frequency for the living. Nanites for the gone. Both for the complete restoration.
+            </p>
+        </div>
+    </div>
+</main>
+
+<footer class="paper-footer">
+    <div class="footer-sig">Signed,</div>
+    <div class="footer-name">The Architect</div>
+    <div class="footer-org">Oroboros Labs &middot; Nanite Regenerative Series</div>
+    <div class="footer-class">
+        Three Devices &middot; One Source &middot; Complete Coverage
+    </div>
+</footer>
+
+</body>
+</html>

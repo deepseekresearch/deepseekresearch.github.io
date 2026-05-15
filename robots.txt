@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /open-research/
+Disallow: /open-research.html
+Disallow: /papers.html
