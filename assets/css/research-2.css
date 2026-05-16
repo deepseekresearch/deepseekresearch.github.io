@@ -48,7 +48,7 @@ a:hover{border-bottom-color:var(--link)}
 
 /* ===== top bar ===== */
 .topbar{border-bottom:1px solid var(--rule);background:var(--bg);position:sticky;top:0;z-index:30}
-.topbar-inner{width:min(1080px, calc(100% - 40px));margin:0 auto;display:flex;align-items:center;gap:22px;height:60px}
+.topbar-inner{width:min(1320px, calc(100% - 40px));margin:0 auto;display:flex;align-items:center;gap:22px;height:60px}
 .brand{display:flex;align-items:baseline;gap:8px;font-size:17px;font-weight:800;letter-spacing:-.2px;color:var(--ink);border:0}
 .brand .sub{font-weight:600;color:var(--ink2)}
 .brand .dept{font-size:10px;letter-spacing:1.6px;text-transform:uppercase;color:var(--ink3);margin-left:6px;font-weight:700}
@@ -61,7 +61,8 @@ a:hover{border-bottom-color:var(--link)}
 .theme-toggle:hover{color:var(--ink);border-color:var(--accent)}
 
 /* ===== content ===== */
-main.wrap{width:min(820px, calc(100% - 40px));margin:0 auto;padding:64px 0 80px;flex:1}
+main.wrap{width:min(1180px, calc(100% - 40px));margin:0 auto;padding:64px 0 80px;flex:1}
+main.wrap .lede,main.wrap p,main.wrap ul.plain,main.wrap dl.spec{max-width:880px}
 .eyebrow{font-size:11px;letter-spacing:2.6px;text-transform:uppercase;color:var(--accent);font-weight:800;margin-bottom:14px}
 h1{font-size:clamp(34px,4.6vw,56px);font-weight:850;letter-spacing:-.8px;line-height:1.06;color:var(--ink);margin-bottom:14px}
 h1 .dim{color:var(--ink3);font-weight:600}
@@ -97,7 +98,7 @@ dl.spec dd .muted{color:var(--ink2);font-weight:500}
 
 /* ===== footer ===== */
 footer{border-top:1px solid var(--rule);padding:24px 0;margin-top:auto}
-footer .wrap{width:min(1080px, calc(100% - 40px));margin:0 auto;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--ink3);gap:20px;flex-wrap:wrap}
+footer .wrap{width:min(1320px, calc(100% - 40px));margin:0 auto;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--ink3);gap:20px;flex-wrap:wrap}
 footer .wrap .left{display:flex;gap:14px;align-items:center}
 footer a{color:var(--ink3);border-bottom:0}
 footer a:hover{color:var(--ink2)}
