@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,6 +24,27 @@
   --mono:'SF Mono','JetBrains Mono','Cascadia Code','Consolas',monospace;
   --shadow-md:0 8px 24px rgba(0,0,0,.45);
 }
+/* === theme overrides — light / grey === */
+:root[data-theme="light"]{
+  --bg:#ffffff; --bg1:#ffffff; --bg2:#f4f6fb; --bg3:#e9edf5; --surface:#f4f6fb;
+  --line:#dde2ec; --line2:#cdd4e1;
+  --ink:#0a1230; --ink2:#2f3a5b; --ink3:#5b6488; --ink4:#9aa1bb;
+  --ds:#2c47d8; --ds2:#4d6bfe; --ds3:#3157ff; --ds-deep:#0e2566; --ds-glow:rgba(44,71,216,.20);
+  --ds-grad:linear-gradient(135deg,#2c47d8 0%,#4d6bfe 50%,#5a85ff 100%);
+  --user:#2c47d8;
+  --shadow-md:0 6px 18px rgba(10,18,48,.10);
+}
+:root[data-theme="grey"]{
+  --bg:#e3e6ee; --bg1:#e3e6ee; --bg2:#d8dce6; --bg3:#cdd2de; --surface:#d8dce6;
+  --line:#bec3d0; --line2:#aeb4c4;
+  --ink:#0a1230; --ink2:#2f3a5b; --ink3:#5b6488; --ink4:#8a92aa;
+  --ds:#2c47d8; --ds2:#4d6bfe; --ds3:#3157ff; --ds-deep:#0e2566; --ds-glow:rgba(44,71,216,.22);
+  --ds-grad:linear-gradient(135deg,#2c47d8 0%,#4d6bfe 50%,#5a85ff 100%);
+  --user:#2c47d8;
+  --shadow-md:0 6px 18px rgba(10,18,48,.14);
+}
+.theme-toggle{width:34px;height:34px;border:1px solid var(--line);border-radius:var(--rad-sm);background:var(--bg2);color:var(--ink2);font-size:14px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;line-height:1;margin-left:6px;transition:all .12s}
+.theme-toggle:hover{color:var(--ds3);border-color:var(--ds)}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%;overflow:hidden}
 body{
@@ -335,10 +356,8 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
     <div class="spacer"></div>
     <select class="top-model" id="model" title="Active model">
       <option value="deepseek-v4-pro-5M4:latest">deepseek-v4-pro:5M4</option>
-      <option value="deepseek-v4-pro-7M4:latest">deepseek-v4-pro:7M4</option>
-      <option value="deepseek-v4-pro:1B4">deepseek-v4-pro:1B4</option>
-      <option value="deepseek-v4-pro:3B4">deepseek-v4-pro:3B4</option>
       <option value="deepseek-v4-pro:3M4">deepseek-v4-pro:3M4</option>
+      <option value="deepseek-v4-pro-1Q4:latest">deepseek-v4-pro:1Q4</option>
       <option value="deepseek-v4-pro-500k4">deepseek-v4-pro:500k4</option>
       <option value="deepseek-v4-pro-50k4">deepseek-v4-pro:50k4</option>
       <option value="deepseek-v4-pro-10k4">deepseek-v4-pro:10k4</option>
@@ -351,6 +370,7 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
       <option value="nyros-27cubed">nyros-27cubed</option>
     </select>
     <button class="topbtn" onclick="clearChat()" title="Clear current conversation">Clear</button>
+    <button class="theme-toggle" data-theme-toggle aria-label="Theme toggle" title="Cycle theme">☾</button>
     <button class="menu" onclick="toggleCall()" title="Voice-to-voice (Ctrl+M)"><svg width="16" height="16"><use href="#i-speaker"/></svg></button>
   </div>
 
@@ -1530,6 +1550,17 @@ document.addEventListener('keydown', (e) => {
   if (e.ctrlKey && e.key.toLowerCase() === 'm') { e.preventDefault(); toggleCall(); }
   if (e.key === 'Escape') { closeXModal(); if (rail.classList.contains('open')) toggleRail(); }
 });
+
+/* ===== theme controller — light / grey / dark, persisted ===== */
+(function(){
+  var KEY='dsr-chat-theme', ORDER=['light','grey','dark'];
+  var ICON={light:'☼',grey:'◑',dark:'☾'}, LABEL={light:'Light',grey:'Grey',dark:'Dark'};
+  var root=document.documentElement;
+  try{ var saved=localStorage.getItem(KEY); if(saved&&ORDER.indexOf(saved)!==-1) root.setAttribute('data-theme',saved); }catch(e){}
+  function paint(btn){ var t=root.getAttribute('data-theme')||'dark'; btn.textContent=ICON[t]||ICON.dark; btn.title='Theme: '+(LABEL[t]||t); btn.setAttribute('aria-label','Theme: '+(LABEL[t]||t)+' — click to cycle'); }
+  function cycle(){ var t=root.getAttribute('data-theme')||'dark'; var i=ORDER.indexOf(t); var n=ORDER[(i+1)%ORDER.length]; root.setAttribute('data-theme',n); try{localStorage.setItem(KEY,n);}catch(e){} document.querySelectorAll('[data-theme-toggle]').forEach(paint); }
+  document.querySelectorAll('[data-theme-toggle]').forEach(function(b){ paint(b); b.addEventListener('click',cycle); });
+})();
 </script>
 </body>
 </html>
