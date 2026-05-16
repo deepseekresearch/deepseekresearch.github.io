@@ -58,9 +58,10 @@ a:hover{border-bottom-color:var(--link)}
 
 /* legacy topbar-inner kept for compat with pages not yet migrated */
 .topbar-inner{width:min(1180px, calc(100% - 40px));margin:0 auto;display:flex;align-items:center;gap:22px;height:62px}
-.brand{display:flex;align-items:center;gap:10px;font-size:17px;font-weight:800;letter-spacing:-.2px;color:var(--accent);border:0;white-space:nowrap}
+.brand{display:flex;align-items:center;gap:8px;font-size:17px;font-weight:800;letter-spacing:-.2px;color:var(--ink);border:0;white-space:nowrap}
 .brand img{width:28px;height:28px;object-fit:contain;display:block;border-radius:6px}
-.brand .sub{font-weight:600;color:var(--ink)}
+.brand .ds{color:var(--ink);font-weight:800}
+.brand .sub{font-weight:500;color:var(--ink2)}
 .brand .dept{font-size:10px;letter-spacing:1.6px;text-transform:uppercase;color:var(--ink3);margin-left:6px;font-weight:700;border:1px solid var(--rule);padding:3px 7px;border-radius:4px}
 .nav{margin-left:auto;display:flex;align-items:center;gap:6px}
 .nav a{padding:8px 12px;border-radius:6px;color:var(--ink2);font-size:13.5px;font-weight:600;border:0}
