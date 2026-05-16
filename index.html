@@ -3,12 +3,35 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DeepSeek Research</title>
-<meta name="description" content="DeepSeek Research — public portal of the research department. Benchmark records, request-only whitepapers, direct chat access.">
+<title>DeepSeek Research — Department</title>
+<meta name="description" content="DeepSeek Research — a research department. Public chat, public benchmarks, request-only whitepapers.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="assets/css/research-2.css?v=20260515">
+<link rel="stylesheet" href="assets/css/research-2.css?v=20260516">
+<style>
+.landing{min-height:calc(100vh - 62px - 60px);display:flex;align-items:center;padding:60px 0}
+.landing-inner{width:min(1280px, calc(100% - 40px));margin:0 auto}
+.hero-eyebrow{font-size:11px;letter-spacing:2.8px;text-transform:uppercase;color:var(--accent);font-weight:800;margin-bottom:18px}
+.hero-headline{font-size:clamp(40px,5.6vw,84px);font-weight:880;line-height:1;letter-spacing:-1.4px;color:var(--ink);margin-bottom:22px;max-width:980px}
+.hero-headline .accent{color:var(--accent)}
+.hero-headline .dim{color:var(--ink3);font-weight:700}
+.hero-sub{font-size:18px;line-height:1.6;color:var(--ink2);max-width:680px;margin-bottom:34px}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:42px}
+.cta{display:inline-flex;align-items:center;gap:10px;padding:13px 22px;border-radius:8px;font-size:14px;font-weight:700;letter-spacing:.3px;border:1px solid var(--rule);color:var(--ink);background:var(--bg);transition:all .15s ease}
+.cta:hover{border-color:var(--accent);color:var(--accent)}
+.cta.primary{background:var(--accent);border-color:var(--accent);color:#fff;box-shadow:0 6px 24px rgba(44,71,216,.25)}
+.cta.primary:hover{background:var(--accent2);border-color:var(--accent2);color:#fff}
+.hero-meta{display:flex;gap:36px;flex-wrap:wrap;padding-top:26px;border-top:1px solid var(--rule);max-width:980px}
+.hero-meta .item .k{font-size:10px;letter-spacing:1.8px;text-transform:uppercase;color:var(--ink3);font-weight:800;margin-bottom:4px}
+.hero-meta .item .v{font-family:'JetBrains Mono',monospace;font-size:15px;color:var(--ink);font-weight:700}
+.hero-meta .item .v a{color:inherit;border-bottom:0}
+.hero-meta .item .v a:hover{color:var(--accent)}
+@media(max-width:720px){
+  .hero-meta{gap:22px}
+  .cta{padding:12px 18px;font-size:13.5px}
+}
+</style>
 </head>
 <body>
 <div class="shell">
@@ -31,56 +54,28 @@
     </div>
   </header>
 
-  <main class="wrap">
-
-    <div class="eyebrow">Public Research Portal</div>
-    <h1>DeepSeek Research <span class="dim">2.0</span></h1>
-    <p class="lede">A research department operating alongside the broader DeepSeek model line. Public access is limited to benchmark records and the direct chat interface. Whitepapers and open research remain request-only.</p>
-
-    <section class="cols">
-      <div class="col-head">Public</div>
-      <div class="col-body">
-        <p><strong>Benchmarks.</strong> Strata Depth Index runs and model speed records are maintained as the public scorecard.</p>
-        <p><strong>Chat interface.</strong> Direct access to the research chat is available without registration. The chat stays separated from the public showcase.</p>
+  <section class="landing">
+    <div class="landing-inner">
+      <div class="hero-eyebrow">A Research Department</div>
+      <h1 class="hero-headline">
+        Research, <span class="accent">measured.</span><br>
+        <span class="dim">Not promised.</span>
+      </h1>
+      <p class="hero-sub">DeepSeek Research operates alongside the broader DeepSeek model line. Public access is intentionally narrow — live chat and benchmark records. Whitepapers and open research are request-only.</p>
+      <div class="hero-cta">
+        <a class="cta primary" href="chat/">Open Chat →</a>
+        <a class="cta" href="benchmarks.html">Benchmarks</a>
+        <a class="cta" href="open-research.html">Request Access</a>
       </div>
-    </section>
-
-    <section class="cols">
-      <div class="col-head">Request-only</div>
-      <div class="col-body">
-        <p><strong>Whitepapers.</strong> Internal whitepapers are not described publicly. Access is handled through the request flow.</p>
-        <p><strong>Open Research archive.</strong> Civilization, foundational, technical, medical, and security research transferred from prior public repositories. The archive index is restricted; section descriptions are public.</p>
+      <div class="hero-meta">
+        <div class="item"><div class="k">Top SDI</div><div class="v"><a href="benchmarks.html">572 / 600</a></div></div>
+        <div class="item"><div class="k">Top gen</div><div class="v">82.2 tok/s</div></div>
+        <div class="item"><div class="k">Top prompt</div><div class="v">2,251 tok/s</div></div>
+        <div class="item"><div class="k">Public models</div><div class="v">3M4 · 5M4 · 1Q4</div></div>
+        <div class="item"><div class="k">Open Research</div><div class="v"><a href="open-research.html">5 sections — locked</a></div></div>
       </div>
-    </section>
-
-    <section class="cols">
-      <div class="col-head">Current snapshot</div>
-      <div class="col-body">
-        <dl class="spec">
-          <dt>Strata Depth Index</dt>          <dd>572 / 600 <span class="muted">— current top public</span></dd>
-          <dt>Passing tiers</dt>                <dd>8 of 9</dd>
-          <dt>Top generation throughput</dt>    <dd>82.2 <span class="muted">tok/s</span></dd>
-          <dt>Top prompt throughput</dt>        <dd>2,251 <span class="muted">tok/s</span></dd>
-          <dt>Public model lines</dt>           <dd>3M4 · 5M4 · 1Q4</dd>
-        </dl>
-      </div>
-    </section>
-
-    <section class="cols">
-      <div class="col-head">Where to go next</div>
-      <div class="col-body">
-        <ul class="plain">
-          <li><b>Chat</b> — <a href="chat/">open the chat interface</a></li>
-          <li><b>Benchmarks</b> — <a href="benchmarks.html">full results</a></li>
-          <li><b>Whitepapers</b> — <a href="papers.html">request access</a></li>
-          <li><b>Open Research</b> — <a href="open-research.html">archive gate</a></li>
-        </ul>
-      </div>
-    </section>
-
-    <div class="note">DeepSeek Research is a research department. It is not the DeepSeek model org. Public surface is intentionally narrow: benchmarks and chat. Everything else is request-only.</div>
-
-  </main>
+    </div>
+  </section>
 
   <footer>
     <div class="wrap">
@@ -93,7 +88,8 @@
       <div class="right">
         <a href="chat/">Chat</a>
         <a href="benchmarks.html">Benchmarks</a>
-        <a href="open-research.html">Request access</a>
+        <a href="papers.html">Whitepapers</a>
+        <a href="open-research.html">Open Research</a>
       </div>
     </div>
   </footer>
