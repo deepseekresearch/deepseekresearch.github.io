@@ -38,7 +38,7 @@
 @media(max-width:980px){ .sec-cards{grid-template-columns:repeat(2, 1fr)} }
 @media(max-width:620px){ .sec-cards{grid-template-columns:1fr} .page-wordmark{letter-spacing:-2px} }
 
-footer.land-footer{position:relative;z-index:1;background:var(--bg);border-top:1px solid var(--rule);padding:40px 0 30px;margin-top:0}
+footer.land-footer{position:relative;z-index:1;background:var(--bg);padding:40px 0 30px;margin-top:0}
 .foot-grid{width:min(1180px, calc(100% - 40px));margin:0 auto;display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr 1fr;gap:36px;align-items:start}
 .foot-grid .brand-col{display:flex;flex-direction:column;gap:12px;font-size:13px;color:var(--ink2)}
 .foot-grid .brand-col .bb{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:800;color:var(--ink)}
@@ -48,7 +48,7 @@ footer.land-footer{position:relative;z-index:1;background:var(--bg);border-top:1
 .foot-col ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px}
 .foot-col li a{font-size:13px;color:var(--ink2);font-weight:500;border:0}
 .foot-col li a:hover{color:var(--accent)}
-.foot-bar{width:min(1180px, calc(100% - 40px));margin:24px auto 0;padding-top:16px;border-top:1px solid var(--rule);display:flex;justify-content:space-between;font-size:11.5px;color:var(--ink3);gap:18px;flex-wrap:wrap}
+.foot-bar{width:min(1180px, calc(100% - 40px));margin:24px auto 0;padding-top:6px;display:flex;justify-content:space-between;font-size:11.5px;color:var(--ink3);gap:18px;flex-wrap:wrap}
 @media(max-width:880px){
   .foot-grid{grid-template-columns:1fr 1fr}
   .foot-grid .brand-col{grid-column:1 / -1}
@@ -62,7 +62,7 @@ footer.land-footer{position:relative;z-index:1;background:var(--bg);border-top:1
     <div class="topbar-inner">
       <a class="brand" href="./">
         <img src="assets/img/deepseek-icon-official.png" alt="">
-        Research
+        DeepSeek <span class="sub">Research</span>
       </a>
       <nav class="nav" aria-label="Primary">
         <a href="benchmarks.html">Benchmarks</a>
