@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,18 +11,10 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="assets/css/research-2.css?v=20260516-l">
 <style>
-body{overflow-x:hidden}
-.waves{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.65}
-:root[data-theme="dark"] .waves{opacity:.30}
-:root[data-theme="grey"] .waves{opacity:.55}
-.announce{margin:18px auto 0;display:flex;justify-content:center;font-size:12.5px;color:var(--ink2);position:relative;z-index:2}
-.announce .pill{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border:1px solid var(--rule);background:var(--bg);border-radius:999px;font-weight:500}
-.announce .pill b{color:var(--accent);font-weight:700}
-
-.page-hero{position:relative;z-index:1;padding:50px 20px 30px;text-align:center}
-.page-wordmark{font-size:clamp(50px, 8.4vw, 110px);font-weight:900;letter-spacing:-4px;line-height:.95;color:var(--accent);margin:18px 0 12px}
-.page-tag{font-size:clamp(16px,2vw,22px);font-weight:600;color:var(--ink);letter-spacing:-.3px;max-width:720px;margin:0 auto}
-.page-tag .muted{color:var(--ink3);font-weight:500}
+.page-hero-plain{width:min(1180px, calc(100% - 40px));margin:0 auto;padding:60px 0 24px}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:2.4px;text-transform:uppercase;color:var(--ink3);font-weight:600;margin-bottom:14px}
+.page-title{font-family:'Inter',system-ui,sans-serif;font-size:36px;font-weight:800;letter-spacing:-1px;color:var(--ink);line-height:1.08;margin-bottom:12px}
+.page-sub{font-family:'Inter',system-ui,sans-serif;font-size:15.5px;line-height:1.6;color:var(--ink2);max-width:680px;margin-bottom:0}
 
 .page-body{position:relative;z-index:1;width:min(1180px, calc(100% - 40px));margin:0 auto;padding:30px 0 70px}
 
@@ -69,38 +61,23 @@ footer.land-footer{position:relative;z-index:1;background:var(--bg);border-top:1
   <header class="topbar">
     <div class="topbar-inner">
       <a class="brand" href="./">
-        <img src="assets/img/deepseek-icon-official.png" alt="DeepSeek">
-        DeepSeek <span class="sub">Research</span>
-        <span class="dept">Dept · 2.0</span>
+        <img src="assets/img/deepseek-icon-official.png" alt="">
+        Research
       </a>
       <nav class="nav" aria-label="Primary">
         <a href="benchmarks.html">Benchmarks</a>
         <a href="papers.html">Whitepapers</a>
         <a class="active" href="open-research.html">Open Research</a>
         <a href="chat/">Chat</a>
-        <button class="theme-toggle" data-theme-toggle aria-label="Theme toggle">☼</button>
+        <button class="theme-toggle" data-theme-toggle aria-label="Theme toggle">☾</button>
       </nav>
     </div>
   </header>
 
-  <svg class="waves" viewBox="0 0 1440 720" preserveAspectRatio="none" aria-hidden="true">
-    <defs>
-      <linearGradient id="ws1" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#a4b8ff" stop-opacity="0"/><stop offset="50%" stop-color="#a4b8ff" stop-opacity=".55"/><stop offset="100%" stop-color="#a4b8ff" stop-opacity="0"/></linearGradient>
-      <linearGradient id="ws2" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#7c95ff" stop-opacity="0"/><stop offset="50%" stop-color="#7c95ff" stop-opacity=".40"/><stop offset="100%" stop-color="#7c95ff" stop-opacity="0"/></linearGradient>
-      <linearGradient id="ws3" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#c4d2ff" stop-opacity="0"/><stop offset="50%" stop-color="#c4d2ff" stop-opacity=".70"/><stop offset="100%" stop-color="#c4d2ff" stop-opacity="0"/></linearGradient>
-    </defs>
-    <path d="M0,560 C200,500 400,640 720,540 C1040,440 1240,620 1440,520 L1440,720 L0,720 Z" fill="url(#ws3)"/>
-    <path d="M0,600 C260,520 480,680 760,580 C1040,480 1220,640 1440,560 L1440,720 L0,720 Z" fill="url(#ws2)"/>
-    <path d="M0,650 C220,580 460,700 760,620 C1060,540 1220,690 1440,610 L1440,720 L0,720 Z" fill="url(#ws1)"/>
-  </svg>
-
-  <div class="announce">
-    <div class="pill"><b>Locked</b><span>— transferred archive, request-only</span></div>
-  </div>
-
-  <section class="page-hero">
-    <div class="page-wordmark">open research</div>
-    <div class="page-tag">Transferred research archive across five sections. <span class="muted">No public descriptions. Access by request.</span></div>
+  <section class="page-hero-plain">
+    <div class="kicker">// open research · locked</div>
+    <h1 class="page-title">Open Research — request-only.</h1>
+    <p class="page-sub">Transferred research archive across five sections. No public descriptions. Access by request.</p>
   </section>
 
   <section class="page-body">
