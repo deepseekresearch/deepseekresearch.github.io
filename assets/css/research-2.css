@@ -29,18 +29,18 @@
   --grad-bot:#d3d8e4;
 }
 :root[data-theme="dark"]{
-  --bg:#070b1c;
-  --bg-soft:#0c1230;
-  --rule:#1c2548;
-  --ink:#e7ebff;
-  --ink2:#a7afd0;
-  --ink3:#6e76a0;
-  --accent:#8fb3ff;
-  --accent2:#4d6bfe;
-  --accent-soft:rgba(143,179,255,.10);
-  --link:#9fb8ff;
-  --grad-top:#070b1c;
-  --grad-bot:#040714;
+  --bg:#0d1117;
+  --bg-soft:#161b22;
+  --rule:#30363d;
+  --ink:#e6edf3;
+  --ink2:#8b949e;
+  --ink3:#6e7681;
+  --accent:#4d6bfe;
+  --accent2:#8ea5ff;
+  --accent-soft:rgba(77,107,254,.12);
+  --link:#8ea5ff;
+  --grad-top:#0d1117;
+  --grad-bot:#0d1117;
 }
 :root{ color-scheme: light dark; }
 

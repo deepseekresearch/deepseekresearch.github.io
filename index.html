@@ -1,81 +1,43 @@
 <!doctype html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DeepSeek Research — Department</title>
-<meta name="description" content="DeepSeek Research — a research department. Public chat, public benchmarks, request-only whitepapers.">
+<title>Research</title>
+<meta name="description" content="A research department. Chat and benchmarks public. Everything else by request.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap">
-<link rel="stylesheet" href="assets/css/research-2.css?v=20260516-m">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="assets/css/research-2.css?v=20260516-p">
 <style>
-body{overflow-x:hidden}
-.waves{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.65}
-:root[data-theme="dark"] .waves{opacity:.30}
-:root[data-theme="grey"] .waves{opacity:.55}
+main.page{width:min(900px, calc(100% - 40px));margin:0 auto;padding:80px 0 60px;font-family:'JetBrains Mono',monospace}
 
-.announce{margin:18px auto 0;display:flex;justify-content:center;font-size:12.5px;color:var(--ink2);position:relative;z-index:2}
-.announce .pill{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border:1px solid var(--rule);background:var(--bg);border-radius:999px;font-weight:500}
-.announce .pill b{color:var(--accent);font-weight:700}
+.kicker{font-size:11px;letter-spacing:2.4px;text-transform:uppercase;color:var(--ink3);font-weight:600;margin-bottom:18px}
 
-.land{position:relative;z-index:1;min-height:calc(100vh - 62px);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px 80px;text-align:center}
-.land-wordmark{font-size:clamp(80px, 14vw, 200px);font-weight:900;letter-spacing:-6px;line-height:.95;color:var(--accent);margin:24px 0 14px;font-family:'Inter',system-ui,sans-serif}
-.land-wordmark .accent-soft{color:var(--accent2);opacity:.92}
-.land-tag{font-size:clamp(20px,2.4vw,28px);font-weight:700;color:var(--ink);letter-spacing:-.4px;margin-bottom:40px}
-.land-tag .dim{color:var(--ink3);font-weight:600}
+h1.title{font-family:'Inter',system-ui,sans-serif;font-size:38px;font-weight:800;letter-spacing:-1px;color:var(--ink);line-height:1.1;margin-bottom:14px}
+h1.title .ax{color:var(--accent)}
 
-.land-cards{display:grid;grid-template-columns:1fr 1fr;gap:20px;width:100%;max-width:760px;margin:0 auto}
-.land-card{display:block;padding:24px 26px;text-align:left;background:var(--bg);border:1px solid var(--rule);border-radius:12px;color:var(--ink);transition:all .2s ease;border-bottom:1px solid var(--rule)}
-.land-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 12px 36px rgba(44,71,216,.10)}
-.land-card .ctitle{font-size:16px;font-weight:800;color:var(--accent);margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
-.land-card .ctitle .arr{opacity:.7;font-weight:600}
-.land-card .cdesc{font-size:13.5px;color:var(--ink2);line-height:1.55}
+.lede{font-family:'Inter',system-ui,sans-serif;font-size:15.5px;line-height:1.6;color:var(--ink2);max-width:640px;margin-bottom:36px}
 
-.land-stats{margin-top:46px;display:flex;gap:34px;flex-wrap:wrap;justify-content:center;font-size:12px;color:var(--ink3);max-width:760px}
-.land-stats .s b{color:var(--ink);font-weight:700;font-family:'JetBrains Mono',monospace;font-size:14px}
+.section-label{font-size:10.5px;letter-spacing:2px;text-transform:uppercase;color:var(--ink3);font-weight:600;margin:32px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--rule)}
 
-@media(max-width:680px){
-  .land-cards{grid-template-columns:1fr}
-  .land-wordmark{letter-spacing:-3px}
-}
+table.flat{width:100%;border-collapse:collapse;font-size:13px}
+table.flat td{padding:9px 0;color:var(--ink)}
+table.flat td:first-child{color:var(--ink2);width:42%}
+table.flat td.v{color:var(--ink);font-weight:600}
+table.flat td.v .ax{color:var(--accent)}
+table.flat td.v .mu{color:var(--ink3);font-weight:400;margin-left:4px}
+table.flat tr + tr td{border-top:1px solid var(--rule)}
 
-/* === OURS: research-department bottom band + footer === */
-.dept-band{position:relative;z-index:1;background:linear-gradient(180deg, transparent 0%, var(--bg-soft) 60%, var(--bg-soft) 100%);border-top:1px solid var(--rule);padding:36px 0 8px;margin-top:30px}
-.dept-band-inner{width:min(1280px, calc(100% - 40px));margin:0 auto;display:grid;grid-template-columns:1.1fr 1fr;gap:32px;align-items:center}
-.dept-tag{font-size:10.5px;letter-spacing:2.8px;text-transform:uppercase;color:var(--accent);font-weight:800;margin-bottom:10px}
-.dept-line{font-size:20px;font-weight:700;color:var(--ink);letter-spacing:-.4px;line-height:1.35;max-width:520px}
-.dept-line .dim{color:var(--ink3);font-weight:600}
-.dept-meta{display:grid;grid-template-columns:repeat(3, 1fr);gap:14px}
-.dept-meta .m{padding:14px 16px;border:1px solid var(--rule);border-left:3px solid var(--accent);background:var(--bg);border-radius:8px}
-.dept-meta .mk{font-size:10px;letter-spacing:1.8px;text-transform:uppercase;color:var(--ink3);font-weight:800;margin-bottom:5px}
-.dept-meta .mv{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--ink);font-weight:700}
-.dept-meta .mv .acc{color:var(--accent)}
-@media(max-width:880px){
-  .dept-band-inner{grid-template-columns:1fr;gap:18px}
-  .dept-meta{grid-template-columns:1fr 1fr}
-}
+ul.links{list-style:none;padding:0;margin:8px 0 0;display:grid;gap:0}
+ul.links li{padding:11px 0;border-top:1px solid var(--rule);display:grid;grid-template-columns:160px 1fr auto;gap:18px;align-items:baseline;font-size:13px}
+ul.links li:first-child{border-top:0}
+ul.links .lk{color:var(--ink2)}
+ul.links .desc{color:var(--ink3);font-family:'Inter',system-ui,sans-serif;font-size:13.5px}
+ul.links a.go{color:var(--accent);font-weight:600;letter-spacing:.3px}
+ul.links a.go:hover{color:var(--accent2)}
 
-footer.land-footer{position:relative;z-index:1;background:var(--bg-soft);border-top:1px solid var(--rule);padding:36px 0 28px;margin-top:0}
-.foot-grid{width:min(1280px, calc(100% - 40px));margin:0 auto;display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:32px;align-items:start}
-.foot-grid .brand-col{display:flex;flex-direction:column;gap:10px}
-.foot-grid .brand-col .bb{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:800;color:var(--ink)}
-.foot-grid .brand-col .bb img{width:22px;height:22px;border-radius:4px}
-.foot-grid .brand-col .bdept{display:inline-block;font-size:10px;letter-spacing:1.8px;text-transform:uppercase;color:var(--ink3);font-weight:800;border:1px solid var(--rule);padding:3px 7px;border-radius:4px;width:fit-content;margin-top:2px}
-.foot-grid .brand-col p{font-size:12.5px;color:var(--ink3);margin:0;line-height:1.55;max-width:340px}
-.foot-grid .brand-col .quote{margin-top:8px;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--accent);letter-spacing:.2px}
-.foot-col h4{font-size:10.5px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);font-weight:800;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--rule)}
-.foot-col ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px}
-.foot-col li a{font-size:13px;color:var(--ink2);font-weight:500;border:0}
-.foot-col li a:hover{color:var(--accent)}
-.foot-col li .lk{font-size:10px;color:var(--ink3);letter-spacing:1.4px;text-transform:uppercase;font-weight:700;margin-left:6px}
-.foot-bar{width:min(1280px, calc(100% - 40px));margin:24px auto 0;padding-top:14px;border-top:1px solid var(--rule);display:flex;justify-content:space-between;font-size:11px;color:var(--ink3);gap:18px;flex-wrap:wrap;font-family:'JetBrains Mono',monospace;letter-spacing:.3px}
-.foot-bar .stamp{display:inline-flex;align-items:center;gap:6px}
-.foot-bar .stamp .dot{width:5px;height:5px;border-radius:50%;background:var(--accent);box-shadow:0 0 6px var(--accent)}
-@media(max-width:880px){
-  .foot-grid{grid-template-columns:1fr 1fr}
-  .foot-grid .brand-col{grid-column:1 / -1}
-}
+.foot-note{margin-top:48px;padding-top:18px;border-top:1px solid var(--rule);font-size:12px;color:var(--ink3);line-height:1.6}
 </style>
 </head>
 <body>
@@ -84,88 +46,63 @@ footer.land-footer{position:relative;z-index:1;background:var(--bg-soft);border-
   <header class="topbar">
     <div class="topbar-inner">
       <a class="brand" href="./">
-        <img src="assets/img/deepseek-icon-official.png" alt="DeepSeek">
-        DeepSeek <span class="sub">Research</span>
-        <span class="dept">Dept · 2.0</span>
+        <img src="assets/img/deepseek-icon-official.png" alt="">
+        Research
       </a>
       <nav class="nav" aria-label="Primary">
         <a href="benchmarks.html">Benchmarks</a>
         <a href="papers.html">Whitepapers</a>
         <a href="open-research.html">Open Research</a>
         <a href="chat/">Chat</a>
-        <button class="theme-toggle" data-theme-toggle aria-label="Theme toggle">☼</button>
+        <button class="theme-toggle" data-theme-toggle aria-label="Theme toggle">☾</button>
       </nav>
     </div>
   </header>
 
-  <svg class="waves" viewBox="0 0 1440 720" preserveAspectRatio="none" aria-hidden="true">
-    <defs>
-      <linearGradient id="ws1" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#a4b8ff" stop-opacity="0"/><stop offset="50%" stop-color="#a4b8ff" stop-opacity=".55"/><stop offset="100%" stop-color="#a4b8ff" stop-opacity="0"/></linearGradient>
-      <linearGradient id="ws2" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#7c95ff" stop-opacity="0"/><stop offset="50%" stop-color="#7c95ff" stop-opacity=".40"/><stop offset="100%" stop-color="#7c95ff" stop-opacity="0"/></linearGradient>
-      <linearGradient id="ws3" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#c4d2ff" stop-opacity="0"/><stop offset="50%" stop-color="#c4d2ff" stop-opacity=".70"/><stop offset="100%" stop-color="#c4d2ff" stop-opacity="0"/></linearGradient>
-    </defs>
-    <path d="M0,560 C200,500 400,640 720,540 C1040,440 1240,620 1440,520 L1440,720 L0,720 Z" fill="url(#ws3)"/>
-    <path d="M0,600 C260,520 480,680 760,580 C1040,480 1220,640 1440,560 L1440,720 L0,720 Z" fill="url(#ws2)"/>
-    <path d="M0,650 C220,580 460,700 760,620 C1060,540 1220,690 1440,610 L1440,720 L0,720 Z" fill="url(#ws1)"/>
-  </svg>
+  <main class="page">
 
-  <div class="announce">
-    <div class="pill"><b>2.0</b><span>— A research department. Public chat + benchmarks. Everything else by request.</span></div>
-  </div>
+    <div class="kicker">// research · public</div>
 
-  <main class="land">
-    <div class="land-wordmark">deepseek<span class="accent-soft"> research</span></div>
-    <div class="land-tag">Into the <span class="dim">unknown</span>, measured.</div>
+    <h1 class="title">Research department. <span class="ax">Public records, request-only papers.</span></h1>
 
-    <div class="land-cards">
-      <a class="land-card" href="chat/">
-        <div class="ctitle">Open Chat <span class="arr">→</span></div>
-        <div class="cdesc">Direct, public access to the research chat. Streaming, voice, image, web. No registration.</div>
-      </a>
-      <a class="land-card" href="open-research.html">
-        <div class="ctitle">Request Access <span class="arr">→</span></div>
-        <div class="cdesc">Open Research archive. Civilization, foundational, technical, medical, security — request-only.</div>
-      </a>
+    <p class="lede">Chat and benchmarks are public. Whitepapers and the transferred research archive are request-only.</p>
+
+    <div class="section-label">// current</div>
+    <table class="flat">
+      <tr><td>strata depth index · 1b4</td><td class="v"><span class="ax">572</span><span class="mu">/ 600</span></td></tr>
+      <tr><td>tiers passing</td><td class="v"><span class="ax">8</span><span class="mu">/ 9</span></td></tr>
+      <tr><td>generation · top</td><td class="v">82.2<span class="mu">tok/s</span></td></tr>
+      <tr><td>prompt · top</td><td class="v">2,251<span class="mu">tok/s</span></td></tr>
+      <tr><td>public models</td><td class="v">3m4 · 5m4 · 1q4</td></tr>
+      <tr><td>open research</td><td class="v"><span class="ax">5</span> sections<span class="mu">request-only</span></td></tr>
+    </table>
+
+    <div class="section-label">// access</div>
+    <ul class="links">
+      <li><span class="lk">chat</span><span class="desc">Direct research chat. No registration.</span><a class="go" href="chat/">open →</a></li>
+      <li><span class="lk">benchmarks</span><span class="desc">SDI runs, generation and prompt throughput.</span><a class="go" href="benchmarks.html">view →</a></li>
+      <li><span class="lk">whitepapers</span><span class="desc">Internal documents — no public descriptions.</span><a class="go" href="papers.html">request →</a></li>
+      <li><span class="lk">open research</span><span class="desc">Transferred archive across five sections.</span><a class="go" href="open-research.html">request →</a></li>
+    </ul>
+
+    <div class="foot-note">
+      Research is a record, not a release. What is measured, we publish. What is unfinished, we hold.
     </div>
 
-    <div class="land-stats">
-      <div class="s">Top SDI <b>572 / 600</b></div>
-      <div class="s">Gen <b>82.2 tok/s</b></div>
-      <div class="s">Prompt <b>2,251 tok/s</b></div>
-      <div class="s">Models <b>3M4 · 5M4 · 1Q4</b></div>
-    </div>
   </main>
 
-  <!-- OURS: research-department band above footer -->
-  <section class="dept-band">
-    <div class="dept-band-inner">
-      <div>
-        <div class="dept-tag">Research Department · Public Charter</div>
-        <div class="dept-line">We line up with DeepSeek. <span class="dim">We are not DeepSeek.</span> Public surface is intentionally narrow — what is measured, we publish; what is unfinished, we hold.</div>
+  <footer>
+    <div class="wrap">
+      <div class="left">
+        <img src="assets/img/deepseek-icon-official.png" alt="">
+        <span>Research</span>
       </div>
-      <div class="dept-meta">
-        <div class="m"><div class="mk">SDI · top</div><div class="mv"><span class="acc">572</span> / 600</div></div>
-        <div class="m"><div class="mk">Tiers · pass</div><div class="mv"><span class="acc">8</span> / 9</div></div>
-        <div class="m"><div class="mk">Open Research</div><div class="mv"><span class="acc">5</span> sections</div></div>
+      <div class="right">
+        <a href="chat/">Chat</a>
+        <a href="benchmarks.html">Benchmarks</a>
+        <a href="papers.html">Whitepapers</a>
+        <a href="open-research.html">Open Research</a>
       </div>
-    </div>
-  </section>
-
-  <footer class="land-footer">
-    <div class="foot-grid">
-      <div class="brand-col">
-        <div class="bb"><img src="assets/img/deepseek-icon-official.png" alt=""><span>DeepSeek <b style="color:var(--accent)">Research</b></span></div>
-        <div class="bdept">Department · 2.0</div>
-        <p>A research department operating alongside the broader DeepSeek model line. Public surface is intentionally narrow.</p>
-        <div class="quote">// measured, not promised</div>
-      </div>
-      <div class="foot-col"><h4>Public</h4><ul><li><a href="chat/">Chat</a></li><li><a href="benchmarks.html">Benchmark Board</a></li></ul></div>
-      <div class="foot-col"><h4>Request-only</h4><ul><li><a href="papers.html">Whitepapers</a></li><li><a href="open-research.html">Open Research</a></li></ul></div>
-      <div class="foot-col"><h4>Department</h4><ul><li><span style="color:var(--ink2);font-size:13px">Charter · 2.0</span></li><li><span style="color:var(--ink3);font-size:12px">Updated 2026-05-16</span></li></ul></div>
-    </div>
-    <div class="foot-bar">
-      <div class="stamp"><span class="dot"></span><span>dept.deepseekresearch.com · v2.0</span></div>
-      <div>// research is a record, not a release</div>
     </div>
   </footer>
 
