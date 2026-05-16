@@ -8,16 +8,65 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="assets/css/research-2.css?v=20260515">
+<link rel="stylesheet" href="assets/css/research-2.css?v=20260516-l">
 <style>
-table.bench{width:100%;border-collapse:collapse;margin:14px 0 22px;font-size:14px}
-table.bench th{font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:var(--ink3);font-weight:700;text-align:left;padding:10px 12px;border-bottom:1px solid var(--rule)}
-table.bench td{padding:10px 12px;border-bottom:1px solid var(--rule);color:var(--ink2)}
+body{overflow-x:hidden}
+.waves{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.65}
+:root[data-theme="dark"] .waves{opacity:.30}
+:root[data-theme="grey"] .waves{opacity:.55}
+.announce{margin:18px auto 0;display:flex;justify-content:center;font-size:12.5px;color:var(--ink2);position:relative;z-index:2}
+.announce .pill{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border:1px solid var(--rule);background:var(--bg);border-radius:999px;font-weight:500}
+.announce .pill b{color:var(--accent);font-weight:700}
+
+.page-hero{position:relative;z-index:1;padding:50px 20px 30px;text-align:center}
+.page-wordmark{font-size:clamp(56px, 9vw, 120px);font-weight:900;letter-spacing:-4px;line-height:.95;color:var(--accent);margin:18px 0 12px;font-family:'Inter',system-ui,sans-serif}
+.page-wordmark .dim{color:var(--accent2);opacity:.85}
+.page-tag{font-size:clamp(16px,2vw,22px);font-weight:600;color:var(--ink);letter-spacing:-.3px;max-width:680px;margin:0 auto}
+.page-tag .muted{color:var(--ink3);font-weight:500}
+
+.page-body{position:relative;z-index:1;width:min(1180px, calc(100% - 40px));margin:0 auto;padding:30px 0 70px}
+
+/* stat cards */
+.stat-row{display:grid;grid-template-columns:repeat(4, minmax(0,1fr));gap:14px;margin-bottom:30px}
+.stat{padding:20px 22px;border:1px solid var(--rule);background:var(--bg);border-radius:12px}
+.stat .k{font-size:10px;letter-spacing:1.6px;text-transform:uppercase;color:var(--ink3);font-weight:800;margin-bottom:8px}
+.stat .v{font-family:'JetBrains Mono',monospace;font-size:22px;color:var(--accent);font-weight:800}
+.stat .v small{font-size:13px;color:var(--ink3);font-weight:500;margin-left:6px}
+@media(max-width:780px){
+  .stat-row{grid-template-columns:repeat(2, minmax(0,1fr))}
+  .page-wordmark{letter-spacing:-2px}
+}
+
+/* table inside a card */
+.card{padding:24px;border:1px solid var(--rule);background:var(--bg);border-radius:12px}
+.card-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px}
+.card-head h2{font-size:15px;letter-spacing:1.4px;text-transform:uppercase;color:var(--accent);font-weight:800}
+.card-head .meta{font-size:12px;color:var(--ink3)}
+table.bench{width:100%;border-collapse:collapse;font-size:13.5px}
+table.bench th{font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--ink3);font-weight:700;text-align:left;padding:10px 14px;border-bottom:1px solid var(--rule)}
+table.bench td{padding:11px 14px;border-bottom:1px solid var(--rule);color:var(--ink2)}
 table.bench tr:last-child td{border-bottom:0}
 table.bench td strong{color:var(--ink)}
 table.bench .pass{color:var(--accent);font-weight:700}
 table.bench .hold{color:var(--ink3);font-weight:700}
 table.bench .num{font-family:'JetBrains Mono',monospace;color:var(--ink)}
+
+/* footer columns (shared) */
+footer.land-footer{position:relative;z-index:1;background:var(--bg);border-top:1px solid var(--rule);padding:40px 0 30px;margin-top:0}
+.foot-grid{width:min(1180px, calc(100% - 40px));margin:0 auto;display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr 1fr;gap:36px;align-items:start}
+.foot-grid .brand-col{display:flex;flex-direction:column;gap:12px;font-size:13px;color:var(--ink2)}
+.foot-grid .brand-col .bb{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:800;color:var(--ink)}
+.foot-grid .brand-col .bb img{width:24px;height:24px;border-radius:4px}
+.foot-grid .brand-col p{font-size:12.5px;color:var(--ink3);margin:0;line-height:1.55}
+.foot-col h4{font-size:11px;letter-spacing:1.8px;text-transform:uppercase;color:var(--ink3);font-weight:800;margin-bottom:12px}
+.foot-col ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px}
+.foot-col li a{font-size:13px;color:var(--ink2);font-weight:500;border:0}
+.foot-col li a:hover{color:var(--accent)}
+.foot-bar{width:min(1180px, calc(100% - 40px));margin:24px auto 0;padding-top:16px;border-top:1px solid var(--rule);display:flex;justify-content:space-between;font-size:11.5px;color:var(--ink3);gap:18px;flex-wrap:wrap}
+@media(max-width:880px){
+  .foot-grid{grid-template-columns:1fr 1fr}
+  .foot-grid .brand-col{grid-column:1 / -1}
+}
 </style>
 </head>
 <body>
@@ -31,7 +80,6 @@ table.bench .num{font-family:'JetBrains Mono',monospace;color:var(--ink)}
         <span class="dept">Dept · 2.0</span>
       </a>
       <nav class="nav" aria-label="Primary">
-        <a href="./">Portal</a>
         <a class="active" href="benchmarks.html">Benchmarks</a>
         <a href="papers.html">Whitepapers</a>
         <a href="open-research.html">Open Research</a>
@@ -41,53 +89,67 @@ table.bench .num{font-family:'JetBrains Mono',monospace;color:var(--ink)}
     </div>
   </header>
 
-  <main class="wrap">
+  <svg class="waves" viewBox="0 0 1440 720" preserveAspectRatio="none" aria-hidden="true">
+    <defs>
+      <linearGradient id="ws1" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#a4b8ff" stop-opacity="0"/><stop offset="50%" stop-color="#a4b8ff" stop-opacity=".55"/><stop offset="100%" stop-color="#a4b8ff" stop-opacity="0"/></linearGradient>
+      <linearGradient id="ws2" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#7c95ff" stop-opacity="0"/><stop offset="50%" stop-color="#7c95ff" stop-opacity=".40"/><stop offset="100%" stop-color="#7c95ff" stop-opacity="0"/></linearGradient>
+      <linearGradient id="ws3" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#c4d2ff" stop-opacity="0"/><stop offset="50%" stop-color="#c4d2ff" stop-opacity=".70"/><stop offset="100%" stop-color="#c4d2ff" stop-opacity="0"/></linearGradient>
+    </defs>
+    <path d="M0,560 C200,500 400,640 720,540 C1040,440 1240,620 1440,520 L1440,720 L0,720 Z" fill="url(#ws3)"/>
+    <path d="M0,600 C260,520 480,680 760,580 C1040,480 1220,640 1440,560 L1440,720 L0,720 Z" fill="url(#ws2)"/>
+    <path d="M0,650 C220,580 460,700 760,620 C1060,540 1220,690 1440,610 L1440,720 L0,720 Z" fill="url(#ws1)"/>
+  </svg>
 
-    <div class="eyebrow">Measured Public Records</div>
-    <h1>Benchmarks</h1>
-    <p class="lede">Strata Depth Index, generation speed, prompt processing, and section pass counts. Public scorecard for the research department's model line.</p>
+  <div class="announce">
+    <div class="pill"><b>Public</b><span>— measured records, no promises</span></div>
+  </div>
 
-    <h2>Headline</h2>
-    <dl class="spec">
-      <dt>Top SDI</dt>                    <dd><strong>1B4</strong> — 572 / 600</dd>
-      <dt>Fastest generation</dt>          <dd><strong>1B4</strong> — 82.2 <span class="muted">tok/s</span></dd>
-      <dt>Fastest prompt</dt>              <dd><strong>10k4</strong> — 2,251 <span class="muted">tok/s</span></dd>
-      <dt>Passing tiers</dt>               <dd>8 of 9</dd>
-    </dl>
+  <section class="page-hero">
+    <div class="page-wordmark">benchmarks</div>
+    <div class="page-tag">Strata Depth Index, generation, prompt processing. <span class="muted">Public scorecard.</span></div>
+  </section>
 
-    <h2>Full results</h2>
-    <table class="bench">
-      <thead><tr><th>Rank</th><th>Tier</th><th>SDI</th><th>Sections</th><th>Gen</th><th>Prompt</th><th>Status</th></tr></thead>
-      <tbody>
-        <tr><td>1</td><td><strong>1B4</strong></td><td class="num">572 / 600</td><td>5 / 6</td><td class="num">82.2</td><td class="num">2,206</td><td class="pass">Pass</td></tr>
-        <tr><td>2</td><td><strong>20k4</strong></td><td class="num">550 / 600</td><td>5 / 6</td><td class="num">68.0</td><td class="num">2,213</td><td class="pass">Pass</td></tr>
-        <tr><td>3</td><td><strong>50k4</strong></td><td class="num">548 / 600</td><td>5 / 6</td><td class="num">69.3</td><td class="num">2,224</td><td class="pass">Pass</td></tr>
-        <tr><td>4</td><td><strong>1M4</strong></td><td class="num">548 / 600</td><td>5 / 6</td><td class="num">68.2</td><td class="num">2,195</td><td class="pass">Pass</td></tr>
-        <tr><td>5</td><td><strong>3M4</strong></td><td class="num">538 / 600</td><td>5 / 6</td><td class="num">67.7</td><td class="num">2,179</td><td class="pass">Pass</td></tr>
-        <tr><td>6</td><td><strong>7M4</strong></td><td class="num">532 / 600</td><td>5 / 6</td><td class="num">67.8</td><td class="num">2,236</td><td class="pass">Pass</td></tr>
-        <tr><td>7</td><td><strong>10k4</strong></td><td class="num">524 / 600</td><td>5 / 6</td><td class="num">68.4</td><td class="num">2,251</td><td class="pass">Pass</td></tr>
-        <tr><td>8</td><td><strong>5M4</strong></td><td class="num">516 / 600</td><td>5 / 6</td><td class="num">67.2</td><td class="num">2,213</td><td class="pass">Pass</td></tr>
-        <tr><td>9</td><td><strong>500k4</strong></td><td class="num">478 / 600</td><td>3 / 6</td><td class="num">69.2</td><td class="num">2,199</td><td class="hold">Retune</td></tr>
-      </tbody>
-    </table>
+  <section class="page-body">
 
-    <p class="note">Gen and Prompt values shown in tok/s. SDI maximum is 600. Tier ordering by SDI descending. Passing threshold: 5 sections of 6.</p>
-
-  </main>
-
-  <footer>
-    <div class="wrap">
-      <div class="left">
-        <img src="assets/img/deepseek-icon-official.png" alt="DS">
-        <span>DeepSeek Research</span>
-        <span>·</span>
-        <span>Department · 2.0</span>
-      </div>
-      <div class="right">
-        <a href="./">Portal</a>
-        <a href="chat/">Chat</a>
-      </div>
+    <div class="stat-row">
+      <div class="stat"><div class="k">Top SDI · 1B4</div><div class="v">572 <small>/ 600</small></div></div>
+      <div class="stat"><div class="k">Fastest gen · 1B4</div><div class="v">82.2 <small>tok/s</small></div></div>
+      <div class="stat"><div class="k">Fastest prompt · 10k4</div><div class="v">2,251 <small>tok/s</small></div></div>
+      <div class="stat"><div class="k">Passing tiers</div><div class="v">8 <small>/ 9</small></div></div>
     </div>
+
+    <div class="card">
+      <div class="card-head"><h2>Full results</h2><div class="meta">SDI max 600 · pass threshold 5 / 6 sections</div></div>
+      <table class="bench">
+        <thead><tr><th>Rank</th><th>Tier</th><th>SDI</th><th>Sections</th><th>Gen</th><th>Prompt</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td><strong>1B4</strong></td><td class="num">572 / 600</td><td>5 / 6</td><td class="num">82.2</td><td class="num">2,206</td><td class="pass">Pass</td></tr>
+          <tr><td>2</td><td><strong>20k4</strong></td><td class="num">550 / 600</td><td>5 / 6</td><td class="num">68.0</td><td class="num">2,213</td><td class="pass">Pass</td></tr>
+          <tr><td>3</td><td><strong>50k4</strong></td><td class="num">548 / 600</td><td>5 / 6</td><td class="num">69.3</td><td class="num">2,224</td><td class="pass">Pass</td></tr>
+          <tr><td>4</td><td><strong>1M4</strong></td><td class="num">548 / 600</td><td>5 / 6</td><td class="num">68.2</td><td class="num">2,195</td><td class="pass">Pass</td></tr>
+          <tr><td>5</td><td><strong>3M4</strong></td><td class="num">538 / 600</td><td>5 / 6</td><td class="num">67.7</td><td class="num">2,179</td><td class="pass">Pass</td></tr>
+          <tr><td>6</td><td><strong>7M4</strong></td><td class="num">532 / 600</td><td>5 / 6</td><td class="num">67.8</td><td class="num">2,236</td><td class="pass">Pass</td></tr>
+          <tr><td>7</td><td><strong>10k4</strong></td><td class="num">524 / 600</td><td>5 / 6</td><td class="num">68.4</td><td class="num">2,251</td><td class="pass">Pass</td></tr>
+          <tr><td>8</td><td><strong>5M4</strong></td><td class="num">516 / 600</td><td>5 / 6</td><td class="num">67.2</td><td class="num">2,213</td><td class="pass">Pass</td></tr>
+          <tr><td>9</td><td><strong>500k4</strong></td><td class="num">478 / 600</td><td>3 / 6</td><td class="num">69.2</td><td class="num">2,199</td><td class="hold">Retune</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </section>
+
+  <footer class="land-footer">
+    <div class="foot-grid">
+      <div class="brand-col">
+        <div class="bb"><img src="assets/img/deepseek-icon-official.png" alt=""><span>DeepSeek <b style="color:var(--accent)">Research</b></span></div>
+        <p>A research department operating alongside the broader DeepSeek model line. Public surface is intentionally narrow.</p>
+      </div>
+      <div class="foot-col"><h4>Research</h4><ul><li><a href="benchmarks.html">Benchmarks</a></li><li><a href="papers.html">Whitepapers</a></li><li><a href="open-research.html">Open Research</a></li></ul></div>
+      <div class="foot-col"><h4>Product</h4><ul><li><a href="chat/">Chat</a></li><li><a href="benchmarks.html">Models</a></li></ul></div>
+      <div class="foot-col"><h4>Access</h4><ul><li><a href="open-research.html">Request Access</a></li><li><a href="papers.html">Whitepapers</a></li></ul></div>
+      <div class="foot-col"><h4>Status</h4><ul><li><a href="benchmarks.html">Public Records</a></li><li><span style="color:var(--ink3);font-size:12.5px">Department · 2.0</span></li></ul></div>
+    </div>
+    <div class="foot-bar"><div>DeepSeek Research — measured, not promised.</div><div>Department · 2.0</div></div>
   </footer>
 
 </div>
