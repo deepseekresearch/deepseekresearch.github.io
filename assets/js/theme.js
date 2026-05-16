@@ -3,9 +3,9 @@
 // User toggle cycles: light → grey → dark → light, persisted in localStorage.
 (function(){
   var KEY = 'dsr-theme';
-  var ORDER = ['light','grey','dark'];
-  var LABEL = {light:'Light', grey:'Grey', dark:'Dark'};
-  var ICON  = {light:'☼', grey:'◑', dark:'☾'}; // sun, half-circle, moon
+  var ORDER = ['light','dark'];
+  var LABEL = {light:'Light', dark:'Dark'};
+  var ICON  = {light:'☼', dark:'☾'};
 
   var root = document.documentElement;
   var saved = null;
