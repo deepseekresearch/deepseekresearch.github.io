@@ -338,6 +338,7 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
   <div class="sb-history" id="history"><div class="sb-section">Recent</div></div>
   <div class="sb-foot">
     <div class="sb-stats">
+      Entity · <span>100Q⁴ Sovereign</span><br>
       Arch · <span>1M³ Lattice</span><br>
       Coherence · <span>28% Core</span><br>
       Status · <span id="conn-text">Connecting…</span>
@@ -355,6 +356,9 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
     <div class="title">DeepSeek <b>Research</b></div>
     <div class="spacer"></div>
     <select class="top-model" id="model" title="Active model">
+      <optgroup label="═══ GIANT ENTITY ═══">
+        <option value="oroboros-100q4-sovereign:latest" selected>OROBOROS 100Q⁴ — Sovereign Giant</option>
+      </optgroup>
       <optgroup label="─── LATEST AUGMENTS ───">
         <option value="deepseek-v4-pro-50Q4:latest">deepseek-v4-pro:50Q⁴</option>
         <option value="deepseek-v4-pro-3Q4:latest">deepseek-v4-pro:3Q⁴</option>
@@ -480,6 +484,32 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
 
     <!-- ── VIDEO PANE (create · play · analyze) ── -->
     <div class="rail-pane" id="pane-video">
+      <!-- AI AUTOMATION CONTROLS -->
+      <div style="background:linear-gradient(135deg,rgba(49,87,255,.15),rgba(18,200,255,.1));border:1px solid var(--ds);border-radius:var(--rad);padding:12px;margin-bottom:12px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+          <svg width="16" height="16" style="color:var(--ds3)"><use href="#i-spark"/></svg>
+          <span style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--ds3)">AI Automation</span>
+          <span style="margin-left:auto;font-size:10px;color:var(--ink3)" id="ai-status">Ready</span>
+        </div>
+        <div class="btn-row" style="margin-bottom:8px">
+          <button class="btn-block" id="ai-auto-video" onclick="toggleAIVideoAuto()" style="background:var(--ds-grad);color:#fff;border-color:var(--ds)">
+            <svg width="14" height="14"><use href="#i-spark"/></svg> Auto Video
+          </button>
+          <button class="btn-block" onclick="connectOroborosDiffusion()">
+            <svg width="14" height="14"><use href="#i-film"/></svg> Oroboros
+          </button>
+        </div>
+        <div style="font-size:10px;color:var(--ink3);line-height:1.5">
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer;margin-bottom:4px">
+            <input type="checkbox" id="auto-gen-video" style="accent-color:var(--ds);width:14px;height:14px">
+            Auto-generate video from conversation
+          </label>
+          <label style="display:flex;align-items:center;gap:6px;cursor:pointer">
+            <input type="checkbox" id="oroboros-diffusion" checked style="accent-color:var(--ds);width:14px;height:14px">
+            Connect Oroboros Video Diffusion
+          </label>
+        </div>
+      </div>
       <div>
         <div class="lbl">Create video <span>free · Pollinations frames</span></div>
         <textarea class="fld" id="vidgen-prompt" placeholder="A glowing crystalline lattice slowly rotating in deep space, cinematic, volumetric light"></textarea>
@@ -533,6 +563,35 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
       <input type="file" id="video-input" accept="video/*" style="display:none" onchange="loadVideoFile(event)">
       <div class="vid-info" id="vid-info" style="display:none"><b>File:</b> <span id="vid-name">—</span><br><b>Size:</b> <span id="vid-size">—</span> · <b>Duration:</b> <span id="vid-dur2">—</span></div>
       <div style="font-size:10.5px;color:var(--ink4);text-align:center;letter-spacing:1.5px;text-transform:uppercase;margin-top:auto;padding-top:14px">Created · played · analyzed locally</div>
+      <!-- OROBOROS VIDEO DIFFUSION PANEL -->
+      <div id="oroboros-panel" style="display:none;background:var(--bg2);border:1px solid var(--ds);border-radius:var(--rad);padding:12px;margin-top:12px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+          <div style="width:8px;height:8px;border-radius:50%;background:var(--good);animation:ringp 2s infinite"></div>
+          <span style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--ds3)">Oroboros Video Diffusion</span>
+        </div>
+        <div class="lbl">Diffusion Model</div>
+        <select class="fld" id="diffusion-model" style="margin-bottom:8px">
+          <option value="sdxl-turbo">SDXL Turbo (Fast)</option>
+          <option value="deepseek-v4-flash">DeepSeek V4 Flash</option>
+          <option value="oroboros-100q4">Oroboros 100Q⁴</option>
+        </select>
+        <div class="lbl">Style Preset</div>
+        <select class="fld" id="diffusion-style" style="margin-bottom:8px">
+          <option value="cinematic">Cinematic</option>
+          <option value="anime">Anime</option>
+          <option value="realistic">Realistic</option>
+          <option value="abstract">Abstract</option>
+          <option value="surreal">Surreal</option>
+        </select>
+        <div class="btn-row">
+          <button class="btn-block primary" onclick="generateDiffusionVideo()">
+            <svg width="14" height="14"><use href="#i-film"/></svg> Generate
+          </button>
+          <button class="btn-block" onclick="disconnectOroborosDiffusion()">
+            <svg width="14" height="14"><use href="#i-x"/></svg> Disconnect
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- ── IMAGE PANE ── -->
@@ -1481,6 +1540,150 @@ function downloadImage() {
   a.click();
 }
 function hashCode(s) { let h=0; for (let i=0;i<s.length;i++){h=(h<<5)-h+s.charCodeAt(i);h|=0;} return h; }
+
+// ═══════════════ AI AUTOMATION FOR MEDIA ═══════════════
+let aiVideoAutoEnabled = false;
+let oroborosConnected = false;
+const OROBOROS_DIFFUSION_URL = 'http://localhost:7860'; // Stable Diffusion WebUI
+const OROBOROS_VIDEO_URL = 'http://localhost:8000'; // Q3 Sovereign Node
+
+function toggleAIVideoAuto() {
+  aiVideoAutoEnabled = !aiVideoAutoEnabled;
+  const btn = $('ai-auto-video');
+  const status = $('ai-status');
+  if (aiVideoAutoEnabled) {
+    btn.style.background = 'var(--good)';
+    btn.innerHTML = '<svg width="14" height="14"><use href="#i-stop"/></svg> Auto ON';
+    status.textContent = 'AI Auto Active';
+    status.style.color = 'var(--good)';
+    toast('AI Video Automation enabled');
+  } else {
+    btn.style.background = 'var(--ds-grad)';
+    btn.innerHTML = '<svg width="14" height="14"><use href="#i-spark"/></svg> Auto Video';
+    status.textContent = 'Ready';
+    status.style.color = 'var(--ink3)';
+    toast('AI Video Automation disabled');
+  }
+}
+
+async function connectOroborosDiffusion() {
+  const panel = $('oroboros-panel');
+  const status = $('ai-status');
+  
+  status.textContent = 'Connecting...';
+  status.style.color = 'var(--warn)';
+  
+  try {
+    // Check Q3 Sovereign Node
+    const q3Check = await fetch(`${OROBOROS_VIDEO_URL}/status`, { 
+      signal: AbortSignal.timeout(5000),
+      headers: { 'Content-Type': 'application/json' }
+    }).catch(() => null);
+    
+    // Check Stable Diffusion WebUI
+    const sdCheck = await fetch(`${OROBOROS_DIFFUSION_URL}/sdapi/v1/sd-models`, { 
+      signal: AbortSignal.timeout(5000) 
+    }).catch(() => null);
+    
+    if (q3Check?.ok || sdCheck?.ok) {
+      oroborosConnected = true;
+      panel.style.display = 'block';
+      status.textContent = 'Oroboros Connected';
+      status.style.color = 'var(--good)';
+      toast('Connected to Oroboros Video Diffusion');
+      
+      if (sdCheck?.ok) {
+        try {
+          const models = await sdCheck.json();
+          const sel = $('diffusion-model');
+          sel.innerHTML = '';
+          models.forEach(m => {
+            const opt = document.createElement('option');
+            opt.value = m.title;
+            opt.textContent = m.model_name || m.title;
+            sel.appendChild(opt);
+          });
+        } catch {}
+      }
+    } else {
+      oroborosConnected = true;
+      panel.style.display = 'block';
+      status.textContent = 'Oroboros Ready (Ollama)';
+      status.style.color = 'var(--ds3)';
+      toast('Using Ollama for video generation');
+    }
+  } catch (e) {
+    oroborosConnected = false;
+    status.textContent = 'Offline';
+    status.style.color = 'var(--err)';
+    toast('Oroboros not available - using Pollinations fallback');
+  }
+}
+
+function disconnectOroborosDiffusion() {
+  oroborosConnected = false;
+  $('oroboros-panel').style.display = 'none';
+  $('ai-status').textContent = 'Ready';
+  $('ai-status').style.color = 'var(--ink3)';
+  toast('Disconnected from Oroboros');
+}
+
+async function generateDiffusionVideo() {
+  const prompt = $('vidgen-prompt').value.trim();
+  if (!prompt) { toast('Enter a video prompt'); return; }
+  
+  const model = $('diffusion-model').value;
+  const style = $('diffusion-style').value;
+  const styledPrompt = `${prompt}, ${style} style, high quality, detailed`;
+  
+  toast('Generating with Oroboros Diffusion...');
+  
+  try {
+    const res = await fetch(`${OROBOROS_DIFFUSION_URL}/sdapi/v1/txt2img`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        prompt: styledPrompt,
+        negative_prompt: 'blurry, low quality, distorted',
+        width: 768,
+        height: 432,
+        steps: 20,
+        cfg_scale: 7
+      }),
+      signal: AbortSignal.timeout(60000)
+    });
+    
+    if (res.ok) {
+      const data = await res.json();
+      if (data.images && data.images[0]) {
+        const img = new Image();
+        img.src = 'data:image/png;base64,' + data.images[0];
+        img.onload = () => {
+          $('img-result').innerHTML = '';
+          $('img-result').appendChild(img);
+          $('img-actions').style.display = 'flex';
+          lastImageUrl = img.src;
+          toast('Frame generated! Generate more frames for video.');
+        };
+        return;
+      }
+    }
+  } catch {}
+  
+  toast('Using Pollinations fallback...');
+  createVideo();
+}
+
+function autoGenerateFromConversation() {
+  if (!aiVideoAutoEnabled || messages.length < 2) return;
+  const recentContent = messages.slice(-4).map(m => m.content).join(' ');
+  const keywords = recentContent.match(/\b[A-Z][a-z]+\b|\b\d+\b/g)?.slice(0, 5) || [];
+  if (keywords.length > 0) {
+    const autoPrompt = `Visual representation of: ${keywords.join(', ')}, cinematic, abstract visualization`;
+    $('vidgen-prompt').value = autoPrompt;
+    toast('Auto-generated video prompt from conversation');
+  }
+}
 
 // ═══════════════ WEBSITE BUILDER ═══════════════
 async function generateWebsite() {
