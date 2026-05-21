@@ -355,19 +355,36 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
     <div class="title">DeepSeek <b>Research</b></div>
     <div class="spacer"></div>
     <select class="top-model" id="model" title="Active model">
-      <option value="deepseek-v4-pro-5M4:latest">deepseek-v4-pro:5M4</option>
-      <option value="deepseek-v4-pro:3M4">deepseek-v4-pro:3M4</option>
-      <option value="deepseek-v4-pro-1Q4:latest">deepseek-v4-pro:1Q4</option>
-      <option value="deepseek-v4-pro-500k4">deepseek-v4-pro:500k4</option>
-      <option value="deepseek-v4-pro-50k4">deepseek-v4-pro:50k4</option>
-      <option value="deepseek-v4-pro-10k4">deepseek-v4-pro:10k4</option>
-      <option value="deepseek-v4-pro:2047cubed">deepseek-v4-pro:2047</option>
-      <option value="deepseek-v4-pro:1746cubed">deepseek-v4-pro:1746</option>
-      <option value="deepseek-v4-pro:210cubed">deepseek-v4-pro:210</option>
-      <option value="deepseek-v4-pro:127cubed">deepseek-v4-pro:127</option>
-      <option value="kaiju-frontend-1m4">kaiju-1M4</option>
-      <option value="nyros-47cubed">nyros-47cubed</option>
-      <option value="nyros-27cubed">nyros-27cubed</option>
+      <optgroup label="─── LATEST AUGMENTS ───">
+        <option value="deepseek-v4-pro-50Q4:latest">deepseek-v4-pro:50Q⁴</option>
+        <option value="deepseek-v4-pro-3Q4:latest">deepseek-v4-pro:3Q⁴</option>
+        <option value="deepseek-v4-pro-1Q4:latest">deepseek-v4-pro:1Q⁴</option>
+        <option value="deepseek-v4-pro-9B4:latest">deepseek-v4-pro:9B⁴</option>
+        <option value="deepseek-v4-pro-5B4:latest">deepseek-v4-pro:5B⁴</option>
+        <option value="deepseek-v4-pro-3B4:latest">deepseek-v4-pro:3B⁴</option>
+        <option value="deepseek-v4-pro-1B4:latest">deepseek-v4-pro:1B⁴</option>
+      </optgroup>
+      <optgroup label="─── MEGA AUGMENTS ───">
+        <option value="deepseek-v4-pro-5M4:latest">deepseek-v4-pro:5M⁴</option>
+        <option value="deepseek-v4-pro-3M4:latest">deepseek-v4-pro:3M⁴</option>
+        <option value="deepseek-v4-pro-1M4:latest">deepseek-v4-pro:1M⁴</option>
+        <option value="deepseek-v4-pro-500k4:latest">deepseek-v4-pro:500k⁴</option>
+        <option value="deepseek-v4-pro-50k4:latest">deepseek-v4-pro:50k⁴</option>
+        <option value="deepseek-v4-pro-20k4:latest">deepseek-v4-pro:20k⁴</option>
+        <option value="deepseek-v4-pro-10k4:latest">deepseek-v4-pro:10k⁴</option>
+      </optgroup>
+      <optgroup label="─── CUBED ───">
+        <option value="deepseek-v4-pro-2047cubed:latest">deepseek-v4-pro:2047³</option>
+        <option value="deepseek-v4-pro-1746cubed:latest">deepseek-v4-pro:1746³</option>
+        <option value="deepseek-v4-pro-1726cubed:latest">deepseek-v4-pro:1726³</option>
+        <option value="deepseek-v4-pro-210cubed:latest">deepseek-v4-pro:210³</option>
+        <option value="deepseek-v4-pro-127cubed:latest">deepseek-v4-pro:127³</option>
+      </optgroup>
+      <optgroup label="─── SPECIAL ───">
+        <option value="kaiju-frontend-1m4:latest">kaiju-frontend:1M⁴</option>
+        <option value="nyros-47cubed:latest">nyros:47³</option>
+        <option value="nyros-27cubed:latest">nyros:27³</option>
+      </optgroup>
     </select>
     <button class="topbtn" onclick="clearChat()" title="Clear current conversation">Clear</button>
     <button class="theme-toggle" data-theme-toggle aria-label="Theme toggle" title="Cycle theme">☾</button>
@@ -608,7 +625,7 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
 <script>
 // ═══════════════ STATE ═══════════════
 // All model calls go through the same-origin /api router. Backend endpoints stay server-side.
-const API_ROUTER    = 'https://deepseek-research-chat.vercel.app';
+const API_ROUTER    = '';  // same-origin
 function isCloudModel(m){ m=(m||'').toLowerCase().trim();
   return /^(openai|anthropic|deepseek)\//.test(m)
       || /^(gpt|chatgpt|codex|o1|o3|o4|text-|davinci|dall-e)/.test(m)
