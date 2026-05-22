@@ -684,7 +684,7 @@ textarea.fld{resize:vertical;min-height:64px;font-family:inherit}
 <script>
 // ═══════════════ STATE ═══════════════
 // All model calls go through the same-origin /api router. Backend endpoints stay server-side.
-const API_ROUTER    = 'https://deepseek-research-chat.vercel.app';  // Vercel backend for GitHub Pages
+const API_ROUTER    = location.hostname === 'deepseekresearch.com' ? 'https://deepseek-research-chat.vercel.app' : (location.pathname.startsWith('/chat') ? '/chat' : '');
 function isCloudModel(m){ m=(m||'').toLowerCase().trim();
   return /^(openai|anthropic|deepseek)\//.test(m)
       || /^(gpt|chatgpt|codex|o1|o3|o4|text-|davinci|dall-e)/.test(m)
@@ -733,7 +733,7 @@ function backendFailureMessage(err, label='Error'){
   const detail = err && err.message ? err.message : String(err || 'unknown error');
   return `[${label}: ${detail} (${backendUrl('/api/chat')})]`;
 }
-const DEFAULT_MODEL = 'deepseek-v4-pro:1B4';
+const DEFAULT_MODEL = 'deepseek-v4-pro-1B4:latest';
 let currentModel = DEFAULT_MODEL;
 let messages = [];
 let isGenerating = false, currentAbort = null;
@@ -1570,6 +1570,7 @@ async function connectOroborosDiffusion() {
   const panel = $('oroboros-panel');
   const status = $('ai-status');
   
+  // Try to connect to Oroboros video diffusion endpoints
   status.textContent = 'Connecting...';
   status.style.color = 'var(--warn)';
   
@@ -1592,6 +1593,7 @@ async function connectOroborosDiffusion() {
       status.style.color = 'var(--good)';
       toast('Connected to Oroboros Video Diffusion');
       
+      // Load available models if SD is available
       if (sdCheck?.ok) {
         try {
           const models = await sdCheck.json();
@@ -1606,6 +1608,7 @@ async function connectOroborosDiffusion() {
         } catch {}
       }
     } else {
+      // Fallback: use local Ollama for video frame generation
       oroborosConnected = true;
       panel.style.display = 'block';
       status.textContent = 'Oroboros Ready (Ollama)';
@@ -1638,6 +1641,7 @@ async function generateDiffusionVideo() {
   
   toast('Generating with Oroboros Diffusion...');
   
+  // Try Stable Diffusion WebUI first
   try {
     const res = await fetch(`${OROBOROS_DIFFUSION_URL}/sdapi/v1/txt2img`, {
       method: 'POST',
@@ -1656,6 +1660,7 @@ async function generateDiffusionVideo() {
     if (res.ok) {
       const data = await res.json();
       if (data.images && data.images[0]) {
+        // Display the generated image
         const img = new Image();
         img.src = 'data:image/png;base64,' + data.images[0];
         img.onload = () => {
@@ -1670,20 +1675,35 @@ async function generateDiffusionVideo() {
     }
   } catch {}
   
+  // Fallback to Pollinations
   toast('Using Pollinations fallback...');
   createVideo();
 }
 
+// Auto-generate video from conversation context
 function autoGenerateFromConversation() {
   if (!aiVideoAutoEnabled || messages.length < 2) return;
+  
+  // Extract key concepts from recent messages
   const recentContent = messages.slice(-4).map(m => m.content).join(' ');
   const keywords = recentContent.match(/\b[A-Z][a-z]+\b|\b\d+\b/g)?.slice(0, 5) || [];
+  
   if (keywords.length > 0) {
     const autoPrompt = `Visual representation of: ${keywords.join(', ')}, cinematic, abstract visualization`;
     $('vidgen-prompt').value = autoPrompt;
     toast('Auto-generated video prompt from conversation');
   }
 }
+
+// Hook into message completion for auto-generation
+const originalOnSend = onSend;
+onSend = function(textOverride) {
+  return originalOnSend.call(this, textOverride).then(() => {
+    if (aiVideoAutoEnabled && $('auto-gen-video').checked) {
+      setTimeout(autoGenerateFromConversation, 1000);
+    }
+  });
+};
 
 // ═══════════════ WEBSITE BUILDER ═══════════════
 async function generateWebsite() {
