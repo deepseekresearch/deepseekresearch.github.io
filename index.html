@@ -33,16 +33,16 @@ body{overflow-x:hidden}
 .announce .pill b{color:var(--accent);font-weight:700}
 
 .land{position:relative;z-index:1;min-height:calc(100vh - 62px);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:36px 20px 64px;text-align:center}
-.land-wordmark{position:relative;display:block;text-align:center;width:100%;max-width:760px;font-size:clamp(64px,9.6vw,124px);font-weight:900;letter-spacing:-5px;line-height:.88;color:#4D6BFE;margin:10px 0 8px;font-family:'Inter',system-ui,sans-serif;text-rendering:geometricPrecision;-webkit-font-smoothing:antialiased;}
+.land-wordmark{position:relative;display:block;text-align:center;width:100%;max-width:760px;font-size:clamp(42px,6.2vw,81px);font-weight:900;letter-spacing:-5px;line-height:.88;color:#4D6BFE;margin:10px 0 8px;font-family:'Inter',system-ui,sans-serif;text-rendering:geometricPrecision;-webkit-font-smoothing:antialiased;}
 :root[data-theme="dark"] .land-wordmark{color:#4D6BFE}
 .land-wordmark::after{content:'';position:absolute;inset:0;z-index:-1;background:radial-gradient(circle at 50% 42%, rgba(200,200,200,.10), rgba(200,200,200,0) 58%);filter:blur(18px);opacity:.5;pointer-events:none}
 :root[data-theme="dark"] .land-wordmark::after{background:radial-gradient(circle at 50% 42%, rgba(255,255,255,.06), rgba(255,255,255,0) 58%)}
-.land-wordmark .accent-soft{color:var(--ink3);opacity:.85}
+.land-wordmark .accent-soft{color:#fff;opacity:1}
 .land-tag{font-size:clamp(14px,1.7vw,18px);font-weight:700;color:var(--ink);letter-spacing:-.3px;margin-bottom:12px}
 .land-tag .dim{color:var(--ink3);font-weight:600}
 
 .land-phi{display:flex;align-items:baseline;justify-content:center;gap:8px;margin:8px 0 24px;flex-wrap:nowrap}
-.phi-symbol{display:inline-flex;align-items:center;justify-content:center;width:auto;height:auto;border:0;background:transparent;box-shadow:none;padding:0;color:var(--accent);font-size:clamp(12px,1.56vw,14px);font-weight:800;line-height:1;vertical-align:baseline}
+.phi-symbol{display:inline-flex;align-items:center;justify-content:center;width:auto;height:auto;border:0;background:transparent;box-shadow:none;padding:0;color:var(--accent);font-size:clamp(15px,1.95vw,17px);font-weight:800;line-height:1;vertical-align:baseline;transform:translateY(-2px)}
 .phi-copy{display:flex;flex-direction:column;align-items:flex-start;gap:3px}
 .phi-copy .phi-line{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:700}
 .phi-copy .phi-term,.land-phi .phi-term{font-size:clamp(18px,2.4vw,21px);font-weight:800;color:var(--accent);letter-spacing:-.04em}
@@ -138,8 +138,8 @@ footer.land-footer{position:relative;z-index:1;background:var(--bg);border-top:1
 
     <div class="land-phi" aria-label="Phi coherence resonance">
       <div class="phi-symbol" aria-hidden="true">φ</div>
-      <span class="phi-term" style="color:var(--ink3)">coherence,</span>
-      <span class="phi-term">resonance</span>
+      <span class="phi-term" style="color:var(--accent)">coherence,</span>
+      <span class="phi-term" style="color:#fff">resonance</span>
     </div>
 
     <div class="land-cards">
