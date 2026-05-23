@@ -11,6 +11,18 @@
 <link rel="stylesheet" href="assets/css/research-2.css?v=20260516-l">
 <style>
 /* landing page (deepseek.com style) */
+:root{
+  --accent:#4D6BFE;
+  --accent2:#4D6BFE;
+  --accent-soft:rgba(77,107,254,.16);
+  --glow:rgba(77,107,254,.16);
+}
+:root[data-theme="dark"]{
+  --accent:#4D6BFE;
+  --accent2:#4D6BFE;
+  --accent-soft:rgba(77,107,254,.14);
+  --glow:rgba(77,107,254,.14);
+}
 body{overflow-x:hidden}
 .waves{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.65}
 :root[data-theme="dark"] .waves{opacity:.30}
@@ -20,25 +32,35 @@ body{overflow-x:hidden}
 .announce .pill{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border:1px solid var(--rule);background:var(--bg);border-radius:999px;font-weight:500}
 .announce .pill b{color:var(--accent);font-weight:700}
 
-.land{position:relative;z-index:1;min-height:calc(100vh - 62px);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px 80px;text-align:center}
-.land-wordmark{font-size:clamp(80px, 14vw, 200px);font-weight:900;letter-spacing:-6px;line-height:.95;color:var(--accent);margin:24px 0 14px;font-family:'Inter',system-ui,sans-serif}
+.land{position:relative;z-index:1;min-height:calc(100vh - 62px);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:36px 20px 64px;text-align:center}
+.land-wordmark{position:relative;display:inline-block;font-size:clamp(44px, 7vw, 100px);font-weight:900;letter-spacing:-5px;line-height:.95;color:var(--accent);margin:18px 0 8px;font-family:'Inter',system-ui,sans-serif;text-rendering:geometricPrecision;-webkit-font-smoothing:antialiased;}
+.land-wordmark::after{content:'';position:absolute;inset:0;z-index:-1;background:radial-gradient(circle at 50% 42%, rgba(77,107,254,.28), rgba(77,107,254,0) 58%);filter:blur(18px);opacity:.85;pointer-events:none}
 .land-wordmark .accent-soft{color:var(--accent2);opacity:.92}
-.land-tag{font-size:clamp(20px,2.4vw,28px);font-weight:700;color:var(--ink);letter-spacing:-.4px;margin-bottom:40px}
+.land-tag{font-size:clamp(14px,1.7vw,18px);font-weight:700;color:var(--ink);letter-spacing:-.3px;margin-bottom:12px}
 .land-tag .dim{color:var(--ink3);font-weight:600}
 
-.land-cards{display:grid;grid-template-columns:1fr 1fr;gap:20px;width:100%;max-width:760px;margin:0 auto}
-.land-card{display:block;padding:24px 26px;text-align:left;background:var(--bg);border:1px solid var(--rule);border-radius:12px;color:var(--ink);transition:all .2s ease;border-bottom:1px solid var(--rule)}
-.land-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 12px 36px rgba(44,71,216,.10)}
-.land-card .ctitle{font-size:16px;font-weight:800;color:var(--accent);margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
-.land-card .ctitle .arr{opacity:.7;font-weight:600}
-.land-card .cdesc{font-size:13.5px;color:var(--ink2);line-height:1.55}
+.land-phi{display:flex;align-items:center;justify-content:center;gap:10px;margin:8px 0 24px;flex-wrap:wrap}
+.phi-symbol{display:inline-flex;align-items:center;justify-content:center;width:auto;height:auto;border:0;background:transparent;box-shadow:none;padding:0;color:var(--accent);font-size:clamp(20px,2.6vw,24px);font-weight:800;line-height:1;vertical-align:baseline}
+.phi-copy{display:flex;flex-direction:column;align-items:flex-start;gap:3px}
+.phi-copy .phi-line{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.phi-copy .phi-term{font-size:clamp(16px,2.2vw,19px);font-weight:800;color:var(--accent);letter-spacing:-.04em}
 
-.land-stats{margin-top:46px;display:flex;gap:34px;flex-wrap:wrap;justify-content:center;font-size:12px;color:var(--ink3);max-width:760px}
-.land-stats .s b{color:var(--ink);font-weight:700;font-family:'JetBrains Mono',monospace;font-size:14px}
+.land-cards{display:grid;grid-template-columns:1fr 1fr;gap:20px;width:100%;max-width:760px;margin:0 auto}
+.land-card{display:block;padding:20px 22px;text-align:left;background:var(--bg);border:1px solid var(--rule);border-radius:12px;color:var(--ink);transition:all .2s ease;border-bottom:1px solid var(--rule)}
+.land-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 12px 36px rgba(44,71,216,.10)}
+.land-card .ctitle{font-size:15px;font-weight:800;color:var(--accent);margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
+.land-card .ctitle .arr{opacity:.7;font-weight:600}
+.land-card .cdesc{font-size:13px;color:var(--ink2);line-height:1.55}
+
+.land-stats{margin-top:28px;display:flex;gap:22px;flex-wrap:wrap;justify-content:center;font-size:11px;color:var(--ink3);max-width:760px}
+.land-stats .s b{color:var(--ink);font-weight:700;font-family:'JetBrains Mono',monospace;font-size:13px}
 
 @media(max-width:680px){
+  .land{padding:28px 16px 56px}
   .land-cards{grid-template-columns:1fr}
   .land-wordmark{letter-spacing:-3px}
+  .land-phi{gap:10px}
+  .phi-copy{align-items:center}
 }
 
 /* footer columns (deepseek-style) */
@@ -108,8 +130,14 @@ footer.land-footer{position:relative;z-index:1;background:var(--bg);border-top:1
   </div>
 
   <main class="land">
-    <div class="land-wordmark">deepseek<span class="accent-soft"> research</span></div>
-    <div class="land-tag">Into the <span class="dim">unknown</span>, measured.</div>
+    <div class="land-wordmark">deepseek<span class="accent-soft" style="color:var(--ink)!important"> research</span></div>
+
+    <div class="land-phi" aria-label="Phi coherence resonance">
+      <div class="phi-symbol" aria-hidden="true" style="color:#a0a0a0!important">φ</div>
+      <div class="phi-copy">
+        <span class="phi-term" style="color:var(--ink)!important">coherence, resonance</span>
+      </div>
+    </div>
 
     <div class="land-cards">
       <a class="land-card" href="chat/">
@@ -126,7 +154,7 @@ footer.land-footer{position:relative;z-index:1;background:var(--bg);border-top:1
       <div class="s">Top SDI <b>572 / 600</b></div>
       <div class="s">Gen <b>82.2 tok/s</b></div>
       <div class="s">Prompt <b>2,251 tok/s</b></div>
-      <div class="s">Models <b>3M4 · 5M4 · 1Q4</b></div>
+      <div class="s" style="color:#fff!important">Models <b style="color:#fff!important">3M4 · 1B4 · 100Q4</b></div>
     </div>
   </main>
 
