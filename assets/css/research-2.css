@@ -138,3 +138,7 @@ footer a:hover{color:var(--accent)}
   dl.spec dt{padding-top:4px;border-top:1px dashed var(--rule)}
   dl.spec dt:first-child{padding-top:0;border-top:0}
 }
+
+/* ---- LIGHT THEME: DeepSeek blue branding ---- */
+:root[data-theme="light"] .brand{color:#4D6BFE}
+:root[data-theme="light"] .brand .ds{color:#4D6BFE}
