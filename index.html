@@ -589,14 +589,14 @@
         function draw(t){
           t*=.001;
           ctx.clearRect(0,0,c.width,c.height);
-          /* band 1 – outer: mid off-black (not lightest, not darkest) */
-          band(c.height*.32,'rgba(32,32,40,0.38)',54,.0018,.20,t);
-          /* band 2 – charcoal smoke */
-          band(c.height*.40,'rgba(48,48,58,0.30)',46,.0028,.16,t*.7);
-          /* band 3 – lighter off-black crest */
-          band(c.height*.50,'rgba(62,62,74,0.24)',38,.0038,.22,t*1.1);
-          /* band 4 – inner: deepest near-black whisper */
-          band(c.height*.60,'rgba(22,22,30,0.18)',32,.005,.10,t*.5);
+          /* band 1 – outer: dark off-black */
+          band(c.height*.32,'rgba(26,26,34,0.52)',54,.0018,.20,t);
+          /* band 2 – slightly lighter shade of same dark family */
+          band(c.height*.40,'rgba(30,30,38,0.46)',46,.0028,.16,t*.7);
+          /* band 3 – mid shade still in dark family */
+          band(c.height*.50,'rgba(34,34,42,0.40)',38,.0038,.22,t*1.1);
+          /* band 4 – inner: lightest but still dark off-black */
+          band(c.height*.60,'rgba(38,38,46,0.34)',32,.005,.10,t*.5);
           requestAnimationFrame(draw);
         }
         requestAnimationFrame(draw);
