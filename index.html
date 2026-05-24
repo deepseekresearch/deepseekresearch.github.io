@@ -568,39 +568,39 @@
       });
     })();
 
-    /* ── aurora borealis (grey + touch of blue) ── */
-    (function(){
-      var wrap=document.querySelector('.aurora-wrap');
-      var c=document.getElementById('aurora-canvas'),ctx=c.getContext('2d');
-      function resize(){c.width=wrap.offsetWidth;c.height=wrap.offsetHeight}
-      resize(); window.addEventListener('resize',resize);
+      /* ── aurora borealis — off-black transparent vector waves ── */
+      (function(){
+        var wrap=document.querySelector('.aurora-wrap');
+        var c=document.getElementById('aurora-canvas'),ctx=c.getContext('2d');
+        function resize(){c.width=wrap.offsetWidth;c.height=wrap.offsetHeight}
+        resize(); window.addEventListener('resize',resize);
 
-      function band(yOff,color,amp,freq,speed,t){
-        ctx.beginPath();
-        ctx.moveTo(0,c.height);
-        for(var x=0;x<=c.width;x+=3){
-          var y=yOff+Math.sin(x*freq+t*speed)*amp+Math.sin(x*freq*.6+t*speed*.7)*amp*.5;
-          ctx.lineTo(x,y);
+        function band(yOff,color,amp,freq,speed,t){
+          ctx.beginPath();
+          ctx.moveTo(0,c.height);
+          for(var x=0;x<=c.width;x+=3){
+            var y=yOff+Math.sin(x*freq+t*speed)*amp+Math.sin(x*freq*.6+t*speed*.7)*amp*.5;
+            ctx.lineTo(x,y);
+          }
+          ctx.lineTo(c.width,c.height);ctx.closePath();
+          ctx.fillStyle=color;ctx.fill();
         }
-        ctx.lineTo(c.width,c.height);ctx.closePath();
-        ctx.fillStyle=color;ctx.fill();
-      }
 
-      function draw(t){
-        t*=.001;
-        ctx.clearRect(0,0,c.width,c.height);
-        /* band 1 – deep gold */
-        band(c.height*.38,'rgba(184,134,11,0.15)',50,.002,.22,t);
-        /* band 2 – rich gold */
-        band(c.height*.44,'rgba(218,165,32,0.12)',42,.003,.18,t*.7);
-        /* band 3 – warm gold */
-        band(c.height*.52,'rgba(255,215,0,0.08)',36,.004,.25,t*1.1);
-        /* band 4 – light gold haze */
-        band(c.height*.6,'rgba(255,223,100,0.05)',30,.005,.12,t*.5);
+        function draw(t){
+          t*=.001;
+          ctx.clearRect(0,0,c.width,c.height);
+          /* band 1 – outer: mid off-black (not lightest, not darkest) */
+          band(c.height*.32,'rgba(32,32,40,0.38)',54,.0018,.20,t);
+          /* band 2 – charcoal smoke */
+          band(c.height*.40,'rgba(48,48,58,0.30)',46,.0028,.16,t*.7);
+          /* band 3 – lighter off-black crest */
+          band(c.height*.50,'rgba(62,62,74,0.24)',38,.0038,.22,t*1.1);
+          /* band 4 – inner: deepest near-black whisper */
+          band(c.height*.60,'rgba(22,22,30,0.18)',32,.005,.10,t*.5);
+          requestAnimationFrame(draw);
+        }
         requestAnimationFrame(draw);
-      }
-      requestAnimationFrame(draw);
-    })();
+      })();
     </script>
   </body>
 
