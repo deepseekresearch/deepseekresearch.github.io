@@ -139,9 +139,12 @@ footer a:hover{color:var(--accent)}
   dl.spec dt:first-child{padding-top:0;border-top:0}
 }
 
-/* ---- BRAND: lock position, prevent visited shift ---- */
-.topbar .brand:link,.topbar .brand:visited,.topbar .brand:hover,.topbar .brand:active{color:var(--ink);border-bottom:0;text-decoration:none}
+/* ---- BRAND: solid color, lock position, prevent visited shift ---- */
+.topbar .brand:link,.topbar .brand:visited,.topbar .brand:hover,.topbar .brand:active{color:#4D6BFE;border-bottom:0;text-decoration:none}
 .topbar{position:sticky;top:0;z-index:10}
+.brand img{width:28px!important;height:28px!important;object-fit:contain;display:block;border-radius:6px;flex-shrink:0}
+.brand .ds,.brand .sub{color:#4D6BFE!important;-webkit-text-fill-color:#4D6BFE!important;background:none!important}
+.brand .dept{color:var(--ink3)!important;font-size:10px;letter-spacing:1.6px;text-transform:uppercase;margin-left:6px;font-weight:700;border:1px solid var(--rule);padding:3px 7px;border-radius:4px}
 
 /* ---- LIGHT THEME: DeepSeek blue branding ---- */
 :root[data-theme="light"] .brand{color:#4D6BFE}

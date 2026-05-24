@@ -129,7 +129,11 @@
       }
 
       .land-wordmark .accent-soft {
-        color: grey;
+        background: linear-gradient(90deg, #4D6BFE 0%, #4D6BFE 55%, #1a1a2e 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: transparent;
         opacity: 1
       }
 
@@ -589,14 +593,14 @@
       function draw(t){
         t*=.001;
         ctx.clearRect(0,0,c.width,c.height);
-        /* band 1 – faint grey with blue tint */
-        band(c.height*.45,'rgba(140,150,185,0.05)',40,.003,.3,t);
-        /* band 2 – deepseek blue tint */
-        band(c.height*.5,'rgba(77,107,254,0.04)',35,.004,.25,t*.8);
-        /* band 3 – lighter grey */
-        band(c.height*.55,'rgba(160,165,185,0.03)',30,.005,.35,t*1.1);
-        /* band 4 – subtle deepseek blue */
-        band(c.height*.6,'rgba(77,107,254,0.03)',25,.006,.2,t*.6);
+        /* band 1 – deep black */
+        band(c.height*.42,'rgba(10,10,15,0.18)',45,.002,.25,t);
+        /* band 2 – dark charcoal */
+        band(c.height*.48,'rgba(18,18,28,0.14)',38,.003,.2,t*.7);
+        /* band 3 – midnight */
+        band(c.height*.54,'rgba(8,8,18,0.12)',32,.004,.3,t*1.1);
+        /* band 4 – near black */
+        band(c.height*.6,'rgba(14,14,22,0.10)',28,.005,.15,t*.5);
         requestAnimationFrame(draw);
       }
       requestAnimationFrame(draw);
