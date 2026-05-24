@@ -1,4 +1,4 @@
-<!oser doctype html>
+ee<!oser doctype html>
   <html lang="en" data-theme="light">
 
   <head>
@@ -593,14 +593,14 @@
       function draw(t){
         t*=.001;
         ctx.clearRect(0,0,c.width,c.height);
-        /* band 1 – smoke black */
-        band(c.height*.38,'rgba(22,22,32,0.28)',50,.002,.22,t);
-        /* band 2 – charcoal smoke */
-        band(c.height*.44,'rgba(30,30,42,0.22)',42,.003,.18,t*.7);
-        /* band 3 – dark haze */
-        band(c.height*.52,'rgba(18,18,30,0.18)',36,.004,.25,t*1.1);
-        /* band 4 – faint smoke */
-        band(c.height*.6,'rgba(25,25,38,0.14)',30,.005,.12,t*.5);
+        /* band 1 – dark smoke */
+        band(c.height*.38,'rgba(35,35,50,0.50)',50,.002,.22,t);
+        /* band 2 – charcoal */
+        band(c.height*.44,'rgba(45,45,60,0.40)',42,.003,.18,t*.7);
+        /* band 3 – mid smoke */
+        band(c.height*.52,'rgba(30,30,48,0.35)',36,.004,.25,t*1.1);
+        /* band 4 – light haze */
+        band(c.height*.6,'rgba(40,40,55,0.25)',30,.005,.12,t*.5);
         requestAnimationFrame(draw);
       }
       requestAnimationFrame(draw);
