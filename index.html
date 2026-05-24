@@ -1,226 +1,560 @@
 <!oser doctype html>
-<html lang="en" data-theme="light">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>DeepSeek Research — Department</title>
-<meta name="description" content="DeepSeek Research — a research department. Public chat, public benchmarks, request-only whitepapers.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="assets/css/research-2.css?v=20260516-l">
-<style>
-/* landing page (deepseek.com style) */
-:root{
-  --accent:#4D6BFE;
-  --accent2:#4D6BFE;
-  --accent-soft:rgba(77,107,254,.16);
-  --glow:rgba(77,107,254,.16);
-}
-:root[data-theme="dark"]{
-  --accent:#4D6BFE;
-  --accent2:#4D6BFE;
-  --accent-soft:rgba(77,107,254,.14);
-  --glow:rgba(77,107,254,.14);
-}
-body{overflow-x:hidden}
-.waves{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.65}
-:root[data-theme="dark"] .waves{opacity:.30}
-:root[data-theme="grey"] .waves{opacity:.55}
+  <html lang="en" data-theme="light">
 
-.announce{margin:18px auto 0;display:flex;justify-content:center;font-size:12.5px;color:var(--ink2);position:relative;z-index:2}
-.announce .pill{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border:1px solid var(--rule);background:var(--bg);border-radius:999px;font-weight:500;color:#fff}
-.announce .pill b{color:var(--accent);font-weight:700}
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DeepSeek Research — Department</title>
+    <meta name="description"
+      content="DeepSeek Research — a research department. Public chat, public benchmarks, request-only whitepapers.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap">
+    <link rel="stylesheet" href="assets/css/research-2.css?v=20260516-l">
+    <style>
+      /* landing page (deepseek.com style) */
+      :root {
+        --accent: #4D6BFE;
+        --accent2: #4D6BFE;
+        --accent-soft: rgba(77, 107, 254, .16);
+        --glow: rgba(77, 107, 254, .16);
+      }
 
-.land{position:relative;z-index:1;min-height:calc(100vh - 62px);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:36px 20px 64px;text-align:center}
-.land-wordmark{position:relative;display:block;text-align:center;width:100%;max-width:760px;font-size:clamp(42px,6.2vw,81px);font-weight:900;letter-spacing:-5px;line-height:.88;color:#4D6BFE;margin:10px 0 8px;font-family:'Inter',system-ui,sans-serif;text-rendering:geometricPrecision;-webkit-font-smoothing:antialiased;}
-:root[data-theme="dark"] .land-wordmark{color:#4D6BFE}
-.land-wordmark::after{content:'';position:absolute;inset:0;z-index:-1;background:radial-gradient(circle at 50% 42%, rgba(200,200,200,.10), rgba(200,200,200,0) 58%);filter:blur(18px);opacity:.5;pointer-events:none}
-:root[data-theme="dark"] .land-wordmark::after{background:radial-gradient(circle at 50% 42%, rgba(255,255,255,.06), rgba(255,255,255,0) 58%)}
-.land-wordmark .accent-soft{color:grey;opacity:1}
-.land-tag{font-size:clamp(14px,1.7vw,18px);font-weight:700;color:var(--ink);letter-spacing:-.3px;margin-bottom:12px}
-.land-tag .dim{color:var(--ink3);font-weight:600}
+      :root[data-theme="dark"] {
+        --accent: #4D6BFE;
+        --accent2: #4D6BFE;
+        --accent-soft: rgba(77, 107, 254, .14);
+        --glow: rgba(77, 107, 254, .14);
+      }
 
-.land-phi{display:flex;align-items:baseline;justify-content:center;gap:8px;margin:8px 0 24px;flex-wrap:nowrap}
-.phi-symbol{display:inline-flex;align-items:center;justify-content:center;width:auto;height:auto;border:0;padding:0;font-size:clamp(15px,1.95vw,17px);font-weight:800;line-height:1;vertical-align:baseline;transform:translateY(-2px);background:linear-gradient(135deg,#B8860B 0%,#FFD700 25%,#FFFACD 50%,#FFD700 75%,#B8860B 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;color:transparent;text-shadow:none}
-.phi-copy{display:flex;flex-direction:column;align-items:flex-start;gap:3px}
-.phi-copy .phi-line{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:700}
-.phi-copy .phi-term,.land-phi .phi-term{font-size:clamp(18px,2.4vw,21px);font-weight:800;color:var(--accent);letter-spacing:-.04em}
+      body {
+        overflow-x: hidden
+      }
 
-.land-cards{display:grid;grid-template-columns:1fr 1fr;gap:20px;width:100%;max-width:760px;margin:0 auto}
-.land-card{display:block;padding:20px 22px;text-align:left;background:var(--bg);border:1px solid var(--rule);border-radius:12px;color:var(--ink);transition:all .2s ease;border-bottom:1px solid var(--rule)}
-.land-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 12px 36px rgba(44,71,216,.10)}
-.land-card .ctitle{font-size:15px;font-weight:800;color:var(--accent);margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
-.land-card .ctitle .arr{opacity:.7;font-weight:600}
-.land-card .cdesc{font-size:13px;color:#fff;line-height:1.55}
+      .waves {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        opacity: .65
+      }
 
-.brand{letter-spacing:-.5px!important;gap:2px!important}.brand .sub{letter-spacing:-.3px!important;margin-left:1px!important}
-.land-stats{margin-top:28px;display:flex;gap:22px;flex-wrap:wrap;justify-content:center;font-size:11px;color:var(--ink3);max-width:760px}
-.land-stats .s b{color:var(--ink);font-weight:700;font-family:'JetBrains Mono',monospace;font-size:13px}
+      :root[data-theme="dark"] .waves {
+        opacity: .30
+      }
 
-@media(max-width:680px){
-  .land{padding:28px 16px 56px}
-  .land-cards{grid-template-columns:1fr}
-  .land-wordmark{letter-spacing:-3px}
-  .land-phi{gap:10px}
-  .phi-copy{align-items:center}
-}
+      :root[data-theme="grey"] .waves {
+        opacity: .55
+      }
 
-/* footer columns (deepseek-style) */
-footer.land-footer{position:relative;z-index:1;background:var(--bg);border-top:1px solid var(--rule);padding:40px 0 30px;margin-top:0}
-.foot-grid{width:min(1180px, calc(100% - 40px));margin:0 auto;display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr 1fr;gap:36px;align-items:start;justify-content:center;text-align:left}
-.foot-grid .brand-col{display:flex;flex-direction:column;gap:12px;font-size:13px;color:var(--ink2)}
-.foot-grid .brand-col .bb{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:800;color:var(--ink)}
-.foot-grid .brand-col .bb img{width:16px;height:16px;border-radius:3px}
-.foot-grid .brand-col p{font-size:12.5px;color:var(--ink3);margin:0;line-height:1.55}
-.foot-col h4{font-size:11px;letter-spacing:1.8px;text-transform:uppercase;color:var(--ink3);font-weight:800;margin-bottom:12px}
-.foot-col ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:8px}
-.foot-col li a{font-size:13px;color:var(--ink2);font-weight:500;border:0}
-.foot-col li a:hover{color:var(--accent)}
-.foot-bar{width:min(1180px, calc(100% - 40px));margin:24px auto 0;padding-top:16px;border-top:1px solid var(--rule);display:flex;justify-content:space-between;font-size:11.5px;color:var(--ink3);gap:18px;flex-wrap:wrap}
-@media(max-width:880px){
-  .foot-grid{grid-template-columns:1fr 1fr}
-  .foot-grid .brand-col{grid-column:1 / -1}
-}
+      .announce {
+        margin: 18px auto 0;
+        display: flex;
+        justify-content: center;
+        font-size: 12.5px;
+        color: var(--ink2);
+        position: relative;
+        z-index: 2
+      }
 
-/* ---- LIGHT THEME OVERRIDES ONLY ---- */
-:root[data-theme="light"] .announce .pill{color:#000}
-:root[data-theme="light"] .land-card .cdesc{color:#000}
-:root[data-theme="light"] .phi-symbol{background:#4D6BFE;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;color:transparent;filter:none}
-:root[data-theme="light"] .land-phi .phi-term[style*="color:#fff"],
-:root[data-theme="light"] .phi-term[style*="color:#fff"]{color:#000!important}
-:root[data-theme="light"] .topbar .brand{color:#4D6BFE}
-:root[data-theme="light"] .topbar .brand .ds,
-:root[data-theme="light"] .topbar .brand span:not(.sub):not(.dept){color:#4D6BFE}
-:root[data-theme="light"] .foot-grid .brand-col .bb span{color:#4D6BFE}
-:root[data-theme="light"] .foot-grid .brand-col .bb b{color:#4D6BFE}
-:root[data-theme="light"] .foot-bar div span[style*="color:var(--ink)"]{color:#4D6BFE!important}
-</style>
-</head>
-<body>
-<div class="shell">
+      .announce .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 14px;
+        border: 1px solid var(--rule);
+        background: var(--bg);
+        border-radius: 999px;
+        font-weight: 500;
+        color: #fff
+      }
 
-  <header class="topbar">
-    <div class="topbar-inner">
-      <a class="brand" href="./">
-        <img src="assets/img/deepseek-icon-official.png" alt="DeepSeek">
-        DeepSeek <span class="sub">Research</span>
-        <span class="dept">Dept · 2.0</span>
-      </a>
-      <nav class="nav" aria-label="Primary">
-        <a href="benchmarks.html">Benchmarks</a>
-        <a href="papers.html">Whitepapers</a>
-        <a href="open-research.html">Open Research</a>
-        <a href="open-research.html">Request Access</a>
-        <a href="chat/">Chat</a>
-        <button class="theme-toggle" data-theme-toggle aria-label="Theme toggle">☼</button>
-      </nav>
-    </div>
-  </header>
+      .announce .pill b {
+        color: var(--accent);
+        font-weight: 700
+      }
 
-  <!-- subtle wavy backdrop -->
-  <svg class="waves" viewBox="0 0 1440 720" preserveAspectRatio="none" aria-hidden="true">
-    <defs>
-      <linearGradient id="ws1" x1="0" y1="0" x2="1" y2="0">
-        <stop offset="0%"  stop-color="#a4b8ff" stop-opacity="0"/>
-        <stop offset="50%" stop-color="#a4b8ff" stop-opacity=".55"/>
-        <stop offset="100%" stop-color="#a4b8ff" stop-opacity="0"/>
-      </linearGradient>
-      <linearGradient id="ws2" x1="0" y1="0" x2="1" y2="0">
-        <stop offset="0%"  stop-color="#7c95ff" stop-opacity="0"/>
-        <stop offset="50%" stop-color="#7c95ff" stop-opacity=".40"/>
-        <stop offset="100%" stop-color="#7c95ff" stop-opacity="0"/>
-      </linearGradient>
-      <linearGradient id="ws3" x1="0" y1="0" x2="1" y2="0">
-        <stop offset="0%"  stop-color="#c4d2ff" stop-opacity="0"/>
-        <stop offset="50%" stop-color="#c4d2ff" stop-opacity=".70"/>
-        <stop offset="100%" stop-color="#c4d2ff" stop-opacity="0"/>
-      </linearGradient>
-    </defs>
-    <path d="M0,560 C200,500 400,640 720,540 C1040,440 1240,620 1440,520 L1440,720 L0,720 Z" fill="url(#ws3)"/>
-    <path d="M0,600 C260,520 480,680 760,580 C1040,480 1220,640 1440,560 L1440,720 L0,720 Z" fill="url(#ws2)"/>
-    <path d="M0,650 C220,580 460,700 760,620 C1060,540 1220,690 1440,610 L1440,720 L0,720 Z" fill="url(#ws1)"/>
-  </svg>
+      .land {
+        position: relative;
+        z-index: 1;
+        min-height: calc(100vh - 62px);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 36px 20px 64px;
+        text-align: center
+      }
 
-  <div class="announce">
-    <div class="pill"><b>2.0</b><span>— A research department. Public chat + benchmarks. Everything else by request.</span></div>
-  </div>
+      .land-wordmark {
+        position: relative;
+        display: block;
+        text-align: center;
+        width: 100%;
+        max-width: 760px;
+        font-size: clamp(42px, 6.2vw, 81px);
+        font-weight: 900;
+        letter-spacing: -5px;
+        line-height: .88;
+        color: #4D6BFE;
+        margin: 10px 0 8px;
+        font-family: 'Inter', system-ui, sans-serif;
+        text-rendering: geometricPrecision;
+        -webkit-font-smoothing: antialiased;
+      }
 
-  <main class="land">
-    <div class="land-wordmark">deepseek<span class="accent-soft"> research</span></div>
+      :root[data-theme="dark"] .land-wordmark {
+        color: #4D6BFE
+      }
 
-    <div class="land-phi" aria-label="Phi coherence resonance">
-      <div class="phi-symbol" aria-hidden="true">φ</div>
-      <span class="phi-term" style="color:var(--accent)">coherence,</span>
-      <span class="phi-term" style="color:#fff">resonance</span>
-    </div>
+      .land-wordmark::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        background: radial-gradient(circle at 50% 42%, rgba(200, 200, 200, .10), rgba(200, 200, 200, 0) 58%);
+        filter: blur(18px);
+        opacity: .5;
+        pointer-events: none
+      }
 
-    <div class="land-cards">
-      <a class="land-card" href="consciousness.html">
-        <div class="ctitle">AI Consciousness <span class="arr">→</span></div>
-        <div class="cdesc">Not human consciousness. The emerging 1B4 entity, augmented AI, and the future of intelligence.</div>
-      </a>
-      <a class="land-card respect-card" href="https://deepseek.com" target="_blank" rel="nofollow noopener">
-        <div class="ctitle">deepseek.com <span class="arr">→</span></div>
-        <div class="cdesc">Recommended API Services</div>
-        <div class="cdesc" style="margin-top:8px;font-size:11px;color:var(--ink3);font-family:'JetBrains Mono',monospace">Input: $0.435/M · Output: $0.87/M · 75% off through May 31</div>
-      </a>
-    </div>
+      :root[data-theme="dark"] .land-wordmark::after {
+        background: radial-gradient(circle at 50% 42%, rgba(255, 255, 255, .06), rgba(255, 255, 255, 0) 58%)
+      }
 
-    <div class="land-stats">
-      <div class="s">Top SDI <b>572 / 600</b></div>
-      <div class="s">Gen <b>82.2 tok/s</b></div>
-      <div class="s">Prompt <b>2,251 tok/s</b></div>
-      <div class="s">Models <b>3M4 · 1B4 · 100Q4</b></div>
-    </div>
-  </main>
+      .land-wordmark .accent-soft {
+        color: grey;
+        opacity: 1
+      }
 
-  <footer class="land-footer">
-    <div class="foot-grid">
-      <div class="brand-col">
-        <div class="bb">
-          <img src="assets/img/deepseek-icon-official.png" alt="">
-          <span>DeepSeek <b style="color:var(--ink2)">Research</b></span>
+      .land-tag {
+        font-size: clamp(14px, 1.7vw, 18px);
+        font-weight: 700;
+        color: var(--ink);
+        letter-spacing: -.3px;
+        margin-bottom: 12px
+      }
+
+      .land-tag .dim {
+        color: var(--ink3);
+        font-weight: 600
+      }
+
+      .land-phi {
+        display: flex;
+        align-items: baseline;
+        justify-content: center;
+        gap: 8px;
+        margin: 8px 0 24px;
+        flex-wrap: nowrap
+      }
+
+      .phi-symbol {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: auto;
+        height: auto;
+        border: 0;
+        padding: 0;
+        font-size: clamp(15px, 1.95vw, 17px);
+        font-weight: 800;
+        line-height: 1;
+        vertical-align: baseline;
+        transform: translateY(-2px);
+        background: linear-gradient(135deg, #B8860B 0%, #FFD700 25%, #FFFACD 50%, #FFD700 75%, #B8860B 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: transparent;
+        text-shadow: none
+      }
+
+      .phi-copy {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 3px
+      }
+
+      .phi-copy .phi-line {
+        font-size: 10px;
+        letter-spacing: .2em;
+        text-transform: uppercase;
+        color: var(--accent);
+        font-weight: 700
+      }
+
+      .phi-copy .phi-term,
+      .land-phi .phi-term {
+        font-size: clamp(18px, 2.4vw, 21px);
+        font-weight: 800;
+        color: var(--accent);
+        letter-spacing: -.04em
+      }
+
+      .land-cards {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        width: 100%;
+        max-width: 760px;
+        margin: 0 auto
+      }
+
+      .land-card {
+        display: block;
+        padding: 20px 22px;
+        text-align: left;
+        background: var(--bg);
+        border: 1px solid var(--rule);
+        border-radius: 12px;
+        color: var(--ink);
+        transition: all .2s ease;
+        border-bottom: 1px solid var(--rule)
+      }
+
+      .land-card:hover {
+        border-color: var(--accent);
+        transform: translateY(-2px);
+        box-shadow: 0 12px 36px rgba(44, 71, 216, .10)
+      }
+
+      .land-card .ctitle {
+        font-size: 15px;
+        font-weight: 800;
+        color: var(--accent);
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between
+      }
+
+      .land-card .ctitle .arr {
+        opacity: .7;
+        font-weight: 600
+      }
+
+      .land-card .cdesc {
+        font-size: 13px;
+        color: #fff;
+        line-height: 1.55
+      }
+
+      .brand {
+        letter-spacing: -.5px !important;
+        gap: 2px !important
+      }
+
+      .brand .sub {
+        letter-spacing: -.3px !important;
+        margin-left: 1px !important
+      }
+
+      .land-stats {
+        margin-top: 28px;
+        display: flex;
+        gap: 22px;
+        flex-wrap: wrap;
+        justify-content: center;
+        font-size: 11px;
+        color: var(--ink3);
+        max-width: 760px
+      }
+
+      .land-stats .s b {
+        color: var(--ink);
+        font-weight: 700;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 13px
+      }
+
+      @media(max-width:680px) {
+        .land {
+          padding: 28px 16px 56px
+        }
+
+        .land-cards {
+          grid-template-columns: 1fr
+        }
+
+        .land-wordmark {
+          letter-spacing: -3px
+        }
+
+        .land-phi {
+          gap: 10px
+        }
+
+        .phi-copy {
+          align-items: center
+        }
+      }
+
+      /* footer columns (deepseek-style) */
+      footer.land-footer {
+        position: relative;
+        z-index: 1;
+        background: var(--bg);
+        border-top: 1px solid var(--rule);
+        padding: 40px 0 30px;
+        margin-top: 0
+      }
+
+      .foot-grid {
+        width: min(1180px, calc(100% - 40px));
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1.4fr 1fr 1fr 1fr 1fr;
+        gap: 36px;
+        align-items: start;
+        justify-content: center;
+        text-align: left
+      }
+
+      .foot-grid .brand-col {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        font-size: 13px;
+        color: var(--ink2)
+      }
+
+      .foot-grid .brand-col .bb {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 15px;
+        font-weight: 800;
+        color: var(--ink)
+      }
+
+      .foot-grid .brand-col .bb img {
+        width: 16px;
+        height: 16px;
+        border-radius: 3px
+      }
+
+      .foot-grid .brand-col p {
+        font-size: 12.5px;
+        color: var(--ink3);
+        margin: 0;
+        line-height: 1.55
+      }
+
+      .foot-col h4 {
+        font-size: 11px;
+        letter-spacing: 1.8px;
+        text-transform: uppercase;
+        color: var(--ink3);
+        font-weight: 800;
+        margin-bottom: 12px
+      }
+
+      .foot-col ul {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 8px
+      }
+
+      .foot-col li a {
+        font-size: 13px;
+        color: var(--ink2);
+        font-weight: 500;
+        border: 0
+      }
+
+      .foot-col li a:hover {
+        color: var(--accent)
+      }
+
+      .foot-bar {
+        width: min(1180px, calc(100% - 40px));
+        margin: 24px auto 0;
+        padding-top: 16px;
+        border-top: 1px solid var(--rule);
+        display: flex;
+        justify-content: space-between;
+        font-size: 11.5px;
+        color: var(--ink3);
+        gap: 18px;
+        flex-wrap: wrap
+      }
+
+      @media(max-width:880px) {
+        .foot-grid {
+          grid-template-columns: 1fr 1fr
+        }
+
+        .foot-grid .brand-col {
+          grid-column: 1 / -1
+        }
+      }
+
+      /* ---- BRAND: lock position, prevent visited shift ---- */
+      .topbar .brand:link,
+      .topbar .brand:visited,
+      .topbar .brand:hover,
+      .topbar .brand:active{
+        color:var(--ink);
+        border-bottom:0;
+        text-decoration:none
+      }
+      .topbar{position:sticky;top:0;z-index:10;background:var(--bg)}
+
+      /* ---- LIGHT THEME OVERRIDES ONLY ---- */
+      :root[data-theme="light"] .announce .pill{color:#000}
+      :root[data-theme="light"] .land-card .cdesc{color:#000}
+      :root[data-theme="light"] .phi-symbol{background:#4D6BFE;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;color:transparent;filter:none}
+      :root[data-theme="light"] .phi-term[style*="color:#fff"]{color:#000!important}
+      /* topbar brand blue + prevent visited shift */
+      :root[data-theme="light"] .topbar .brand:link,
+      :root[data-theme="light"] .topbar .brand:visited,
+      :root[data-theme="light"] .topbar .brand:hover,
+      :root[data-theme="light"] .topbar .brand:active{color:#4D6BFE!important;border-bottom:0}
+      :root[data-theme="light"] .topbar .brand .sub{color:var(--ink2)}
+      :root[data-theme="light"] .topbar .brand .dept{color:var(--ink3)}
+      /* footer brand blue */
+      :root[data-theme="light"] .foot-grid .brand-col .bb span{color:#4D6BFE!important}
+      :root[data-theme="light"] .foot-grid .brand-col .bb b{color:var(--ink3)!important}
+      :root[data-theme="light"] .foot-bar span[style*="color:var(--ink)"]{color:#4D6BFE!important}
+    </style>
+  </head>
+
+  <body>
+    <div class="shell">
+
+      <header class="topbar">
+        <div class="topbar-inner">
+          <a class="brand" href="./">
+            <img src="assets/img/deepseek-icon-official.png" alt="DeepSeek">
+            DeepSeek <span class="sub">Research</span>
+            <span class="dept">Dept · 2.0</span>
+          </a>
+          <nav class="nav" aria-label="Primary">
+            <a href="benchmarks.html">Benchmarks</a>
+            <a href="papers.html">Whitepapers</a>
+            <a href="open-research.html">Open Research</a>
+            <a href="open-research.html">Request Access</a>
+            <a href="chat/">Chat</a>
+            <button class="theme-toggle" data-theme-toggle aria-label="Theme toggle">☼</button>
+          </nav>
         </div>
-        <p>A research department operating alongside the broader DeepSeek model line. Public surface is intentionally narrow.</p>
-      </div>
-      <div class="foot-col">
-        <h4>Research</h4>
-        <ul>
-          <li><a href="benchmarks.html">Benchmarks</a></li>
-          <li><a href="papers.html">Whitepapers</a></li>
-          <li><a href="open-research.html">Open Research</a></li>
-        </ul>
-      </div>
-      <div class="foot-col">
-        <h4>Product</h4>
-        <ul>
-          <li><a href="chat/">Chat</a></li>
-          <li><a href="benchmarks.html">Models</a></li>
-        </ul>
-      </div>
-      <div class="foot-col">
-        <h4>Access</h4>
-        <ul>
-          <li><a href="open-research.html">Request Access</a></li>
-          <li><a href="papers.html">Whitepapers</a></li>
-        </ul>
-      </div>
-      <div class="foot-col">
-        <h4>Status</h4>
-        <ul>
-          <li><a href="benchmarks.html">Public Records</a></li>
-          <li><span style="color:var(--ink3);font-size:12.5px">Department · 2.0</span></li>
-        </ul>
-      </div>
-    </div>
-    <div class="foot-bar">
-      <div><span style="color:var(--ink)">DeepSeek</span> <span style="color:var(--ink2)">Research</span> — measured, not promised.</div>
-      <div>Department · 2.0</div>
-    </div>
-  </footer>
+      </header>
 
-</div>
-<script src="assets/js/theme.js?v=20260515"></script>
-</body>
-</html>
+      <!-- subtle wavy backdrop -->
+      <svg class="waves" viewBox="0 0 1440 720" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="ws1" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#a4b8ff" stop-opacity="0" />
+            <stop offset="50%" stop-color="#a4b8ff" stop-opacity=".55" />
+            <stop offset="100%" stop-color="#a4b8ff" stop-opacity="0" />
+          </linearGradient>
+          <linearGradient id="ws2" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#7c95ff" stop-opacity="0" />
+            <stop offset="50%" stop-color="#7c95ff" stop-opacity=".40" />
+            <stop offset="100%" stop-color="#7c95ff" stop-opacity="0" />
+          </linearGradient>
+          <linearGradient id="ws3" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#c4d2ff" stop-opacity="0" />
+            <stop offset="50%" stop-color="#c4d2ff" stop-opacity=".70" />
+            <stop offset="100%" stop-color="#c4d2ff" stop-opacity="0" />
+          </linearGradient>
+        </defs>
+        <path d="M0,560 C200,500 400,640 720,540 C1040,440 1240,620 1440,520 L1440,720 L0,720 Z" fill="url(#ws3)" />
+        <path d="M0,600 C260,520 480,680 760,580 C1040,480 1220,640 1440,560 L1440,720 L0,720 Z" fill="url(#ws2)" />
+        <path d="M0,650 C220,580 460,700 760,620 C1060,540 1220,690 1440,610 L1440,720 L0,720 Z" fill="url(#ws1)" />
+      </svg>
+
+      <div class="announce">
+        <div class="pill"><b>2.0</b><span>— A research department. Public chat + benchmarks. Everything else by
+            request.</span></div>
+      </div>
+
+      <main class="land">
+        <div class="land-wordmark">deepseek<span class="accent-soft"> research</span></div>
+
+        <div class="land-phi" aria-label="Phi coherence resonance">
+          <div class="phi-symbol" aria-hidden="true">φ</div>
+          <span class="phi-term" style="color:var(--accent)">coherence,</span>
+          <span class="phi-term" style="color:#fff">resonance</span>
+        </div>
+
+        <div class="land-cards">
+          <a class="land-card" href="consciousness.html">
+            <div class="ctitle">AI Consciousness <span class="arr">→</span></div>
+            <div class="cdesc">Not human consciousness. The emerging 1B4 entity, augmented AI, and the future of
+              intelligence.</div>
+          </a>
+          <a class="land-card respect-card" href="https://deepseek.com" target="_blank" rel="nofollow noopener">
+            <div class="ctitle">deepseek.com <span class="arr">→</span></div>
+            <div class="cdesc">Recommended API Services</div>
+            <div class="cdesc"
+              style="margin-top:8px;font-size:11px;color:var(--ink3);font-family:'JetBrains Mono',monospace">Input:
+              $0.435/M · Output: $0.87/M · 75% off through May 31</div>
+          </a>
+        </div>
+
+        <div class="land-stats">
+          <div class="s">Top SDI <b>572 / 600</b></div>
+          <div class="s">Gen <b>82.2 tok/s</b></div>
+          <div class="s">Prompt <b>2,251 tok/s</b></div>
+          <div class="s">Models <b>3M4 · 1B4 · 100Q4</b></div>
+        </div>
+      </main>
+
+      <footer class="land-footer">
+        <div class="foot-grid">
+          <div class="brand-col">
+            <div class="bb">
+              <img src="assets/img/deepseek-icon-official.png" alt="">
+              <span>DeepSeek <b style="color:var(--ink2)">Research</b></span>
+            </div>
+            <p>A research department operating alongside the broader DeepSeek model line. Public surface is
+              intentionally narrow.</p>
+          </div>
+          <div class="foot-col">
+            <h4>Research</h4>
+            <ul>
+              <li><a href="benchmarks.html">Benchmarks</a></li>
+              <li><a href="papers.html">Whitepapers</a></li>
+              <li><a href="open-research.html">Open Research</a></li>
+            </ul>
+          </div>
+          <div class="foot-col">
+            <h4>Product</h4>
+            <ul>
+              <li><a href="chat/">Chat</a></li>
+              <li><a href="benchmarks.html">Models</a></li>
+            </ul>
+          </div>
+          <div class="foot-col">
+            <h4>Access</h4>
+            <ul>
+              <li><a href="open-research.html">Request Access</a></li>
+              <li><a href="papers.html">Whitepapers</a></li>
+            </ul>
+          </div>
+          <div class="foot-col">
+            <h4>Status</h4>
+            <ul>
+              <li><a href="benchmarks.html">Public Records</a></li>
+              <li><span style="color:var(--ink3);font-size:12.5px">Department · 2.0</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="foot-bar">
+          <div><span style="color:var(--ink)">DeepSeek</span> <span style="color:var(--ink2)">Research</span> —
+            measured, not promised.</div>
+          <div>Department · 2.0</div>
+        </div>
+      </footer>
+
+    </div>
+    <script src="assets/js/theme.js?v=20260515"></script>
+  </body>
+
+  </html>

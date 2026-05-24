@@ -59,9 +59,18 @@ footer.land-footer{position:relative;z-index:1;background:var(--bg);padding:40px
   .foot-grid .brand-col{grid-column:1 / -1}
 }
 
+
+/* ---- BRAND: lock position, prevent visited shift ---- */
+.topbar .brand:link,.topbar .brand:visited,.topbar .brand:hover,.topbar .brand:active{color:var(--ink);border-bottom:0;text-decoration:none}
+.topbar{position:sticky;top:0;z-index:10;background:var(--bg)}
+
 /* ---- LIGHT THEME OVERRIDES ---- */
 :root[data-theme="light"] .brand{color:#4D6BFE}
 :root[data-theme="light"] .brand .ds{color:#4D6BFE}
+:root[data-theme="light"] .topbar .brand:link,
+:root[data-theme="light"] .topbar .brand:visited,
+:root[data-theme="light"] .topbar .brand:hover,
+:root[data-theme="light"] .topbar .brand:active{color:#4D6BFE!important;border-bottom:0}
 :root[data-theme="light"] .foot-grid .brand-col .bb{color:#4D6BFE}
 :root[data-theme="light"] .foot-grid .brand-col .bb span{color:#4D6BFE}
 :root[data-theme="light"] .foot-grid .brand-col .bb b{color:#4D6BFE}
