@@ -1,4 +1,4 @@
-ee<!oser doctype html>
+<!DOCTYPE html>
   <html lang="en" data-theme="light">
 
   <head>
@@ -589,14 +589,14 @@ ee<!oser doctype html>
       function draw(t){
         t*=.001;
         ctx.clearRect(0,0,c.width,c.height);
-        /* band 1 – dark smoke */
-        band(c.height*.38,'rgba(35,35,50,0.50)',50,.002,.22,t);
-        /* band 2 – charcoal */
-        band(c.height*.44,'rgba(45,45,60,0.40)',42,.003,.18,t*.7);
-        /* band 3 – black smoke */
-        band(c.height*.52,'rgba(0,0,0,0.30)',36,.004,.25,t*1.1);
-        /* band 4 – faint black */
-        band(c.height*.6,'rgba(0,0,0,0.18)',30,.005,.12,t*.5);
+        /* band 1 – deep gold */
+        band(c.height*.38,'rgba(184,134,11,0.40)',50,.002,.22,t);
+        /* band 2 – rich gold */
+        band(c.height*.44,'rgba(218,165,32,0.32)',42,.003,.18,t*.7);
+        /* band 3 – warm gold */
+        band(c.height*.52,'rgba(255,215,0,0.22)',36,.004,.25,t*1.1);
+        /* band 4 – light gold haze */
+        band(c.height*.6,'rgba(255,223,100,0.14)',30,.005,.12,t*.5);
         requestAnimationFrame(draw);
       }
       requestAnimationFrame(draw);
