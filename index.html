@@ -29,7 +29,7 @@ body{overflow-x:hidden}
 :root[data-theme="grey"] .waves{opacity:.55}
 
 .announce{margin:18px auto 0;display:flex;justify-content:center;font-size:12.5px;color:var(--ink2);position:relative;z-index:2}
-.announce .pill{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border:1px solid var(--rule);background:var(--bg);border-radius:999px;font-weight:500;color:#fff}
+.announce .pill{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border:1px solid var(--rule);background:var(--bg);border-radius:999px;font-weight:500;color:#000}
 .announce .pill b{color:var(--accent);font-weight:700}
 
 .land{position:relative;z-index:1;min-height:calc(100vh - 62px);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:36px 20px 64px;text-align:center}
@@ -42,7 +42,7 @@ body{overflow-x:hidden}
 .land-tag .dim{color:var(--ink3);font-weight:600}
 
 .land-phi{display:flex;align-items:baseline;justify-content:center;gap:8px;margin:8px 0 24px;flex-wrap:nowrap}
-.phi-symbol{display:inline-flex;align-items:center;justify-content:center;width:auto;height:auto;border:0;box-shadow:none;padding:0;font-size:clamp(15px,1.95vw,17px);font-weight:800;line-height:1;vertical-align:baseline;transform:translateY(-2px);background:linear-gradient(135deg,#B8860B 0%,#FFD700 25%,#FFFACD 50%,#FFD700 75%,#B8860B 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;color:transparent}
+.phi-symbol{display:inline-flex;align-items:center;justify-content:center;width:auto;height:auto;border:0;padding:0;font-size:clamp(15px,1.95vw,17px);font-weight:800;line-height:1;vertical-align:baseline;transform:translateY(-2px);background:linear-gradient(135deg,#B8860B 0%,#FFD700 25%,#FFFACD 50%,#FFD700 75%,#B8860B 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;color:transparent;text-shadow:none;filter:drop-shadow(0 0 6px rgba(77,107,254,.45))}
 .phi-copy{display:flex;flex-direction:column;align-items:flex-start;gap:3px}
 .phi-copy .phi-line{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:700}
 .phi-copy .phi-term,.land-phi .phi-term{font-size:clamp(18px,2.4vw,21px);font-weight:800;color:var(--accent);letter-spacing:-.04em}
@@ -52,7 +52,7 @@ body{overflow-x:hidden}
 .land-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 12px 36px rgba(44,71,216,.10)}
 .land-card .ctitle{font-size:15px;font-weight:800;color:var(--accent);margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
 .land-card .ctitle .arr{opacity:.7;font-weight:600}
-.land-card .cdesc{font-size:13px;color:#fff;line-height:1.55}
+.land-card .cdesc{font-size:13px;color:#000;line-height:1.55}
 
 .brand{letter-spacing:-.5px!important;gap:2px!important}.brand .sub{letter-spacing:-.3px!important;margin-left:1px!important}
 .land-stats{margin-top:28px;display:flex;gap:22px;flex-wrap:wrap;justify-content:center;font-size:11px;color:var(--ink3);max-width:760px}
@@ -139,7 +139,7 @@ footer.land-footer{position:relative;z-index:1;background:var(--bg);border-top:1
     <div class="land-phi" aria-label="Phi coherence resonance">
       <div class="phi-symbol" aria-hidden="true">φ</div>
       <span class="phi-term" style="color:var(--accent)">coherence,</span>
-      <span class="phi-term" style="color:#fff">resonance</span>
+      <span class="phi-term" style="color:#000">resonance</span>
     </div>
 
     <div class="land-cards">
