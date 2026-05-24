@@ -306,19 +306,11 @@
       footer.land-footer {
         position: relative;
         z-index: 1;
-        background: #4D6BFE;
-        border-top: none;
+        background: var(--bg);
+        border-top: 1px solid var(--rule);
         padding: 40px 0 30px;
         margin-top: 0
       }
-      footer.land-footer .foot-col h4{color:rgba(255,255,255,.6)}
-      footer.land-footer .foot-col li a{color:rgba(255,255,255,.8)}
-      footer.land-footer .foot-col li a:hover{color:#fff}
-      footer.land-footer .foot-bar{border-top:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.6)}
-      footer.land-footer .brand-col{color:rgba(255,255,255,.7)}
-      footer.land-footer .brand-col .bb{color:#fff}
-      footer.land-footer .brand-col .bb b{color:rgba(255,255,255,.85)}
-      footer.land-footer .brand-col p{color:rgba(255,255,255,.55)}
 
       .foot-grid {
         width: min(1180px, calc(100% - 40px));
@@ -417,15 +409,11 @@
       .topbar .brand:visited,
       .topbar .brand:hover,
       .topbar .brand:active{
-        color:#fff;
+        color:#4D6BFE;
         border-bottom:0;
         text-decoration:none
       }
-      .topbar{position:sticky;top:0;z-index:10;background:#4D6BFE}
-      .topbar .nav a{color:rgba(255,255,255,.75)!important}
-      .topbar .nav a:hover{color:#fff!important;background:rgba(255,255,255,.12)}
-      .topbar .nav a.active{color:#fff!important}
-      .topbar .theme-toggle{border-color:rgba(255,255,255,.3);color:#fff;background:transparent}
+      .topbar{position:sticky;top:0;z-index:10;background:var(--bg)}
 
       /* ---- LIGHT THEME OVERRIDES ONLY ---- */
       :root[data-theme="light"] .announce .pill{color:#000}

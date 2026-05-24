@@ -139,16 +139,12 @@ footer a:hover{color:var(--accent)}
   dl.spec dt:first-child{padding-top:0;border-top:0}
 }
 
-/* ---- BRAND: solid color, lock position, prevent visited shift ---- */
-.topbar .brand:link,.topbar .brand:visited,.topbar .brand:hover,.topbar .brand:active{color:#fff;border-bottom:0;text-decoration:none}
-.topbar{position:sticky;top:0;z-index:10;background:#4D6BFE}
-.topbar .nav a{color:rgba(255,255,255,.75)!important}
-.topbar .nav a:hover{color:#fff!important;background:rgba(255,255,255,.12)}
-.topbar .nav a.active{color:#fff!important}
-.topbar .theme-toggle{border-color:rgba(255,255,255,.3);color:#fff;background:transparent}
+/* ---- BRAND: solid blue text, lock position, prevent visited shift ---- */
+.topbar .brand:link,.topbar .brand:visited,.topbar .brand:hover,.topbar .brand:active{color:#4D6BFE;border-bottom:0;text-decoration:none}
+.topbar{position:sticky;top:0;z-index:10;background:var(--bg)}
 .brand img{width:28px!important;height:28px!important;object-fit:contain;display:block;border-radius:6px;flex-shrink:0}
-.brand .ds,.brand .sub{color:#fff!important;-webkit-text-fill-color:#fff!important;background:none!important}
-.brand .dept{color:rgba(255,255,255,.6)!important;font-size:10px;letter-spacing:1.6px;text-transform:uppercase;margin-left:6px;font-weight:700;border:1px solid rgba(255,255,255,.25);padding:3px 7px;border-radius:4px}
+.brand .ds,.brand .sub{color:#4D6BFE!important;-webkit-text-fill-color:#4D6BFE!important;background:none!important}
+.brand .dept{color:var(--ink3)!important;font-size:10px;letter-spacing:1.6px;text-transform:uppercase;margin-left:6px;font-weight:700;border:1px solid var(--rule);padding:3px 7px;border-radius:4px}
 
 /* ---- LIGHT THEME: DeepSeek blue branding ---- */
 :root[data-theme="light"] .brand{color:#4D6BFE}
