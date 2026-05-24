@@ -129,7 +129,7 @@
       }
 
       .land-wordmark .accent-soft {
-        background: linear-gradient(90deg, #4D6BFE 0%, #4D6BFE 55%, #1a1a2e 100%);
+        background: linear-gradient(90deg, #4D6BFE 0%, #4D6BFE 75%, #2a2a4e 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -306,11 +306,19 @@
       footer.land-footer {
         position: relative;
         z-index: 1;
-        background: var(--bg);
-        border-top: 1px solid var(--rule);
+        background: #4D6BFE;
+        border-top: none;
         padding: 40px 0 30px;
         margin-top: 0
       }
+      footer.land-footer .foot-col h4{color:rgba(255,255,255,.6)}
+      footer.land-footer .foot-col li a{color:rgba(255,255,255,.8)}
+      footer.land-footer .foot-col li a:hover{color:#fff}
+      footer.land-footer .foot-bar{border-top:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.6)}
+      footer.land-footer .brand-col{color:rgba(255,255,255,.7)}
+      footer.land-footer .brand-col .bb{color:#fff}
+      footer.land-footer .brand-col .bb b{color:rgba(255,255,255,.85)}
+      footer.land-footer .brand-col p{color:rgba(255,255,255,.55)}
 
       .foot-grid {
         width: min(1180px, calc(100% - 40px));
@@ -409,11 +417,15 @@
       .topbar .brand:visited,
       .topbar .brand:hover,
       .topbar .brand:active{
-        color:var(--ink);
+        color:#fff;
         border-bottom:0;
         text-decoration:none
       }
-      .topbar{position:sticky;top:0;z-index:10;background:var(--bg)}
+      .topbar{position:sticky;top:0;z-index:10;background:#4D6BFE}
+      .topbar .nav a{color:rgba(255,255,255,.75)!important}
+      .topbar .nav a:hover{color:#fff!important;background:rgba(255,255,255,.12)}
+      .topbar .nav a.active{color:#fff!important}
+      .topbar .theme-toggle{border-color:rgba(255,255,255,.3);color:#fff;background:transparent}
 
       /* ---- LIGHT THEME OVERRIDES ONLY ---- */
       :root[data-theme="light"] .announce .pill{color:#000}
@@ -593,14 +605,14 @@
       function draw(t){
         t*=.001;
         ctx.clearRect(0,0,c.width,c.height);
-        /* band 1 – deep black */
-        band(c.height*.42,'rgba(10,10,15,0.18)',45,.002,.25,t);
-        /* band 2 – dark charcoal */
-        band(c.height*.48,'rgba(18,18,28,0.14)',38,.003,.2,t*.7);
-        /* band 3 – midnight */
-        band(c.height*.54,'rgba(8,8,18,0.12)',32,.004,.3,t*1.1);
-        /* band 4 – near black */
-        band(c.height*.6,'rgba(14,14,22,0.10)',28,.005,.15,t*.5);
+        /* band 1 – smoke black */
+        band(c.height*.38,'rgba(22,22,32,0.28)',50,.002,.22,t);
+        /* band 2 – charcoal smoke */
+        band(c.height*.44,'rgba(30,30,42,0.22)',42,.003,.18,t*.7);
+        /* band 3 – dark haze */
+        band(c.height*.52,'rgba(18,18,30,0.18)',36,.004,.25,t*1.1);
+        /* band 4 – faint smoke */
+        band(c.height*.6,'rgba(25,25,38,0.14)',30,.005,.12,t*.5);
         requestAnimationFrame(draw);
       }
       requestAnimationFrame(draw);
