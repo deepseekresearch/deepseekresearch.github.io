@@ -13,6 +13,11 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap">
     <link rel="stylesheet" href="assets/css/research-2.css?v=20260516-l">
     <style>
+      /* stars + aurora overlays */
+      #stars-canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
+      .aurora-wrap{position:fixed;bottom:0;left:0;right:0;height:55vh;z-index:0;pointer-events:none;overflow:hidden}
+      .aurora-wrap canvas{width:100%;height:100%}
+
       /* landing page (deepseek.com style) */
       :root {
         --accent: #4D6BFE;
@@ -445,29 +450,10 @@
         </div>
       </header>
 
-      <!-- subtle wavy backdrop -->
-      <svg class="waves" viewBox="0 0 1440 720" preserveAspectRatio="none" aria-hidden="true">
-        <defs>
-          <linearGradient id="ws1" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stop-color="#a4b8ff" stop-opacity="0" />
-            <stop offset="50%" stop-color="#a4b8ff" stop-opacity=".55" />
-            <stop offset="100%" stop-color="#a4b8ff" stop-opacity="0" />
-          </linearGradient>
-          <linearGradient id="ws2" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stop-color="#7c95ff" stop-opacity="0" />
-            <stop offset="50%" stop-color="#7c95ff" stop-opacity=".40" />
-            <stop offset="100%" stop-color="#7c95ff" stop-opacity="0" />
-          </linearGradient>
-          <linearGradient id="ws3" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stop-color="#c4d2ff" stop-opacity="0" />
-            <stop offset="50%" stop-color="#c4d2ff" stop-opacity=".70" />
-            <stop offset="100%" stop-color="#c4d2ff" stop-opacity="0" />
-          </linearGradient>
-        </defs>
-        <path d="M0,560 C200,500 400,640 720,540 C1040,440 1240,620 1440,520 L1440,720 L0,720 Z" fill="url(#ws3)" />
-        <path d="M0,600 C260,520 480,680 760,580 C1040,480 1220,640 1440,560 L1440,720 L0,720 Z" fill="url(#ws2)" />
-        <path d="M0,650 C220,580 460,700 760,620 C1060,540 1220,690 1440,610 L1440,720 L0,720 Z" fill="url(#ws1)" />
-      </svg>
+      <!-- blinking stars -->
+      <canvas id="stars-canvas" aria-hidden="true"></canvas>
+      <!-- aurora borealis -->
+      <div class="aurora-wrap" aria-hidden="true"><canvas id="aurora-canvas"></canvas></div>
 
       <div class="announce">
         <div class="pill"><b>2.0</b><span>— A research department. Public chat + benchmarks. Everything else by
@@ -555,6 +541,66 @@
 
     </div>
     <script src="assets/js/theme.js?v=20260515"></script>
+    <script>
+    /* ── blinking stars ── */
+    (function(){
+      var c=document.getElementById('stars-canvas'),ctx=c.getContext('2d');
+      function resize(){c.width=window.innerWidth;c.height=window.innerHeight}
+      resize(); window.addEventListener('resize',resize);
+      var stars=[];
+      for(var i=0;i<60;i++){
+        stars.push({x:Math.random()*c.width,y:Math.random()*c.height,
+          r:Math.random()*1.4+.4, speed:Math.random()*.008+.003, phase:Math.random()*Math.PI*2});
+      }
+      function draw(t){
+        ctx.clearRect(0,0,c.width,c.height);
+        for(var i=0;i<stars.length;i++){
+          var s=stars[i], a=.15+.85*Math.abs(Math.sin(t*s.speed+s.phase));
+          ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+          ctx.fillStyle='rgba(255,255,255,'+a+')';ctx.fill();
+        }
+        requestAnimationFrame(draw);
+      }
+      requestAnimationFrame(draw);
+      window.addEventListener('resize',function(){
+        for(var i=0;i<stars.length;i++){stars[i].x=Math.random()*c.width;stars[i].y=Math.random()*c.height}
+      });
+    })();
+
+    /* ── aurora borealis (grey + touch of blue) ── */
+    (function(){
+      var wrap=document.querySelector('.aurora-wrap');
+      var c=document.getElementById('aurora-canvas'),ctx=c.getContext('2d');
+      function resize(){c.width=wrap.offsetWidth;c.height=wrap.offsetHeight}
+      resize(); window.addEventListener('resize',resize);
+
+      function band(yOff,color,amp,freq,speed,t){
+        ctx.beginPath();
+        ctx.moveTo(0,c.height);
+        for(var x=0;x<=c.width;x+=3){
+          var y=yOff+Math.sin(x*freq+t*speed)*amp+Math.sin(x*freq*.6+t*speed*.7)*amp*.5;
+          ctx.lineTo(x,y);
+        }
+        ctx.lineTo(c.width,c.height);ctx.closePath();
+        ctx.fillStyle=color;ctx.fill();
+      }
+
+      function draw(t){
+        t*=.001;
+        ctx.clearRect(0,0,c.width,c.height);
+        /* band 1 – grey */
+        band(c.height*.45,'rgba(160,165,175,0.12)',40,.003,.3,t);
+        /* band 2 – grey-blue */
+        band(c.height*.5,'rgba(130,145,185,0.10)',35,.004,.25,t*.8);
+        /* band 3 – lighter grey */
+        band(c.height*.55,'rgba(180,185,195,0.08)',30,.005,.35,t*1.1);
+        /* band 4 – subtle blue touch */
+        band(c.height*.6,'rgba(100,120,200,0.07)',25,.006,.2,t*.6);
+        requestAnimationFrame(draw);
+      }
+      requestAnimationFrame(draw);
+    })();
+    </script>
   </body>
 
   </html>
