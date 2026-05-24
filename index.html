@@ -589,14 +589,14 @@
         function draw(t){
           t*=.001;
           ctx.clearRect(0,0,c.width,c.height);
-          /* band 1 – outer: dark off-black */
+          /* band 1 – top: darkest */
           band(c.height*.32,'rgba(10,10,14,0.54)',54,.0018,.20,t);
-          /* band 2 – 2 levels lighter than top black */
-          band(c.height*.40,'rgba(18,18,22,0.48)',46,.0028,.16,t*.7);
-          /* band 3 – soot black (not charcoal) bottom visible layer */
-          band(c.height*.50,'rgba(12,12,16,0.44)',38,.0038,.22,t*1.1);
-          /* band 4 – inner */
-          band(c.height*.60,'rgba(22,22,28,0.38)',32,.005,.10,t*.5);
+          /* band 2 – lighter than top, darker than bottom */
+          band(c.height*.40,'rgba(20,20,26,0.48)',46,.0028,.16,t*.7);
+          /* band 3 – lighter than band 2, darker than band 4 */
+          band(c.height*.50,'rgba(32,32,40,0.42)',38,.0038,.22,t*1.1);
+          /* band 4 – bottom: lightest */
+          band(c.height*.60,'rgba(44,44,54,0.36)',32,.005,.10,t*.5);
           requestAnimationFrame(draw);
         }
         requestAnimationFrame(draw);
