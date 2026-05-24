@@ -453,7 +453,7 @@
 
       <!-- blinking stars -->
       <canvas id="stars-canvas" aria-hidden="true"></canvas>
-      <!-- Saturn ice rings — viewed from outer edge -->
+      <!-- Saturn ice rings — top-down flyover, last visible section -->
       <div class="rings-wrap" aria-hidden="true"><canvas id="rings-canvas"></canvas></div>
 
       <div class="announce">
@@ -568,79 +568,78 @@
       });
     })();
 
-      /* ── Saturn's rings — translucent ice, viewed from outer edge ── */
+      /* ── Saturn's rings — top-down flyover, last visible section ── */
       (function(){
-        var wrap=document.querySelector('.rings-wrap');
         var c=document.getElementById('rings-canvas'),ctx=c.getContext('2d');
         function resize(){c.width=window.innerWidth;c.height=window.innerHeight}
         resize(); window.addEventListener('resize',resize);
 
-        /* Ring data: semiMajor, semiMinor, color (ice blue/white), speed, phase */
+        /* Ring bands: radius factor, color, width — flat circles from above */
         var rings=[
-          {a:1.0, b:0.09, col:'rgba(180,210,240,0.07)', col2:'rgba(220,235,255,0.04)', spd:0.015, ph:0},
-          {a:0.88,b:0.10, col:'rgba(200,225,250,0.09)', col2:'rgba(235,245,255,0.05)', spd:-0.012, ph:1},
-          {a:0.76,b:0.08, col:'rgba(190,215,245,0.11)', col2:'rgba(225,240,255,0.06)', spd:0.018, ph:2},
-          {a:0.65,b:0.07, col:'rgba(210,230,255,0.13)', col2:'rgba(240,248,255,0.07)', spd:-0.01,  ph:3},
-          {a:0.54,b:0.06, col:'rgba(220,235,255,0.10)', col2:'rgba(245,250,255,0.05)', spd:0.014, ph:4},
-          {a:0.44,b:0.05, col:'rgba(230,240,255,0.08)', col2:'rgba(250,252,255,0.04)', spd:-0.02,  ph:5},
+          {rf:1.00, col:'rgba(180,210,240,0.06)', w:28, spd:0.003, ph:0},
+          {rf:0.92, col:'rgba(200,225,250,0.08)', w:22, spd:-0.004, ph:1},
+          {rf:0.84, col:'rgba(190,220,248,0.10)', w:18, spd:0.005, ph:2},
+          {rf:0.73, col:'rgba(210,232,255,0.12)', w:24, spd:-0.003, ph:3},
+          {rf:0.63, col:'rgba(220,238,255,0.09)', w:16, spd:0.004, ph:4},
+          {rf:0.55, col:'rgba(230,242,255,0.07)', w:12, spd:-0.005, ph:5},
+          {rf:0.48, col:'rgba(240,248,255,0.05)', w:8,  spd:0.006, ph:6},
         ];
 
         function draw(t){
           t*=0.001;
           ctx.clearRect(0,0,c.width,c.height);
-          var cx=c.width*0.5, cy=c.height*0.48;
-          var baseW=Math.min(c.width*1.8, c.height*5);
+
+          /* Center far below viewport — only top arcs visible at bottom */
+          var cx=c.width*0.5;
+          var cy=c.height+Math.min(c.width,c.height)*0.55;
+          var baseR=Math.min(c.width*1.1, c.height*2.2);
 
           for(var i=0;i<rings.length;i++){
             var r=rings[i];
-            var rx=baseW*r.a*0.5;
-            var ry=Math.max(baseW*r.b*0.5, 4);
-            var drift=Math.sin(t*r.spd+r.ph)*12;
-            var tilt=0.02*Math.sin(t*0.008+r.ph);
+            var radius=baseR*r.rf;
+            var drift=Math.sin(t*r.spd+r.ph)*6;
 
             ctx.save();
-            ctx.translate(cx, cy+drift);
-            ctx.rotate(tilt);
+            ctx.translate(cx+drift, cy);
 
-            /* outer glow — ice sheen */
+            /* ice glow */
             ctx.beginPath();
-            ctx.ellipse(0,0,rx+6,ry+3,0,0,Math.PI*2);
-            ctx.strokeStyle=r.col2;
-            ctx.lineWidth=8;
+            ctx.arc(0,0,radius+8,0,Math.PI*2);
+            ctx.strokeStyle='rgba(220,240,255,0.03)';
+            ctx.lineWidth=r.w+12;
             ctx.stroke();
 
             /* main ring band */
             ctx.beginPath();
-            ctx.ellipse(0,0,rx,ry,0,0,Math.PI*2);
+            ctx.arc(0,0,radius,0,Math.PI*2);
             ctx.strokeStyle=r.col;
-            ctx.lineWidth=Math.max(ry*0.55,2.5);
+            ctx.lineWidth=r.w;
             ctx.stroke();
 
-            /* inner bright edge — ice catch */
+            /* bright ice edge — inner */
             ctx.beginPath();
-            ctx.ellipse(0,0,rx-3,ry-1.5,0,0,Math.PI*2);
-            var edgeGrad=ctx.createLinearGradient(-rx,0,rx,0);
-            edgeGrad.addColorStop(0,'rgba(255,255,255,0.02)');
-            edgeGrad.addColorStop(0.3,'rgba(255,255,255,0.08)');
-            edgeGrad.addColorStop(0.5,'rgba(255,255,255,0.12)');
-            edgeGrad.addColorStop(0.7,'rgba(255,255,255,0.08)');
-            edgeGrad.addColorStop(1,'rgba(255,255,255,0.02)');
-            ctx.strokeStyle=edgeGrad;
-            ctx.lineWidth=1.5;
+            ctx.arc(0,0,radius-r.w*0.35,0,Math.PI*2);
+            var g=ctx.createLinearGradient(-radius,0,radius,0);
+            g.addColorStop(0,'rgba(255,255,255,0.01)');
+            g.addColorStop(0.3,'rgba(255,255,255,0.06)');
+            g.addColorStop(0.5,'rgba(255,255,255,0.10)');
+            g.addColorStop(0.7,'rgba(255,255,255,0.06)');
+            g.addColorStop(1,'rgba(255,255,255,0.01)');
+            ctx.strokeStyle=g;
+            ctx.lineWidth=2;
             ctx.stroke();
 
             ctx.restore();
           }
 
-          /* Cassini division — dark gap */
-          var cassiniA=baseW*0.71*0.5;
-          var cassiniB=Math.max(baseW*0.015*0.5,2);
+          /* Cassini division */
+          var cassiniR=baseR*0.78;
           ctx.save();
-          ctx.translate(cx, cy);
+          ctx.translate(cx,cy);
           ctx.beginPath();
-          ctx.ellipse(0,0,cassiniA,cassiniB,0,0,Math.PI*2);
-          ctx.strokeStyle='rgba(0,0,10,0.15)';
-          ctx.lineWidth=Math.max(cassiniB*0.4,1);
+          ctx.arc(0,0,cassiniR,0,Math.PI*2);
+          ctx.strokeStyle='rgba(0,0,15,0.12)';
+          ctx.lineWidth=6;
           ctx.stroke();
           ctx.restore();
 
