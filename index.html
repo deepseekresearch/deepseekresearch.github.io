@@ -212,12 +212,13 @@
         display: block;
         padding: 20px 22px;
         text-align: left;
-        background: var(--bg);
-        border: 1px solid var(--rule);
+        background: transparent;
+        border: 1px solid rgba(77,107,254,.18);
         border-radius: 12px;
         color: var(--ink);
         transition: all .2s ease;
-        border-bottom: 1px solid var(--rule)
+        border-bottom: 1px solid rgba(77,107,254,.18);
+        backdrop-filter: blur(2px);
       }
 
       .land-card:hover {
@@ -548,9 +549,9 @@
       function resize(){c.width=window.innerWidth;c.height=window.innerHeight}
       resize(); window.addEventListener('resize',resize);
       var stars=[];
-      for(var i=0;i<60;i++){
+      for(var i=0;i<18;i++){
         stars.push({x:Math.random()*c.width,y:Math.random()*c.height,
-          r:Math.random()*1.4+.4, speed:Math.random()*.008+.003, phase:Math.random()*Math.PI*2});
+          r:Math.random()*1.2+.3, speed:Math.random()*.002+.001, phase:Math.random()*Math.PI*2});
       }
       function draw(t){
         ctx.clearRect(0,0,c.width,c.height);
@@ -588,14 +589,14 @@
       function draw(t){
         t*=.001;
         ctx.clearRect(0,0,c.width,c.height);
-        /* band 1 – grey */
-        band(c.height*.45,'rgba(160,165,175,0.12)',40,.003,.3,t);
-        /* band 2 – grey-blue */
-        band(c.height*.5,'rgba(130,145,185,0.10)',35,.004,.25,t*.8);
+        /* band 1 – faint grey with blue tint */
+        band(c.height*.45,'rgba(140,150,185,0.05)',40,.003,.3,t);
+        /* band 2 – deepseek blue tint */
+        band(c.height*.5,'rgba(77,107,254,0.04)',35,.004,.25,t*.8);
         /* band 3 – lighter grey */
-        band(c.height*.55,'rgba(180,185,195,0.08)',30,.005,.35,t*1.1);
-        /* band 4 – subtle blue touch */
-        band(c.height*.6,'rgba(100,120,200,0.07)',25,.006,.2,t*.6);
+        band(c.height*.55,'rgba(160,165,185,0.03)',30,.005,.35,t*1.1);
+        /* band 4 – subtle deepseek blue */
+        band(c.height*.6,'rgba(77,107,254,0.03)',25,.006,.2,t*.6);
         requestAnimationFrame(draw);
       }
       requestAnimationFrame(draw);
