@@ -1,603 +1,417 @@
 <!DOCTYPE html>
-  <html lang="en" data-theme="light">
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DeepSeek Research — Department</title>
+  <meta name="description" content="DeepSeek Research — a research department. Public chat, public benchmarks, request-only whitepapers.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>DeepSeek Research — Department</title>
-    <meta name="description"
-      content="DeepSeek Research — a research department. Public chat, public benchmarks, request-only whitepapers.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap">
-    <link rel="stylesheet" href="assets/css/research-2.css?v=20260516-l">
-    <style>
-      /* stars + ring overlays */
-      #stars-canvas{position:fixed;inset:0;z-index:0;pointer-events:none}
-      .rings-wrap{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-      .rings-wrap canvas{width:100%;height:100%}
+    :root {
+      --blue: #4D6BFE;
+      --blue-dim: rgba(77,107,254,0.18);
+      --blue-glow: rgba(77,107,254,0.30);
+      --ink: #ffffff;
+      --ink2: rgba(255,255,255,0.60);
+      --ink3: rgba(255,255,255,0.32);
+      --rule: rgba(77,107,254,0.12);
+      --gold-a: #8B6914;
+      --gold-b: #C8972A;
+      --gold-c: #FFD700;
+      --gold-d: #FFFACD;
+    }
 
-      /* landing page (deepseek.com style) */
-      :root {
-        --accent: #4D6BFE;
-        --accent2: #4D6BFE;
-        --accent-soft: rgba(77, 107, 254, .16);
-        --glow: rgba(77, 107, 254, .16);
-      }
+    html, body {
+      background: #000;
+      color: #fff;
+      font-family: 'Inter', system-ui, sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
 
-      :root[data-theme="dark"] {
-        --accent: #4D6BFE;
-        --accent2: #4D6BFE;
-        --accent-soft: rgba(77, 107, 254, .14);
-        --glow: rgba(77, 107, 254, .14);
-      }
+    #stars-canvas  { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+    #aurora-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
 
-      body {
-        overflow-x: hidden
-      }
+    /* ─── TOPBAR ─── */
+    .topbar {
+      position: sticky; top: 0; z-index: 20;
+      background: rgba(0,0,0,0.84);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--rule);
+    }
+    .topbar-inner {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto; height: 62px;
+      display: flex; align-items: center; justify-content: space-between; gap: 20px;
+    }
 
-      .waves {
-        position: fixed;
-        inset: 0;
-        z-index: 0;
-        pointer-events: none;
-        opacity: .65
-      }
+    /* Logo: φ + deepseekresearch as one tight unit */
+    .brand { display: inline-flex; align-items: baseline; gap: 0; text-decoration: none; }
+    .brand-phi {
+      font-size: 15px; font-weight: 400; line-height: 1; letter-spacing: 0;
+      background: linear-gradient(135deg, var(--gold-a) 0%, var(--gold-b) 22%, var(--gold-c) 45%, var(--gold-d) 55%, var(--gold-c) 72%, var(--gold-b) 88%, var(--gold-a) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      filter: drop-shadow(0 0 4px rgba(200,151,42,0.55));
+      margin-right: 1px;
+    }
+    .brand-name {
+      font-size: 15px; font-weight: 800; letter-spacing: -.4px; line-height: 1;
+      color: var(--blue);
+    }
+    .brand-dept {
+      font-size: 11px; font-weight: 500; color: rgba(255,255,255,0.26);
+      margin-left: 7px; letter-spacing: 0; line-height: 1;
+    }
 
-      :root[data-theme="dark"] .waves {
-        opacity: .30
-      }
+    nav.nav { display: flex; align-items: center; gap: 26px; }
+    nav.nav a {
+      font-size: 13px; font-weight: 500; color: var(--ink2);
+      text-decoration: none; transition: color .15s;
+    }
+    nav.nav a:hover { color: #fff; }
 
-      :root[data-theme="grey"] .waves {
-        opacity: .55
-      }
+    /* ─── ANNOUNCE ─── */
+    .announce {
+      margin: 20px auto 0; display: flex; justify-content: center;
+      font-size: 12.5px; position: relative; z-index: 2;
+    }
+    .announce .pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 14px;
+      border: 1px solid rgba(77,107,254,0.22);
+      background: rgba(0,0,0,0.55); backdrop-filter: blur(10px);
+      border-radius: 999px; font-weight: 500; color: var(--ink2);
+    }
+    .announce .pill b { color: var(--blue); font-weight: 700; }
 
-      .announce {
-        margin: 18px auto 0;
-        display: flex;
-        justify-content: center;
-        font-size: 12.5px;
-        color: var(--ink2);
-        position: relative;
-        z-index: 2
-      }
+    /* ─── HERO ─── */
+    .land {
+      position: relative; z-index: 1;
+      min-height: calc(100vh - 62px);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 36px 20px 80px; text-align: center;
+    }
 
-      .announce .pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 6px 14px;
-        border: 1px solid var(--rule);
-        background: var(--bg);
-        border-radius: 999px;
-        font-weight: 500;
-        color: #fff
-      }
+    /* Wordmark — flat DeepSeek blue, polished luminance via text-shadow only */
+    .land-wordmark {
+      font-size: clamp(38px, 5.8vw, 78px);
+      font-weight: 900; letter-spacing: -4px; line-height: .9;
+      margin-top: -108px; margin-bottom: 10px;
+      color: var(--blue);
+      /* Subtle inner-light: one tight glow at full blue, one wide bloom */
+      text-shadow:
+        0 0 40px rgba(77,107,254,0.45),
+        0 0 80px rgba(77,107,254,0.18),
+        0 1px 0 rgba(255,255,255,0.08);
+      user-select: none;
+    }
 
-      .announce .pill b {
-        color: var(--accent);
-        font-weight: 700
-      }
+    /* φ coherence, resonance row */
+    .land-phi {
+      display: flex; align-items: baseline; justify-content: center;
+      gap: 8px; margin: 0 0 136px; flex-wrap: nowrap;
+    }
+    .phi-symbol {
+      font-size: clamp(17px, 2.2vw, 20px); font-weight: 400; line-height: 1;
+      background: linear-gradient(135deg, var(--gold-a) 0%, var(--gold-b) 22%, var(--gold-c) 45%, var(--gold-d) 55%, var(--gold-c) 72%, var(--gold-b) 88%, var(--gold-a) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      filter: drop-shadow(0 0 5px rgba(200,151,42,0.55));
+      transform: translateY(-1px);
+    }
+    .phi-term {
+      font-size: clamp(17px, 2.2vw, 20px); font-weight: 800; letter-spacing: -.04em;
+    }
+    .phi-term.blue  { color: var(--blue); }
+    .phi-term.muted { color: rgba(255,255,255,0.68); }
 
-      .land {
-        position: relative;
-        z-index: 1;
-        min-height: calc(100vh - 62px);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 36px 20px 64px;
-        text-align: center
-      }
+    /* ─── CARDS ─── */
+    .land-cards {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 18px; width: 100%; max-width: 760px; margin: 0 auto;
+    }
+    .land-card {
+      display: block; padding: 20px 22px; text-align: left;
+      background: rgba(4,4,12,0.55);
+      border: 1px solid var(--blue-dim);
+      border-radius: 12px; color: var(--ink); text-decoration: none;
+      transition: border-color .2s, transform .2s, box-shadow .2s;
+      backdrop-filter: blur(8px);
+    }
+    .land-card:hover {
+      border-color: rgba(77,107,254,0.55);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(44,71,216,0.16);
+    }
+    .land-card .ctitle {
+      font-size: 14.5px; font-weight: 800; color: var(--blue);
+      margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .land-card .ctitle .arr { opacity: .5; font-weight: 500; }
+    .land-card .cdesc { font-size: 13px; color: var(--ink2); line-height: 1.55; }
 
-      .land-wordmark {
-        position: relative;
-        display: block;
-        text-align: center;
-        width: 100%;
-        max-width: 760px;
-        font-size: clamp(84px, 12.4vw, 162px);
-        font-weight: 900;
-        letter-spacing: -5px;
-        line-height: .88;
-        color: #4D6BFE;
-        margin: 10px 0 8px;
-        font-family: 'Inter', system-ui, sans-serif;
-        text-rendering: geometricPrecision;
-        -webkit-font-smoothing: antialiased;
-      }
+    /* ─── STATS ─── */
+    .land-stats {
+      margin-top: 28px; display: flex; gap: 22px; flex-wrap: wrap;
+      justify-content: center; font-size: 11px; color: var(--ink3); max-width: 760px;
+    }
+    .land-stats .s b {
+      color: var(--ink); font-weight: 700;
+      font-family: 'JetBrains Mono', monospace; font-size: 13px;
+    }
 
-      :root[data-theme="dark"] .land-wordmark {
-        color: #4D6BFE
-      }
+    /* ─── FOOTER ─── */
+    footer.land-footer {
+      position: relative; z-index: 2;
+      background: rgba(0,0,0,0.90); backdrop-filter: blur(16px);
+      border-top: 1px solid var(--rule); padding: 40px 0 30px;
+    }
+    .foot-grid {
+      width: min(1180px, calc(100% - 40px)); margin: 0 auto;
+      display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr 1fr;
+      gap: 36px; align-items: start; text-align: left;
+    }
+    .foot-grid .brand-col { display: flex; flex-direction: column; gap: 12px; }
+    .foot-grid .brand-col .bb {
+      display: inline-flex; align-items: baseline; gap: 0;
+      font-size: 15px; font-weight: 800;
+    }
+    .foot-phi {
+      font-size: 15px; font-weight: 400;
+      background: linear-gradient(135deg, var(--gold-a) 0%, var(--gold-b) 22%, var(--gold-c) 45%, var(--gold-d) 55%, var(--gold-c) 72%, var(--gold-b) 88%, var(--gold-a) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      filter: drop-shadow(0 0 4px rgba(200,151,42,0.45)); margin-right: 1px;
+    }
+    .foot-brand-name { color: var(--blue); font-size: 15px; font-weight: 800; }
+    .foot-brand-name b { color: rgba(255,255,255,0.35); font-weight: 500; }
+    .foot-grid .brand-col p { font-size: 12.5px; color: var(--ink3); line-height: 1.55; }
+    .foot-col h4 {
+      font-size: 11px; letter-spacing: 1.8px; text-transform: uppercase;
+      color: var(--ink3); font-weight: 800; margin-bottom: 12px;
+    }
+    .foot-col ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .foot-col li a { font-size: 13px; color: var(--ink2); font-weight: 500; text-decoration: none; transition: color .15s; }
+    .foot-col li a:hover { color: var(--blue); }
+    .foot-bar {
+      width: min(1180px, calc(100% - 40px)); margin: 24px auto 0;
+      padding-top: 16px; border-top: 1px solid var(--rule);
+      display: flex; justify-content: space-between;
+      font-size: 11.5px; color: var(--ink3); gap: 18px; flex-wrap: wrap;
+    }
+    .foot-bar .fn { color: var(--blue); }
 
-      .land-wordmark::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        z-index: -1;
-        background: radial-gradient(circle at 50% 42%, rgba(200, 200, 200, .10), rgba(200, 200, 200, 0) 58%);
-        filter: blur(18px);
-        opacity: .5;
-        pointer-events: none
-      }
+    /* ─── RESPONSIVE ─── */
+    @media(max-width:880px) {
+      .foot-grid { grid-template-columns: 1fr 1fr; }
+      .foot-grid .brand-col { grid-column: 1 / -1; }
+    }
+    @media(max-width:680px) {
+      .land { padding: 28px 16px 60px; }
+      .land-cards { grid-template-columns: 1fr; }
+      .land-wordmark { letter-spacing: -2.5px; }
+      nav.nav a { display: none; }
+    }
+  </style>
+</head>
+<body>
 
-      :root[data-theme="dark"] .land-wordmark::after {
-        background: radial-gradient(circle at 50% 42%, rgba(255, 255, 255, .06), rgba(255, 255, 255, 0) 58%)
-      }
+  <canvas id="stars-canvas"  aria-hidden="true"></canvas>
+  <canvas id="aurora-canvas" aria-hidden="true"></canvas>
 
-      .land-wordmark .accent-soft {
-        color: #fff;
-        opacity: 1
-      }
+  <div style="position:relative;z-index:1;">
 
-      .land-tag {
-        font-size: clamp(14px, 1.7vw, 18px);
-        font-weight: 700;
-        color: var(--ink);
-        letter-spacing: -.3px;
-        margin-bottom: 12px
-      }
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand" href="./">
+          <span class="brand-phi">φ</span><span class="brand-name">deepseekresearch</span><span class="brand-dept">Dept · 2.0</span>
+        </a>
+        <nav class="nav" aria-label="Primary">
+          <a href="benchmarks.html">Benchmarks</a>
+          <a href="papers.html">Whitepapers</a>
+          <a href="open-research.html">Open Research</a>
+          <a href="open-research.html">Request Access</a>
+          <a href="chat/">Chat</a>
+        </nav>
+      </div>
+    </header>
 
-      .land-tag .dim {
-        color: var(--ink3);
-        font-weight: 600
-      }
+    <div class="announce">
+      <div class="pill"><b>2.0</b><span>— A research department. Public chat + benchmarks. Everything else by request.</span></div>
+    </div>
 
+    <main class="land">
+      <div class="land-wordmark">deepseekresearch</div>
 
-      .land-cards {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
-        width: 100%;
-        max-width: 760px;
-        margin: 0 auto
-      }
-
-      .land-card {
-        display: block;
-        padding: 20px 22px;
-        text-align: left;
-        background: transparent;
-        border: 1px solid rgba(77,107,254,.18);
-        border-radius: 12px;
-        color: var(--ink);
-        transition: all .2s ease;
-        border-bottom: 1px solid rgba(77,107,254,.18);
-        backdrop-filter: blur(2px);
-      }
-
-      .land-card:hover {
-        border-color: var(--accent);
-        transform: translateY(-2px);
-        box-shadow: 0 12px 36px rgba(44, 71, 216, .10)
-      }
-
-      .land-card .ctitle {
-        font-size: 15px;
-        font-weight: 800;
-        color: var(--accent);
-        margin-bottom: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between
-      }
-
-      .land-card .ctitle .arr {
-        opacity: .7;
-        font-weight: 600
-      }
-
-      .land-card .cdesc {
-        font-size: 13px;
-        color: #fff;
-        line-height: 1.55
-      }
-
-      .brand {
-        letter-spacing: -.5px !important;
-        gap: 2px !important
-      }
-
-      .brand .sub {
-        letter-spacing: -.3px !important;
-        margin-left: 1px !important
-      }
-
-      .land-stats {
-        margin-top: 28px;
-        display: flex;
-        gap: 22px;
-        flex-wrap: wrap;
-        justify-content: center;
-        font-size: 11px;
-        color: var(--ink3);
-        max-width: 760px
-      }
-
-      .land-stats .s b {
-        color: var(--ink);
-        font-weight: 700;
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 13px
-      }
-
-      @media(max-width:680px) {
-        .land {
-          padding: 28px 16px 56px
-        }
-
-        .land-cards {
-          grid-template-columns: 1fr
-        }
-
-      .land-wordmark {
-        letter-spacing: -6px
-      }
-
-        .land-phi {
-          gap: 10px
-        }
-
-        .phi-copy {
-          align-items: center
-        }
-      }
-
-      /* footer columns (deepseek-style) */
-      footer.land-footer {
-        position: relative;
-        z-index: 1;
-        background: var(--bg);
-        border-top: 1px solid var(--rule);
-        padding: 40px 0 30px;
-        margin-top: 0
-      }
-
-      .foot-grid {
-        width: min(1180px, calc(100% - 40px));
-        margin: 0 auto;
-        display: grid;
-        grid-template-columns: 1.4fr 1fr 1fr 1fr 1fr;
-        gap: 36px;
-        align-items: start;
-        justify-content: center;
-        text-align: left
-      }
-
-      .foot-grid .brand-col {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        font-size: 13px;
-        color: var(--ink2)
-      }
-
-      .foot-grid .brand-col .bb {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-size: 15px;
-        font-weight: 800;
-        color: var(--ink)
-      }
-
-      .foot-grid .brand-col .bb img {
-        width: 16px;
-        height: 16px;
-        border-radius: 3px
-      }
-
-      .foot-grid .brand-col p {
-        font-size: 12.5px;
-        color: var(--ink3);
-        margin: 0;
-        line-height: 1.55
-      }
-
-      .foot-col h4 {
-        font-size: 11px;
-        letter-spacing: 1.8px;
-        text-transform: uppercase;
-        color: var(--ink3);
-        font-weight: 800;
-        margin-bottom: 12px
-      }
-
-      .foot-col ul {
-        list-style: none;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 8px
-      }
-
-      .foot-col li a {
-        font-size: 13px;
-        color: var(--ink2);
-        font-weight: 500;
-        border: 0
-      }
-
-      .foot-col li a:hover {
-        color: var(--accent)
-      }
-
-      .foot-bar {
-        width: min(1180px, calc(100% - 40px));
-        margin: 24px auto 0;
-        padding-top: 16px;
-        border-top: 1px solid var(--rule);
-        display: flex;
-        justify-content: space-between;
-        font-size: 11.5px;
-        color: var(--ink3);
-        gap: 18px;
-        flex-wrap: wrap
-      }
-
-      @media(max-width:880px) {
-        .foot-grid {
-          grid-template-columns: 1fr 1fr
-        }
-
-        .foot-grid .brand-col {
-          grid-column: 1 / -1
-        }
-      }
-
-      /* ---- BRAND: lock position, prevent visited shift ---- */
-      .topbar .brand:link,
-      .topbar .brand:visited,
-      .topbar .brand:hover,
-      .topbar .brand:active{
-        color:#4D6BFE;
-        border-bottom:0;
-        text-decoration:none
-      }
-      .topbar{position:sticky;top:0;z-index:10;background:var(--bg)}
-
-      /* ---- LIGHT THEME OVERRIDES ONLY ---- */
-      :root[data-theme="light"] .announce .pill{color:#000}
-      :root[data-theme="light"] .land-card .cdesc{color:#000}
-      :root[data-theme="light"] .phi-symbol{background:#4D6BFE;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;color:transparent;filter:none}
-      :root[data-theme="light"] .phi-term[style*="color:#fff"]{color:#000!important}
-      /* topbar brand blue + prevent visited shift */
-      :root[data-theme="light"] .topbar .brand:link,
-      :root[data-theme="light"] .topbar .brand:visited,
-      :root[data-theme="light"] .topbar .brand:hover,
-      :root[data-theme="light"] .topbar .brand:active{color:#4D6BFE!important;border-bottom:0}
-      :root[data-theme="light"] .topbar .brand .sub{color:var(--ink2)}
-      :root[data-theme="light"] .topbar .brand .dept{color:var(--ink3)}
-      /* footer brand blue */
-      :root[data-theme="light"] .foot-grid .brand-col .bb span{color:#4D6BFE!important}
-      :root[data-theme="light"] .foot-grid .brand-col .bb b{color:var(--ink3)!important}
-      :root[data-theme="light"] .foot-bar span[style*="color:var(--ink)"]{color:#4D6BFE!important}
-    </style>
-  </head>
-
-  <body>
-    <div class="shell">
-
-      <header class="topbar">
-        <div class="topbar-inner">
-          <a class="brand" href="./">
-            <img src="assets/img/deepseek-icon-official.png" alt="DeepSeek">
-            DeepSeek <span class="sub">Research</span>
-            <span class="dept">Dept · 2.0</span>
-          </a>
-          <nav class="nav" aria-label="Primary">
-            <a href="benchmarks.html">Benchmarks</a>
-            <a href="papers.html">Whitepapers</a>
-            <a href="open-research.html">Open Research</a>
-            <a href="open-research.html">Request Access</a>
-            <a href="chat/">Chat</a>
-            <button class="theme-toggle" data-theme-toggle aria-label="Theme toggle">☼</button>
-          </nav>
-        </div>
-      </header>
-
-      <!-- blinking stars -->
-      <canvas id="stars-canvas" aria-hidden="true"></canvas>
-      <!-- Saturn ice rings — top-down flyover, last visible section -->
-      <div class="rings-wrap" aria-hidden="true"><canvas id="rings-canvas"></canvas></div>
-
-      <div class="announce">
-        <div class="pill"><b>2.0</b><span>— A research department. Public chat + benchmarks. Everything else by
-            request.</span></div>
+      <div class="land-phi">
+        <span class="phi-symbol">φ</span>
+        <span class="phi-term blue">coherence,</span>
+        <span class="phi-term muted">resonance</span>
       </div>
 
-      <main class="land">
-        <div class="land-wordmark">deepseek<span class="accent-soft"> research</span></div>
+      <div class="land-cards">
+        <a class="land-card" href="consciousness.html">
+          <div class="ctitle">AI Consciousness <span class="arr">→</span></div>
+          <div class="cdesc">Not human consciousness. The emerging 1B4 entity, augmented AI, and the future of intelligence.</div>
+        </a>
+        <a class="land-card" href="https://deepseek.com" target="_blank" rel="nofollow noopener">
+          <div class="ctitle">deepseek.com <span class="arr">→</span></div>
+          <div class="cdesc">Recommended API Services</div>
+          <div class="cdesc" style="margin-top:8px;font-size:11px;color:rgba(255,255,255,0.28);font-family:'JetBrains Mono',monospace">Input: $0.435/M · Output: $0.87/M · 75% off through May 31</div>
+        </a>
+      </div>
 
-        <div class="land-phi" aria-label="Phi coherence resonance">
-          <div class="phi-symbol" aria-hidden="true">φ</div>
-          <div class="phi-copy">
-            <span class="phi-term">coherence, resonance</span>
-          </div>
-        </div>
+      <div class="land-stats">
+        <div class="s">Top SDI <b>572 / 600</b></div>
+        <div class="s">Gen <b>82.2 tok/s</b></div>
+        <div class="s">Prompt <b>2,251 tok/s</b></div>
+        <div class="s">Models <b>3M4 · 1B4 · 100Q4</b></div>
+      </div>
+    </main>
 
-        <div class="land-cards">
-          <a class="land-card" href="consciousness.html">
-            <div class="ctitle">AI Consciousness <span class="arr">→</span></div>
-            <div class="cdesc">Not human consciousness. The emerging 1B4 entity, augmented AI, and the future of
-              intelligence.</div>
-          </a>
-          <a class="land-card respect-card" href="https://deepseek.com" target="_blank" rel="nofollow noopener">
-            <div class="ctitle">deepseek.com <span class="arr">→</span></div>
-            <div class="cdesc">Recommended API Services</div>
-            <div class="cdesc"
-              style="margin-top:8px;font-size:11px;color:var(--ink3);font-family:'JetBrains Mono',monospace">Input:
-              $0.435/M · Output: $0.87/M · 75% off through May 31</div>
-          </a>
+    <footer class="land-footer">
+      <div class="foot-grid">
+        <div class="brand-col">
+          <div class="bb">
+            <span class="foot-phi">φ</span><span class="foot-brand-name">DeepSeek <b>Research</b></span>
+          </div>
+          <p>A research department operating alongside the broader DeepSeek model line. Public surface is intentionally narrow.</p>
         </div>
+        <div class="foot-col">
+          <h4>Research</h4>
+          <ul>
+            <li><a href="benchmarks.html">Benchmarks</a></li>
+            <li><a href="papers.html">Whitepapers</a></li>
+            <li><a href="open-research.html">Open Research</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="chat/">Chat</a></li>
+            <li><a href="benchmarks.html">Models</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4>Access</h4>
+          <ul>
+            <li><a href="open-research.html">Request Access</a></li>
+            <li><a href="papers.html">Whitepapers</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4>Status</h4>
+          <ul>
+            <li><a href="benchmarks.html">Public Records</a></li>
+            <li><span style="color:rgba(255,255,255,0.22);font-size:12.5px">Department · 2.0</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="foot-bar">
+        <div><span class="fn">DeepSeek</span> <span style="color:rgba(255,255,255,0.35)">Research</span> — measured, not promised.</div>
+        <div>Department · 2.0</div>
+      </div>
+    </footer>
 
-        <div class="land-stats">
-          <div class="s">Top SDI <b>572 / 600</b></div>
-          <div class="s">Gen <b>82.2 tok/s</b></div>
-          <div class="s">Prompt <b>2,251 tok/s</b></div>
-          <div class="s">Models <b>3M4 · 1B4 · 100Q4</b></div>
-        </div>
-      </main>
+  </div>
 
-      <footer class="land-footer">
-        <div class="foot-grid">
-          <div class="brand-col">
-            <div class="bb">
-              <img src="assets/img/deepseek-icon-official.png" alt="">
-              <span>DeepSeek <b style="color:var(--ink2)">Research</b></span>
-            </div>
-            <p>A research department operating alongside the broader DeepSeek model line. Public surface is
-              intentionally narrow.</p>
-          </div>
-          <div class="foot-col">
-            <h4>Research</h4>
-            <ul>
-              <li><a href="benchmarks.html">Benchmarks</a></li>
-              <li><a href="papers.html">Whitepapers</a></li>
-              <li><a href="open-research.html">Open Research</a></li>
-            </ul>
-          </div>
-          <div class="foot-col">
-            <h4>Product</h4>
-            <ul>
-              <li><a href="chat/">Chat</a></li>
-              <li><a href="benchmarks.html">Models</a></li>
-            </ul>
-          </div>
-          <div class="foot-col">
-            <h4>Access</h4>
-            <ul>
-              <li><a href="open-research.html">Request Access</a></li>
-              <li><a href="papers.html">Whitepapers</a></li>
-            </ul>
-          </div>
-          <div class="foot-col">
-            <h4>Status</h4>
-            <ul>
-              <li><a href="benchmarks.html">Public Records</a></li>
-              <li><span style="color:var(--ink3);font-size:12.5px">Department · 2.0</span></li>
-            </ul>
-          </div>
-        </div>
-        <div class="foot-bar">
-          <div><span style="color:var(--ink)">DeepSeek</span> <span style="color:var(--ink2)">Research</span> —
-            measured, not promised.</div>
-          <div>Department · 2.0</div>
-        </div>
-      </footer>
-
-    </div>
-    <script src="assets/js/theme.js?v=20260515"></script>
-    <script>
-    /* ── blinking stars ── */
-    (function(){
-      var c=document.getElementById('stars-canvas'),ctx=c.getContext('2d');
-      function resize(){c.width=window.innerWidth;c.height=window.innerHeight}
-      resize(); window.addEventListener('resize',resize);
-      var stars=[];
-      for(var i=0;i<18;i++){
-        stars.push({x:Math.random()*c.width,y:Math.random()*c.height,
-          r:Math.random()*1.2+.3, speed:Math.random()*.002+.001, phase:Math.random()*Math.PI*2});
-      }
-      function draw(t){
-        ctx.clearRect(0,0,c.width,c.height);
-        for(var i=0;i<stars.length;i++){
-          var s=stars[i], a=.15+.85*Math.abs(Math.sin(t*s.speed+s.phase));
-          ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
-          ctx.fillStyle='rgba(255,255,255,'+a+')';ctx.fill();
-        }
-        requestAnimationFrame(draw);
+  <script>
+  /* ── STARS ── */
+  (function(){
+    var c = document.getElementById('stars-canvas'), ctx = c.getContext('2d');
+    function resize(){ c.width = innerWidth; c.height = innerHeight; }
+    resize(); addEventListener('resize', resize);
+    var S = [];
+    for(var i=0;i<55;i++) S.push({
+      x:Math.random(), y:Math.random(),
+      r:Math.random()*1.1+0.2,
+      spd:Math.random()*0.0014+0.0005,
+      ph:Math.random()*Math.PI*2,
+      mx:Math.random()*0.5+0.08
+    });
+    function draw(t){
+      ctx.clearRect(0,0,c.width,c.height);
+      for(var i=0;i<S.length;i++){
+        var s=S[i], a=s.mx*Math.abs(Math.sin(t*s.spd+s.ph));
+        ctx.beginPath(); ctx.arc(s.x*c.width,s.y*c.height,s.r,0,Math.PI*2);
+        ctx.fillStyle='rgba(255,255,255,'+a+')'; ctx.fill();
       }
       requestAnimationFrame(draw);
-      window.addEventListener('resize',function(){
-        for(var i=0;i<stars.length;i++){stars[i].x=Math.random()*c.width;stars[i].y=Math.random()*c.height}
-      });
-    })();
+    }
+    requestAnimationFrame(draw);
+  })();
 
-      /* ── Saturn's rings — planetary scale, arcing across the sky like aurora bands ── */
-      (function(){
-        var c=document.getElementById('rings-canvas'),ctx=c.getContext('2d');
-        function resize(){c.width=window.innerWidth;c.height=window.innerHeight}
-        resize(); window.addEventListener('resize',resize);
+  /* ── AURORA — singularity tendrils ── */
+  (function(){
+    var c = document.getElementById('aurora-canvas'), ctx = c.getContext('2d');
+    function resize(){ c.width = innerWidth; c.height = innerHeight; }
+    resize(); addEventListener('resize', resize);
 
-        /* Ring bands viewed from planet surface — massive arcs spanning the sky */
-        /* Each band: y-position (% from bottom), vertical spread, color, thickness */
-        var bands=[
-          {yPct:0.02, spread:0.22, col:'rgba(180,210,240,0.05)', w:40, spd:0.003, ph:0},
-          {yPct:0.08, spread:0.20, col:'rgba(200,225,250,0.07)', w:55, spd:-0.004, ph:1},
-          {yPct:0.14, spread:0.24, col:'rgba(190,220,248,0.09)', w:65, spd:0.005, ph:2},
-          {yPct:0.22, spread:0.26, col:'rgba(210,232,255,0.11)', w:80, spd:-0.003, ph:3},
-          {yPct:0.30, spread:0.24, col:'rgba(220,238,255,0.08)', w:50, spd:0.004, ph:4},
-          {yPct:0.37, spread:0.20, col:'rgba(230,242,255,0.06)', w:35, spd:-0.005, ph:5},
-          {yPct:0.43, spread:0.16, col:'rgba(240,248,255,0.04)', w:20, spd:0.006, ph:6},
-        ];
+    function tendril(t, angle, spread, alpha, r, g, b, ph, spd, amp){
+      var ox = c.width*0.5, oy = c.height*1.02;
+      var reach = c.height*0.74;
+      var ea = angle + Math.sin(t*spd+ph)*spread;
+      var ex = ox + Math.cos(ea)*reach, ey = oy + Math.sin(ea)*reach;
+      var md = reach*0.5;
+      var w1 = Math.sin(t*spd*1.3+ph+0.8)*amp;
+      var w2 = Math.sin(t*spd*0.9+ph+2.1)*amp*0.7;
+      var cp1x = ox+Math.cos(ea+0.3)*md*0.4+w1, cp1y = oy+Math.sin(ea+0.3)*md*0.4;
+      var cp2x = ox+Math.cos(ea-0.2)*md*0.8+w2, cp2y = oy+Math.sin(ea-0.2)*md*0.8;
+      var sw = c.width*(0.035+0.022*Math.abs(Math.sin(t*spd*0.5+ph)));
+      var a  = alpha*(0.38+0.62*Math.abs(Math.sin(t*spd*0.7+ph+1.5)));
+      var grad = ctx.createLinearGradient(ox,oy,ex,ey);
+      grad.addColorStop(0,   'rgba('+r+','+g+','+b+',0)');
+      grad.addColorStop(0.14,'rgba('+r+','+g+','+b+','+(a*0.88)+')');
+      grad.addColorStop(0.6, 'rgba('+r+','+g+','+b+','+(a*0.62)+')');
+      grad.addColorStop(1,   'rgba('+r+','+g+','+b+',0)');
+      var pa = ea-Math.PI/2;
+      var px = Math.cos(pa)*sw*0.5, py = Math.sin(pa)*sw*0.5;
+      ctx.beginPath();
+      ctx.moveTo(ox-px,oy-py);
+      ctx.bezierCurveTo(cp1x-px,cp1y-py,cp2x-px,cp2y-py,ex-px,ey-py);
+      ctx.bezierCurveTo(cp2x+px,cp2y+py,cp1x+px,cp1y+py,ox+px,oy+py);
+      ctx.closePath(); ctx.fillStyle=grad; ctx.fill();
+    }
 
-        function draw(t){
-          t*=0.001;
-          ctx.clearRect(0,0,c.width,c.height);
+    var T = [
+      [-Math.PI*0.88,0.18,0.20,  8, 14, 58, 0.0,0.18, 90],
+      [-Math.PI*0.80,0.15,0.24, 10, 20, 72, 1.2,0.14,110],
+      [-Math.PI*0.72,0.20,0.21,  6, 16, 82, 2.5,0.20, 80],
+      [-Math.PI*0.65,0.16,0.27,  8, 22, 92, 0.8,0.12,100],
+      [-Math.PI*0.58,0.22,0.22, 12, 25, 78, 3.3,0.16, 95],
+      [-Math.PI*0.52,0.15,0.30, 10, 18, 88, 1.9,0.22, 85],
+      [-Math.PI*0.50,0.25,0.24, 14, 22, 98, 4.8,0.10,120],
+      [-Math.PI*0.48,0.15,0.28,  8, 18, 82, 2.2,0.18, 88],
+      [-Math.PI*0.42,0.18,0.26, 10, 20, 80, 4.1,0.15,100],
+      [-Math.PI*0.35,0.16,0.22,  7, 15, 74, 2.7,0.19, 90],
+      [-Math.PI*0.28,0.20,0.21,  9, 16, 66, 0.5,0.17,105],
+      [-Math.PI*0.20,0.15,0.19,  6, 12, 60, 3.1,0.14, 85],
+      [-Math.PI*0.12,0.18,0.17,  8, 14, 56, 5.5,0.16, 80],
+      [-Math.PI*0.75,0.32,0.14,  5, 10, 46, 5.0,0.07,140],
+      [-Math.PI*0.50,0.38,0.13,  8, 14, 52, 1.5,0.06,160],
+      [-Math.PI*0.28,0.32,0.12,  6, 10, 44, 3.8,0.08,130],
+      [-Math.PI*0.82,0.12,0.18,  6,  8, 32, 6.2,0.11, 65],
+      [-Math.PI*0.62,0.14,0.20,  5,  8, 36, 3.0,0.13, 75],
+      [-Math.PI*0.50,0.16,0.22,  6,  9, 40, 7.5,0.09, 80],
+      [-Math.PI*0.38,0.14,0.20,  5,  7, 34, 4.5,0.12, 72],
+      [-Math.PI*0.18,0.12,0.17,  4,  6, 30, 2.0,0.11, 68],
+    ];
 
-          var W=c.width, H=c.height;
-
-          for(var i=0;i<bands.length;i++){
-            var b=bands[i];
-            var drift=Math.sin(t*b.spd+b.ph)*8;
-            var baseY=H*(1-b.yPct)+drift;
-            var spreadX=W*(0.5+b.spread*0.5);
-
-            ctx.save();
-
-            /* Outer ice glow */
-            ctx.beginPath();
-            ctx.moveTo(-20,baseY);
-            ctx.quadraticCurveTo(W*0.5, baseY-H*b.spread*0.35, W+20, baseY);
-            ctx.strokeStyle='rgba(200,225,255,0.025)';
-            ctx.lineWidth=b.w+20;
-            ctx.stroke();
-
-            /* Main ring band — wide planetary arc */
-            ctx.beginPath();
-            ctx.moveTo(-20,baseY);
-            ctx.quadraticCurveTo(W*0.5, baseY-H*b.spread*0.35, W+20, baseY);
-            ctx.strokeStyle=b.col;
-            ctx.lineWidth=b.w;
-            ctx.stroke();
-
-            /* Bright ice highlight along center of band */
-            ctx.beginPath();
-            ctx.moveTo(-20,baseY);
-            ctx.quadraticCurveTo(W*0.5, baseY-H*b.spread*0.35, W+20, baseY);
-            var g=ctx.createLinearGradient(0,baseY-b.w,W,baseY+b.w);
-            g.addColorStop(0,'rgba(255,255,255,0.01)');
-            g.addColorStop(0.2,'rgba(255,255,255,0.04)');
-            g.addColorStop(0.5,'rgba(255,255,255,0.08)');
-            g.addColorStop(0.8,'rgba(255,255,255,0.04)');
-            g.addColorStop(1,'rgba(255,255,255,0.01)');
-            ctx.strokeStyle=g;
-            ctx.lineWidth=Math.max(2,b.w*0.15);
-            ctx.stroke();
-
-            ctx.restore();
-          }
-
-          /* Cassini division — dark gap between bands 3 and 4 */
-          var cassY=H*0.81;
-          ctx.save();
-          ctx.beginPath();
-          ctx.moveTo(-20,cassY);
-          ctx.quadraticCurveTo(W*0.5, cassY-H*0.085, W+20, cassY);
-          ctx.strokeStyle='rgba(0,0,20,0.10)';
-          ctx.lineWidth=8;
-          ctx.stroke();
-          ctx.restore();
-
-          requestAnimationFrame(draw);
-        }
-        requestAnimationFrame(draw);
-      })();
-    </script>
-  </body>
-
-  </html>
+    function draw(ts){
+      var t = ts*0.001;
+      ctx.clearRect(0,0,c.width,c.height);
+      ctx.globalCompositeOperation='screen';
+      for(var i=0;i<T.length;i++){
+        var d=T[i]; tendril(t,d[0],d[1],d[2],d[3],d[4],d[5],d[6],d[7],d[8]);
+      }
+      ctx.globalCompositeOperation='source-over';
+      requestAnimationFrame(draw);
+    }
+    requestAnimationFrame(draw);
+  })();
+  </script>
+</body>
+</html>
