@@ -695,6 +695,7 @@ textarea.fld{resize:vertical;min-height:60px;font-family:inherit}
 // ═══════════════ STATE ═══════════════
 // Chat API routed through Vercel serverless proxy → local Ollama
 // Vercel project: deepseek-research-chat (deepseek-research-chat.vercel.app)
+// Deploy: 2026-05-25 v2
 const API_ROUTER    = 'https://deepseek-research-chat.vercel.app';
 function isCloudModel(m){ m=(m||'').toLowerCase().trim();
   return /^(openai|anthropic|deepseek)\//.test(m)
