@@ -693,8 +693,9 @@ textarea.fld{resize:vertical;min-height:60px;font-family:inherit}
 <script>
 
 // ═══════════════ STATE ═══════════════
-// All model calls go through the same-origin /api router. Backend endpoints stay server-side.
-const API_ROUTER    = '';  // same-origin
+// Chat API routed through Vercel serverless proxy → local Ollama
+// Vercel project: deepseek-research-chat (deepseek-research-chat.vercel.app)
+const API_ROUTER    = 'https://deepseek-research-chat.vercel.app';
 function isCloudModel(m){ m=(m||'').toLowerCase().trim();
   return /^(openai|anthropic|deepseek)\//.test(m)
       || /^(gpt|chatgpt|codex|o1|o3|o4|text-|davinci|dall-e)/.test(m)

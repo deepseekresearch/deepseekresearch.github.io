@@ -1,0 +1,11 @@
+{
+  "functions": {
+    "api/chat.js": {
+      "memory": 512,
+      "maxDuration": 60
+    }
+  },
+  "rewrites": [
+    { "source": "/api/chat", "destination": "/api/chat" }
+  ]
+}
