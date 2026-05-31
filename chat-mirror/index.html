@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DeepSeek Research - AI Chat Studio</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0f;--glass:rgba(255,255,255,0.05);--border:rgba(255,255,255,0.1);--accent:#6366f1;--accent2:#8b5cf6;--text:#e2e8f0;--dim:#64748b}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);height:100vh;overflow:hidden}
+.app{display:grid;grid-template-columns:280px 1fr 320px;height:100vh}
+.ai-panel{background:var(--glass);border-right:1px solid var(--border);padding:16px;overflow-y:auto}
+.ai-panel h2{font-size:14px;text-transform:uppercase;letter-spacing:2px;color:var(--accent);margin-bottom:16px}
+.ai-module{background:rgba(99,102,241,0.08);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:12px}
+.ai-module h3{font-size:13px;color:var(--accent2);margin-bottom:8px}
+.ai-module label{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--dim);margin:4px 0;cursor:pointer}
+.ai-module input[type=checkbox]{accent-color:var(--accent)}
+.ai-btn{background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;color:#fff;padding:8px 16px;border-radius:8px;cursor:pointer;font-size:12px;width:100%;margin-top:8px}
+.ai-btn:hover{opacity:0.9}
+.chat-main{display:flex;flex-direction:column}
+.chat-header{padding:16px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
+.chat-header h1{font-size:18px;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.chat-msgs{flex:1;overflow-y:auto;padding:24px}
+.msg{max-width:80%;margin-bottom:16px;animation:fadeIn .3s}
+.msg.user{margin-left:auto;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:16px 16px 4px;padding:12px 16px}
+.msg.ai{background:var(--glass);border:1px solid var(--border);border-radius:16px 16px 16px 4px;padding:12px 16px}
+.msg img,.msg video{max-width:100%;border-radius:8px;margin-top:8px}
+.msg audio{width:100%;margin-top:8px}
+.chat-input{padding:16px 24px;border-top:1px solid var(--border);display:flex;gap:12px}
+.chat-input textarea{flex:1;background:var(--glass);border:1px solid var(--border);border-radius:12px;padding:12px;color:var(--text);resize:none;font-size:14px;height:48px}
+.chat-input button{background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;color:#fff;width:48px;height:48px;border-radius:12px;cursor:pointer;font-size:18px}
+.media-bar{display:flex;gap:8px;padding:0 24px 8px}
+.media-bar button{background:var(--glass);border:1px solid var(--border);color:var(--dim);padding:4px 12px;border-radius:8px;cursor:pointer;font-size:11px}
+.media-bar button:hover{color:var(--accent);border-color:var(--accent)}
+.studio-panel{background:var(--glass);border-left:1px solid var(--border);padding:16px;overflow-y:auto}
+.studio-panel h2{font-size:14px;text-transform:uppercase;letter-spacing:2px;color:var(--accent2);margin-bottom:16px}
+.studio-card{background:rgba(139,92,246,0.08);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:12px}
+.studio-card h3{font-size:13px;color:var(--accent);margin-bottom:8px}
+.voice-select{width:100%;background:var(--glass);border:1px solid var(--border);color:var(--text);padding:6px;border-radius:8px;font-size:12px;margin-top:4px}
+.studio-output{min-height:120px;background:rgba(0,0,0,0.3);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:12px;margin-top:8px}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="ai-panel">
+<h2>AI Control</h2>
+<div class="ai-module"><h3>Oroboros Video Diffusion</h3>
+<label><input type="checkbox" id="vidDiff" checked> Oroboros Diffusion</label>
+<label><input type="checkbox" id="vidGen"> Text-to-Video</label>
+<label><input type="checkbox" id="vidInterp"> Frame Interpolation</label>
+<button class="ai-btn" onclick="runDiffusion()">Generate Video</button></div>
+<div class="ai-module"><h3>Voice Synthesis</h3>
+<label><input type="checkbox" id="voiceTTS" checked> Windows Voices TTS</label>
+<label><input type="checkbox" id="voiceClone"> Voice Cloning</label>
+<select class="voice-select" id="voiceSelect">
+<option>Microsoft David</option><option>Microsoft Zira</option><option>Microsoft Mark</option>
+<option>Natural Voice 1</option><option>Natural Voice 2</option></select>
+<button class="ai-btn" onclick="speakResponse()">Speak Last Response</button></div>
+<div class="ai-module"><h3>Automations</h3>
+<label><input type="checkbox" id="autoSum"> Auto-Summarize</label>
+<label><input type="checkbox" id="autoCode"> Auto-Code Review</label>
+<label><input type="checkbox" id="autoImg"> Image Analysis</label>
+<label><input type="checkbox" id="autoTrans"> Real-time Translation</label>
+<button class="ai-btn" onclick="runAutomations()">Run All Active</button></div>
+</aside>
+<main class="chat-main">
+<div class="chat-header"><h1>DeepSeek Research Chat Studio</h1></div>
+<div class="chat-msgs" id="msgs">
+<div class="msg ai">Welcome to DeepSeek Research AI Chat Studio. I support text, image, video, audio and code generation with Oroboros video diffusion and Windows voice synthesis. How can I help?</div>
+</div>
+<div class="media-bar">
+<button onclick="attachImage()">Image</button>
+<button onclick="attachVideo()">Video</button>
+<button onclick="attachAudio()">Audio</button>
+<button onclick="genVideo()">Gen Video</button>
+<button onclick="genImage()">Gen Image</button>
+</div>
+<div class="chat-input">
+<textarea id="input" placeholder="Type your message..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();send()}"></textarea>
+<button onclick="send()">&#10148;</button>
+</div>
+</main>
+<aside class="studio-panel">
+<h2>Studio</h2>
+<div class="studio-card"><h3>Video Output</h3><div class="studio-output" id="vidOut">Video output here</div></div>
+<div class="studio-card"><h3>Image Output</h3><div class="studio-output" id="imgOut">Image output here</div></div>
+<div class="studio-card"><h3>Audio Output</h3><div class="studio-output" id="audOut">Audio output here</div></div>
+<div class="studio-card"><h3>Code Output</h3><div class="studio-output" id="codeOut" style="font-family:monospace;text-align:left;padding:8px">Code output here</div></div>
+</aside>
+</div>
+<script>
+const msgs=document.getElementById('msgs'),input=document.getElementById('input');
+function addMsg(cls,html){const d=document.createElement('div');d.className='msg '+cls;d.innerHTML=html;msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight}
+async function send(){const t=input.value.trim();if(!t)return;addMsg('user',t);input.value='';
+try{const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:t})});
+const d=await r.json();addMsg('ai',d.response||d.error||'No response')}catch(e){addMsg('ai','Error: '+e.message)}}
+async function runDiffusion(){addMsg('ai','Initializing Oroboros Video Diffusion...');
+try{const r=await fetch('/api/ai-control/diffusion',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt:input.value||'Abstract flowing patterns'})});
+const d=await r.json();addMsg('ai','Video generated: '+JSON.stringify(d))}catch(e){addMsg('ai','Diffusion error: '+e.message)}}
+function speakResponse(){const u=new SpeechSynthesisUtterance(msgs.lastChild.textContent);
+u.voice=speechSynthesis.getVoices().find(v=>v.name===document.getElementById('voiceSelect').value)||speechSynthesis.getVoices()[0];speechSynthesis.speak(u)}
+function attachImage(){const i=document.createElement('input');i.type='file';i.accept='image/*';i.onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>addMsg('user','<img src="'+ev.target.result+'">');r.readAsDataURL(f)};i.click()}
+function attachVideo(){const i=document.createElement('input');i.type='file';i.accept='video/*';i.onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>addMsg('user','<video src="'+ev.target.result+'" controls>');r.readAsDataURL(f)};i.click()}
+function attachAudio(){const i=document.createElement('input');i.type='file';i.accept='audio/*';i.onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>addMsg('user','<audio src="'+ev.target.result+'" controls>');r.readAsDataURL(f)};i.click()}
+async function genVideo(){addMsg('ai','Generating video via Oroboros...');try{const r=await fetch('/api/ai-control/generate-video',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt:input.value||'nature scene'})});const d=await r.json();addMsg('ai','Video: '+JSON.stringify(d))}catch(e){addMsg('ai','Error: '+e.message)}}
+async function genImage(){addMsg('ai','Generating image...');try{const r=await fetch('/api/ai-control/generate-image',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt:input.value||'abstract art'})});const d=await r.json();addMsg('ai','Image: '+JSON.stringify(d))}catch(e){addMsg('ai','Error: '+e.message)}}
+async function runAutomations(){addMsg('ai','Running active automations...');try{const r=await fetch('/api/ai-control/automations',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({automations:{summarize:document.getElementById('autoSum').checked,codeReview:document.getElementById('autoCode').checked,imageAnalysis:document.getElementById('autoImg').checked,translation:document.getElementById('autoTrans').checked}})});
+const d=await r.json();addMsg('ai','Automations: '+JSON.stringify(d))}catch(e){addMsg('ai','Error: '+e.message)}}
+</script>
+</body>
+</html>

@@ -3,9 +3,19 @@
     "api/chat.js": {
       "memory": 512,
       "maxDuration": 60
+    },
+    "api/ai-control/**/*.js": {
+      "memory": 1024,
+      "maxDuration": 300
     }
   },
   "rewrites": [
     { "source": "/api/chat", "destination": "/api/chat" }
+  ],
+  "hosts": [
+    {
+      "domain": "chat.deepseekresearch.com",
+      "path": "/chat-mirror"
+    }
   ]
 }
