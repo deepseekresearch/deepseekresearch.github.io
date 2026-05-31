@@ -26,6 +26,10 @@
       "memory": 1024,
       "maxDuration": 300,
       "runtime": "edge"
+    },
+    "api/ai-control/automations.js": {
+      "memory": 1024,
+      "maxDuration": 60
     }
   },
   "headers": [
@@ -57,6 +61,14 @@
       "source": "/ai-panel",
       "destination": "/mirror",
       "permanent": false
+    }
+  ],
+  "hosts": [
+    {
+      "host": "chat.deepseekresearch.com",
+      "destinations": [
+        { "pathname": "/mirror" }
+      ]
     }
   ]
 }
