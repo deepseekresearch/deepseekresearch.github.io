@@ -1,4 +1,6 @@
 {
+  "framework": null,
+  "regions": ["iad1", "sfo1", "lhr1"],
   "functions": {
     "api/chat.js": {
       "memory": 512,
@@ -7,11 +9,54 @@
     "api/ai-control/**/*.js": {
       "memory": 1024,
       "maxDuration": 300
+    },
+    "api/ai-control/diffusion.js": {
+      "memory": 3008,
+      "maxDuration": 300
+    },
+    "api/ai-control/generate-video.js": {
+      "memory": 3008,
+      "maxDuration": 300
+    },
+    "api/ai-control/voices.js": {
+      "memory": 1024,
+      "maxDuration": 60
+    },
+    "api/ai-control/stream.js": {
+      "memory": 1024,
+      "maxDuration": 300,
+      "runtime": "edge"
     }
   },
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Access-Control-Allow-Methods", "value": "GET,POST,OPTIONS" },
+        { "key": "Access-Control-Allow-Headers", "value": "Content-Type,Authorization" },
+        { "key": "X-Content-Type-Options", "value": "nosniff" }
+      ]
+    },
+    {
+      "source": "/mirror/(.*)",
+      "headers": [
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "X-Content-Type-Options", "value": "nosniff" }
+      ]
+    }
+  ],
   "rewrites": [
     { "source": "/api/chat", "destination": "/api/chat" },
     { "source": "/mirror", "destination": "/chat-mirror/index.html" },
-    { "source": "/mirror/(.*)", "destination": "/chat-mirror/$1" }
+    { "source": "/mirror/(.*)", "destination": "/chat-mirror/$1" },
+    { "source": "/api/ai-control/stream/:id", "destination": "/api/ai-control/stream?id=:id" }
+  ],
+  "redirects": [
+    {
+      "source": "/ai-panel",
+      "destination": "/mirror",
+      "permanent": false
+    }
   ]
 }
