@@ -10,12 +10,8 @@
     }
   },
   "rewrites": [
-    { "source": "/api/chat", "destination": "/api/chat" }
-  ],
-  "hosts": [
-    {
-      "domain": "chat.deepseekresearch.com",
-      "path": "/chat-mirror"
-    }
+    { "source": "/api/chat", "destination": "/api/chat" },
+    { "source": "/mirror", "destination": "/chat-mirror/index.html" },
+    { "source": "/mirror/(.*)", "destination": "/chat-mirror/$1" }
   ]
 }
