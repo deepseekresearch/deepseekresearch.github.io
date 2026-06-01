@@ -3,103 +3,135 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>DeepSeek Research - AI Chat Studio</title>
+<title>Φ DeepSeek Research — AI Chat Studio</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' fill='%23FFD700'>Φ</text></svg>">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0a0a0f;--glass:rgba(255,255,255,0.05);--border:rgba(255,255,255,0.1);--accent:#6366f1;--accent2:#8b5cf6;--accent3:#a78bfa;--text:#e2e8f0;--dim:#64748b;--success:#10b981;--warn:#f59e0b;--err:#ef4444}
-body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);height:100vh;overflow:hidden}
-.app{display:grid;grid-template-columns:300px 1fr 340px;height:100vh}
+:root{
+--bg:#0a0e27;--bg2:#0d1235;--glass:rgba(255,215,0,0.03);--glass2:rgba(255,215,0,0.06);
+--border:rgba(255,215,0,0.12);--border-h:rgba(255,215,0,0.35);
+--gold:#FFD700;--gold2:#FFA500;--gold3:#DAA520;--gold-dim:rgba(255,215,0,0.5);
+--navy:#0a0e27;--navy2:#111940;--navy3:#1a2355;
+--text:#e8e0d0;--dim:#8b8070;--success:#4ade80;--warn:#f59e0b;--err:#ef4444;
+--radius:12px;
+}
+html,body{height:100%;overflow:hidden}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--navy);color:var(--text)}
 
-/* LEFT AI PANEL */
-.ai-panel{background:var(--glass);border-right:1px solid var(--border);padding:16px;overflow-y:auto;scrollbar-width:thin}
-.ai-panel::-webkit-scrollbar{width:4px}
-.ai-panel h2{font-size:13px;text-transform:uppercase;letter-spacing:2px;color:var(--accent);margin-bottom:16px;display:flex;align-items:center;gap:8px}
-.ai-panel h2::before{content:'';width:8px;height:8px;background:var(--success);border-radius:50%;animation:pulse 2s infinite}
+body::before{content:'';position:fixed;inset:0;
+background:radial-gradient(ellipse at 15% 50%,rgba(255,215,0,0.04),transparent 50%),
+radial-gradient(ellipse at 85% 20%,rgba(218,165,32,0.03),transparent 40%),
+radial-gradient(ellipse at 50% 90%,rgba(255,165,0,0.02),transparent 40%);
+z-index:0;pointer-events:none}
+
+.app{display:grid;grid-template-columns:280px 1fr 320px;height:100vh;position:relative;z-index:1}
+
+/* ===== PHI LOGO HEADER ===== */
+.phi-logo{font-size:28px;font-weight:900;color:var(--gold);text-shadow:0 0 20px rgba(255,215,0,0.3);
+font-family:Georgia,'Times New Roman',serif;line-height:1}
+
+/* ===== LEFT PANEL ===== */
+.ai-panel{background:var(--bg);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+.ai-panel-head{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.ai-panel-head .dot{width:8px;height:8px;background:var(--success);border-radius:50%;box-shadow:0 0 8px var(--success);animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.ai-module{background:rgba(99,102,241,0.06);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:12px;transition:border-color .2s}
-.ai-module:hover{border-color:rgba(99,102,241,0.3)}
-.ai-module h3{font-size:12px;color:var(--accent2);margin-bottom:10px;display:flex;align-items:center;gap:6px}
-.ai-module h3 .badge{font-size:9px;background:var(--accent);padding:2px 6px;border-radius:4px;color:#fff}
-.ai-module label{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--dim);margin:5px 0;cursor:pointer;transition:color .2s}
-.ai-module label:hover{color:var(--text)}
-.ai-module input[type=checkbox]{accent-color:var(--accent);transform:scale(1.1)}
-.ai-btn{background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;color:#fff;padding:8px 16px;border-radius:8px;cursor:pointer;font-size:11px;width:100%;margin-top:8px;transition:all .2s}
-.ai-btn:hover{transform:translateY(-1px);box-shadow:0 4px 15px rgba(99,102,241,0.3)}
-.ai-btn:active{transform:translateY(0)}
-.ai-btn.secondary{background:rgba(255,255,255,0.08);border:1px solid var(--border)}
-.ai-btn.secondary:hover{background:rgba(255,255,255,0.12)}
+.ai-panel-head h2{font-size:11px;text-transform:uppercase;letter-spacing:2.5px;color:var(--gold);font-weight:600}
+.ai-panel-body{flex:1;overflow-y:auto;padding:10px;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+.ai-panel-body::-webkit-scrollbar{width:3px}
+.ai-panel-body::-webkit-scrollbar-thumb{background:var(--gold3);border-radius:4px}
 
-/* Range inputs */
-.ai-module input[type=range]{width:100%;accent-color:var(--accent);margin-top:4px}
-.range-row{display:flex;justify-content:space-between;font-size:10px;color:var(--dim);margin-top:2px}
+.mod{background:var(--glass2);border:1px solid var(--border);border-radius:var(--radius);padding:12px;margin-bottom:8px;transition:all .25s}
+.mod:hover{border-color:var(--border-h);box-shadow:0 0 12px rgba(255,215,0,0.05)}
+.mod h3{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--gold);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.mod h3 .badge{font-size:8px;background:linear-gradient(135deg,var(--gold),var(--gold2));padding:2px 6px;border-radius:4px;color:var(--navy);font-weight:700}
+.mod label{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--dim);margin:4px 0;cursor:pointer;transition:color .2s}
+.mod label:hover{color:var(--gold-dim)}
+.mod input[type=checkbox]{accent-color:var(--gold);transform:scale(1.1)}
+.mod select{width:100%;background:var(--bg2);border:1px solid var(--border);color:var(--text);padding:6px 8px;border-radius:8px;font-size:11px;margin-top:4px}
+.mod select option{background:var(--navy2);padding:4px}
+.mod select optgroup{color:var(--gold);font-style:normal}
+.mod input[type=range]{width:100%;accent-color:var(--gold);margin-top:4px}
+.range-row{display:flex;justify-content:space-between;font-size:9px;color:var(--dim);margin-top:1px}
+
+.gbtn{background:linear-gradient(135deg,var(--gold3),var(--gold));border:none;color:var(--navy);padding:8px 14px;border-radius:8px;cursor:pointer;font-size:11px;font-weight:600;width:100%;margin-top:6px;transition:all .2s}
+.gbtn:hover{transform:translateY(-1px);box-shadow:0 4px 15px rgba(255,215,0,0.25)}
+.gbtn:active{transform:translateY(0)}
+.gbtn.sec{background:var(--glass);border:1px solid var(--border);color:var(--gold-dim)}
+.gbtn.sec:hover{background:var(--glass2);color:var(--gold)}
 
 /* Video diffusion windows */
-.vid-windows{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
-.vid-win{background:rgba(0,0,0,0.4);border:1px solid var(--border);border-radius:8px;min-height:80px;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--dim);position:relative;overflow:hidden}
-.vid-win.active{border-color:var(--accent);animation:glow 2s infinite}
+.vid-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:6px}
+.vid-win{background:rgba(0,0,0,0.5);border:1px solid var(--border);border-radius:8px;min-height:60px;display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--dim);position:relative;overflow:hidden;transition:all .3s}
+.vid-win.active{border-color:var(--gold);box-shadow:0 0 10px rgba(255,215,0,0.15)}
 .vid-win canvas{width:100%;height:100%;position:absolute;top:0;left:0}
-@keyframes glow{0%,100%{box-shadow:0 0 5px rgba(99,102,241,0.2)}50%{box-shadow:0 0 15px rgba(99,102,241,0.4)}}
+.vid-win.wide{grid-column:span 2}
 
-/* CENTER CHAT */
-.chat-main{display:flex;flex-direction:column}
-.chat-header{padding:14px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;background:rgba(0,0,0,0.2)}
-.chat-header h1{font-size:17px;background:linear-gradient(135deg,var(--accent),var(--accent3));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.chat-header .status{font-size:10px;color:var(--success);margin-left:auto}
-.chat-msgs{flex:1;overflow-y:auto;padding:24px;scrollbar-width:thin}
-.chat-msgs::-webkit-scrollbar{width:4px}
-.msg{max-width:80%;margin-bottom:14px;animation:fadeIn .3s ease}
-.msg.user{margin-left:auto;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:16px 16px 4px;padding:12px 16px;font-size:14px}
-.msg.ai{background:var(--glass);border:1px solid var(--border);border-radius:16px 16px 16px 4px;padding:12px 16px;font-size:14px;line-height:1.6}
-.msg.system{max-width:90%;margin:8px auto;text-align:center;font-size:11px;color:var(--dim);background:rgba(255,255,255,0.03);border-radius:8px;padding:6px 12px}
-.msg img,.msg video{max-width:100%;border-radius:8px;margin-top:8px}
-.msg audio{width:100%;margin-top:8px}
-.msg .voice-badge{display:inline-block;background:var(--accent);padding:2px 8px;border-radius:4px;font-size:10px;margin-top:4px}
-.typing{display:inline-block;width:6px;height:6px;background:var(--accent);border-radius:50%;animation:blink 1s infinite}
+/* ===== CENTER CHAT ===== */
+.chat-main{display:flex;flex-direction:column;background:var(--bg)}
+.chat-header{padding:12px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;background:var(--bg2)}
+.chat-header .phi-logo{font-size:22px}
+.chat-header h1{font-size:15px;font-weight:700;background:linear-gradient(135deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.chat-header .status{font-size:10px;color:var(--success);margin-left:auto;display:flex;align-items:center;gap:4px}
+.chat-header .status::before{content:'';width:6px;height:6px;background:var(--success);border-radius:50%}
+
+.chat-msgs{flex:1;overflow-y:auto;padding:20px;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+.chat-msgs::-webkit-scrollbar{width:3px}
+.chat-msgs::-webkit-scrollbar-thumb{background:var(--gold3);border-radius:4px}
+
+.msg{max-width:78%;margin-bottom:12px;animation:fadeIn .3s ease}
+.msg.user{margin-left:auto;background:linear-gradient(135deg,var(--gold3),var(--gold));color:var(--navy);border-radius:14px 14px 4px;padding:10px 14px;font-size:13px;font-weight:500}
+.msg.ai{background:var(--glass2);border:1px solid var(--border);border-radius:14px 14px 14px 4px;padding:10px 14px;font-size:13px;line-height:1.6}
+.msg.system{max-width:90%;margin:6px auto;text-align:center;font-size:10px;color:var(--dim);background:var(--glass);border:1px dashed var(--border);border-radius:8px;padding:5px 10px}
+.msg img,.msg video{max-width:100%;border-radius:8px;margin-top:6px}
+.msg audio{width:100%;margin-top:6px}
+.typing{display:inline-flex;gap:4px}
+.typing span{width:5px;height:5px;background:var(--gold);border-radius:50%;animation:blink 1s infinite}
+.typing span:nth-child(2){animation-delay:.2s}
+.typing span:nth-child(3){animation-delay:.4s}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
-@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 
 /* Media bar */
-.media-bar{display:flex;gap:6px;padding:4px 24px;flex-wrap:wrap}
-.media-bar button{background:var(--glass);border:1px solid var(--border);color:var(--dim);padding:5px 12px;border-radius:8px;cursor:pointer;font-size:11px;transition:all .2s;display:flex;align-items:center;gap:4px}
-.media-bar button:hover{color:var(--accent);border-color:var(--accent)}
-.media-bar button svg{width:14px;height:14px}
+.media-bar{display:flex;gap:4px;padding:6px 20px;flex-wrap:wrap}
+.media-bar button{background:var(--glass);border:1px solid var(--border);color:var(--dim);padding:4px 10px;border-radius:8px;cursor:pointer;font-size:11px;transition:all .2s}
+.media-bar button:hover{color:var(--gold);border-color:var(--gold)}
 
 /* Chat input */
-.chat-input{padding:14px 24px;border-top:1px solid var(--border);display:flex;gap:10px;background:rgba(0,0,0,0.1)}
-.chat-input textarea{flex:1;background:var(--glass);border:1px solid var(--border);border-radius:12px;padding:12px 16px;color:var(--text);resize:none;font-size:14px;height:48px;transition:border-color .2s;font-family:inherit}
-.chat-input textarea:focus{outline:none;border-color:var(--accent)}
-.chat-input button{background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;color:#fff;width:48px;height:48px;border-radius:12px;cursor:pointer;font-size:18px;transition:all .2s}
-.chat-input button:hover{transform:scale(1.05)}
+.chat-input{padding:12px 20px;border-top:1px solid var(--border);display:flex;gap:8px;background:var(--bg2)}
+.chat-input textarea{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:10px 14px;color:var(--text);resize:none;font-size:13px;height:44px;transition:border-color .2s;font-family:inherit}
+.chat-input textarea:focus{outline:none;border-color:var(--gold)}
+.chat-input textarea::placeholder{color:var(--dim)}
+.chat-input button{background:linear-gradient(135deg,var(--gold3),var(--gold));border:none;color:var(--navy);width:44px;height:44px;border-radius:12px;cursor:pointer;font-size:16px;font-weight:700;transition:all .2s}
+.chat-input button:hover{transform:scale(1.05);box-shadow:0 0 12px rgba(255,215,0,0.3)}
 
-/* RIGHT STUDIO PANEL */
-.studio-panel{background:var(--glass);border-left:1px solid var(--border);padding:16px;overflow-y:auto;scrollbar-width:thin}
-.studio-panel::-webkit-scrollbar{width:4px}
-.studio-panel h2{font-size:13px;text-transform:uppercase;letter-spacing:2px;color:var(--accent2);margin-bottom:16px}
-.studio-card{background:rgba(139,92,246,0.06);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:10px}
-.studio-card h3{font-size:12px;color:var(--accent);margin-bottom:8px}
-.voice-select{width:100%;background:var(--glass);border:1px solid var(--border);color:var(--text);padding:6px 8px;border-radius:8px;font-size:11px;margin-top:4px}
-.voice-select option{background:#1a1a2e;padding:4px}
-.voice-select optgroup{color:var(--accent);font-style:normal}
-.studio-output{min-height:100px;background:rgba(0,0,0,0.3);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:11px;margin-top:6px;overflow:hidden;position:relative}
-.studio-output video,.studio-output img,.studio-output canvas{width:100%;height:100%;object-fit:cover;border-radius:8px}
-.studio-output .overlay{position:absolute;bottom:4px;right:4px;font-size:9px;background:rgba(0,0,0,0.6);padding:2px 6px;border-radius:4px}
-
-/* 12D Hyper View embed */
-.hyper-view-frame{width:100%;height:200px;border:1px solid var(--border);border-radius:8px;margin-top:6px;background:#000}
+/* ===== RIGHT STUDIO ===== */
+.studio-panel{background:var(--bg);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+.studio-panel-head{padding:14px 16px;border-bottom:1px solid var(--border)}
+.studio-panel-head h2{font-size:11px;text-transform:uppercase;letter-spacing:2.5px;color:var(--gold2);font-weight:600}
+.studio-body{flex:1;overflow-y:auto;padding:10px;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+.studio-body::-webkit-scrollbar{width:3px}
+.studio-body::-webkit-scrollbar-thumb{background:var(--gold3);border-radius:4px}
+.scard{background:var(--glass2);border:1px solid var(--border);border-radius:var(--radius);padding:10px;margin-bottom:8px}
+.scard h3{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--gold);margin-bottom:6px}
+.scard-out{min-height:80px;background:rgba(0,0,0,0.4);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:10px;overflow:hidden;position:relative}
+.scard-out video,.scard-out img,.scard-out canvas{width:100%;height:100%;object-fit:cover;border-radius:8px}
+.hyper-frame{width:100%;height:180px;border:1px solid var(--border);border-radius:8px;background:#000}
 
 /* Responsive */
-@media(max-width:1200px){.app{grid-template-columns:260px 1fr 300px}}
+@media(max-width:1200px){.app{grid-template-columns:240px 1fr 280px}}
 @media(max-width:900px){.app{grid-template-columns:1fr}.ai-panel,.studio-panel{display:none}}
 </style>
 </head>
 <body>
 <div class="app">
-<!-- LEFT: AI CONTROL PANEL -->
-<aside class="ai-panel">
-<h2>AI Control</h2>
 
-<div class="ai-module">
-<h3>Oroboros Video Diffusion <span class="badge">LIVE</span></h3>
+<!-- LEFT: AI CONTROL -->
+<aside class="ai-panel">
+<div class="ai-panel-head"><div class="dot"></div><h2>Φ AI Control</h2></div>
+<div class="ai-panel-body">
+
+<div class="mod">
+<h3>Φ Oroboros Video Diffusion <span class="badge">LIVE</span></h3>
 <label><input type="checkbox" id="vidDiff" checked> Diffusion Engine</label>
 <label><input type="checkbox" id="vidGen"> Text-to-Video Gen</label>
 <label><input type="checkbox" id="vidInterp"> Frame Interpolation</label>
@@ -108,58 +140,61 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
 <div class="range-row"><span>Steps</span><span id="diffStepsVal">50</span></div>
 <input type="range" id="diffFPS" min="8" max="60" value="24">
 <div class="range-row"><span>FPS</span><span id="diffFPSVal">24</span></div>
-<div class="vid-windows" style="grid-template-columns:1fr 1fr 1fr">
-<div class="vid-win" id="vidW1">Window 1</div>
-<div class="vid-win" id="vidW2">Window 2</div>
-<div class="vid-win" id="vidW3">Window 3</div>
-<div class="vid-win" id="vidW4">Window 4</div>
-<div class="vid-win" id="vidW5" style="grid-column:span 3">Window 5: Full Pipeline</div>
+<div class="vid-grid">
+<div class="vid-win" id="vidW1">W1: Diffuse</div>
+<div class="vid-win" id="vidW2">W2: Generate</div>
+<div class="vid-win" id="vidW3">W3: Interp</div>
+<div class="vid-win" id="vidW4">W4: Loop</div>
+<div class="vid-win wide" id="vidW5">W5: Full Pipeline</div>
 </div>
-<button class="ai-btn" onclick="runDiffusion()">Generate Video</button>
-<button class="ai-btn secondary" onclick="openDiffusionStudio()">Open Full Studio</button>
+<button class="gbtn" onclick="runDiffusion()">⚡ Generate Video</button>
+<button class="gbtn sec" onclick="openDiffusionStudio()">Open Full Studio</button>
 </div>
 
-<div class="ai-module">
-<h3>Voice Synthesis <span class="badge">TTS</span></h3>
+<div class="mod">
+<h3>Φ Voice Synthesis <span class="badge">TTS</span></h3>
 <label><input type="checkbox" id="voiceTTS" checked> Enable Voice</label>
 <label><input type="checkbox" id="voiceClone"> Voice Clone Mode</label>
-<label><input type="checkbox" id="voiceStream"> Stream Response Audio</label>
-<select class="voice-select" id="voiceSelect"><option>Loading voices...</option></select>
+<label><input type="checkbox" id="voiceStream"> Stream Audio</label>
+<select id="voiceSelect"><option>Loading voices...</option></select>
 <input type="range" id="voiceSpeed" min="0.5" max="2" step="0.1" value="1">
 <div class="range-row"><span>Speed</span><span id="voiceSpeedVal">1.0x</span></div>
 <input type="range" id="voicePitch" min="0.5" max="2" step="0.1" value="1">
 <div class="range-row"><span>Pitch</span><span id="voicePitchVal">1.0</span></div>
-<button class="ai-btn" onclick="speakResponse()">Speak Last Response</button>
-<button class="ai-btn secondary" onclick="listAllVoices()">Refresh Voices</button>
+<button class="gbtn" onclick="speakResponse()">🔊 Speak Last Response</button>
+<button class="gbtn sec" onclick="listAllVoices()">List All Voices</button>
 </div>
 
-<div class="ai-module">
-<h3>12D Hyper View</h3>
+<div class="mod">
+<h3>Φ 12D Hyper View</h3>
 <label><input type="checkbox" id="hyperEnabled"> Enable Hyper View</label>
 <label><input type="checkbox" id="hyperAnimate" checked> Animate</label>
-<button class="ai-btn" onclick="toggleHyperView()">Open Hyper View</button>
+<button class="gbtn" onclick="toggleHyperView()">🔮 Toggle Hyper View</button>
 </div>
 
-<div class="ai-module">
-<h3>Automations</h3>
+<div class="mod">
+<h3>Φ Automations</h3>
 <label><input type="checkbox" id="autoSum"> Auto-Summarize</label>
 <label><input type="checkbox" id="autoCode"> Auto-Code Review</label>
 <label><input type="checkbox" id="autoImg"> Image Analysis</label>
 <label><input type="checkbox" id="autoTrans"> Real-time Translation</label>
 <label><input type="checkbox" id="autoVoice"> Auto-Speak Responses</label>
-<button class="ai-btn" onclick="runAutomations()">Run All Active</button>
+<button class="gbtn" onclick="runAutomations()">⚙ Run All Active</button>
+</div>
+
 </div>
 </aside>
 
 <!-- CENTER: CHAT -->
 <main class="chat-main">
 <div class="chat-header">
+<span class="phi-logo">Φ</span>
 <h1>DeepSeek Research Chat Studio</h1>
-<span class="status">● Connected</span>
+<span class="status">Connected</span>
 </div>
 <div class="chat-msgs" id="msgs">
-<div class="msg system">Session initialized — Oroboros video diffusion, Windows voice synthesis, and 12D Hyper View enabled</div>
-<div class="msg ai">Welcome to <strong>DeepSeek Research AI Chat Studio</strong>. I support text, image, video, audio and code generation with <em>Oroboros video diffusion</em>, <em>Windows voice synthesis</em> (all free voices), and <em>12D Hyper View</em>. How can I help?</div>
+<div class="msg system">Φ Session initialized — Oroboros video diffusion, Windows voice synthesis, 12D Hyper View enabled</div>
+<div class="msg ai">Welcome to <strong>Φ DeepSeek Research AI Chat Studio</strong>. I support text, image, video, audio and code generation with <em>Oroboros video diffusion</em>, <em>Windows voice synthesis</em> (all free voices), and <em>12D Hyper View</em>. How can I help?</div>
 </div>
 <div class="media-bar">
 <button onclick="attachImage()">📷 Image</button>
@@ -171,113 +206,67 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
 <button onclick="startScreenShare()">📺 Screen</button>
 </div>
 <div class="chat-input">
-<textarea id="input" placeholder="Type your message..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();send()}"></textarea>
-<button onclick="send()">➤</button>
+<textarea id="input" placeholder="Φ Ask anything..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();send()}"></textarea>
+<button onclick="send()">Φ</button>
 </div>
 </main>
 
-<!-- RIGHT: STUDIO OUTPUT -->
+<!-- RIGHT: STUDIO -->
 <aside class="studio-panel">
-<h2>Studio Output</h2>
-
-<div class="studio-card">
-<h3>Video Output</h3>
-<div class="studio-output" id="vidOut"><span>Awaiting video generation...</span></div>
-</div>
-
-<div class="studio-card">
-<h3>Image Output</h3>
-<div class="studio-output" id="imgOut"><span>Awaiting image generation...</span></div>
-</div>
-
-<div class="studio-card">
-<h3>Audio / Voice Output</h3>
-<div class="studio-output" id="audOut"><span>Awaiting voice synthesis...</span></div>
-</div>
-
-<div class="studio-card">
-<h3>12D Hyper View</h3>
-<iframe class="hyper-view-frame" id="hyperFrame" src="about:blank"></iframe>
-</div>
-
-<div class="studio-card">
-<h3>Code Output</h3>
-<div class="studio-output" id="codeOut" style="font-family:'Cascadia Code',monospace;text-align:left;padding:10px;font-size:11px;white-space:pre-wrap;display:block;align-items:flex-start;justify-content:flex-start"><span>// Code output here</span></div>
+<div class="studio-panel-head"><h2>Φ Studio Output</h2></div>
+<div class="studio-body">
+<div class="scard"><h3>Video Output</h3><div class="scard-out" id="vidOut"><span>Awaiting video...</span></div></div>
+<div class="scard"><h3>Image Output</h3><div class="scard-out" id="imgOut"><span>Awaiting image...</span></div></div>
+<div class="scard"><h3>Audio / Voice</h3><div class="scard-out" id="audOut"><span>Awaiting voice...</span></div></div>
+<div class="scard"><h3>12D Hyper View</h3><iframe class="hyper-frame" id="hyperFrame" src="about:blank"></iframe></div>
+<div class="scard"><h3>Code Output</h3><div class="scard-out" id="codeOut" style="font-family:'Cascadia Code',monospace;text-align:left;padding:8px;font-size:10px;white-space:pre-wrap;display:block;align-items:flex-start;justify-content:flex-start"><span>// Code output</span></div></div>
 </div>
 </aside>
+
 </div>
 
 <script>
-// ==================== INIT ====================
-const msgs=document.getElementById('msgs'),input=document.getElementById('input');
-const voiceSelect=document.getElementById('voiceSelect');
-let allVoices=[], diffusionWindows=[null,null,null,null], hyperViewOpen=false;
+const msgs=document.getElementById('msgs'),input=document.getElementById('input'),voiceSelect=document.getElementById('voiceSelect');
+let allVoices=[],hyperViewOpen=false;
 
-// ==================== VOICE ENGINE ====================
+// ===== VOICE ENGINE =====
 function loadVoices(){
-  allVoices=speechSynthesis.getVoices();
-  voiceSelect.innerHTML='';
-  if(!allVoices.length){voiceSelect.innerHTML='<option>No voices available</option>';return}
-  
-  // Group voices
+  allVoices=speechSynthesis.getVoices();voiceSelect.innerHTML='';
+  if(!allVoices.length){voiceSelect.innerHTML='<option>No voices</option>';return}
   const groups={};
   allVoices.forEach((v,i)=>{
     let g='Other';
     if(v.name.includes('Microsoft'))g='Windows';
     else if(v.name.includes('Google'))g='Google';
     else if(v.name.includes('Amazon')||v.name.includes('AWS'))g='AWS';
-    else if(v.name.includes('Apple')||v.name.includes('Samantha')||v.name.includes('Karen'))g='Apple';
+    else if(v.name.includes('Apple')||v.name.includes('Samantha'))g='Apple';
     else if(v.name.includes('Natural'))g='Natural';
-    if(!groups[g])groups[g]=[];
-    groups[g].push({voice:v,index:i});
+    if(!groups[g])groups[g]=[];groups[g].push({voice:v,index:i});
   });
-
-  Object.entries(groups).sort().forEach(([gname,voices])=>{
-    const og=document.createElement('optgroup');
-    og.label=`${gname} (${voices.length})`;
-    voices.forEach(({voice:v,index:i})=>{
-      const o=document.createElement('option');
-      o.value=i;o.textContent=`${v.name} (${v.lang})`;
-      if(v.default)o.selected=true;
-      og.appendChild(o);
-    });
+  Object.entries(groups).sort().forEach(([gn,vs])=>{
+    const og=document.createElement('optgroup');og.label=`${gn} (${vs.length})`;
+    vs.forEach(({voice:v,index:i})=>{const o=document.createElement('option');o.value=i;o.textContent=`${v.name} (${v.lang})`;if(v.default)o.selected=true;og.appendChild(o)});
     voiceSelect.appendChild(og);
   });
-  addMsg('system',`Loaded ${allVoices.length} system voices across ${Object.keys(groups).length} groups`);
+  addMsg('system',`Φ Loaded ${allVoices.length} voices across ${Object.keys(groups).length} groups`);
 }
-
-speechSynthesis.onvoiceschanged=loadVoices;
-setTimeout(loadVoices,500);
+speechSynthesis.onvoiceschanged=loadVoices;setTimeout(loadVoices,500);
 
 function listAllVoices(){
-  speechSynthesis.cancel();
-  loadVoices();
-  if(!allVoices.length)return addMsg('system','No voices found');
-  let html=`<strong>${allVoices.length} Voices Available:</strong><br>`;
-  allVoices.forEach((v,i)=>{
-    const tag=v.localService?'🟢':'🌐';
-    html+=`${tag} <em>${v.name}</em> [${v.lang}]${v.default?' ⭐':''}<br>`;
-  });
-  addMsg('ai',html);
+  speechSynthesis.cancel();loadVoices();if(!allVoices.length)return addMsg('system','No voices');
+  let h=`<strong>${allVoices.length} Voices:</strong><br>`;
+  allVoices.forEach((v,i)=>{h+=`${v.localService?'🟢':'🌐'} <em>${v.name}</em> [${v.lang}]${v.default?' ⭐':''}<br>`});
+  addMsg('ai',h);
 }
 
 function speakResponse(){
-  const lastAi=[...msgs.querySelectorAll('.msg.ai')].pop();
-  if(!lastAi)return addMsg('system','No AI response to speak');
-  const text=lastAi.textContent;
-  const vi=parseInt(voiceSelect.value);
-  const voice=allVoices[vi]||allVoices[0];
-  const speed=parseFloat(document.getElementById('voiceSpeed').value);
-  const pitch=parseFloat(document.getElementById('voicePitch').value);
-  
-  const u=new SpeechSynthesisUtterance(text);
-  u.voice=voice;u.rate=speed;u.pitch=pitch;
-  u.onstart=()=>addMsg('system',`🔊 Speaking with ${voice?.name||'default'}`);
-  u.onend=()=>{if(document.getElementById('autoVoice').checked)addMsg('system','Voice playback complete')};
+  const last=[...msgs.querySelectorAll('.msg.ai')].pop();if(!last)return addMsg('system','No AI response');
+  const text=last.textContent,vi=parseInt(voiceSelect.value),voice=allVoices[vi]||allVoices[0];
+  const speed=parseFloat(document.getElementById('voiceSpeed').value),pitch=parseFloat(document.getElementById('voicePitch').value);
+  const u=new SpeechSynthesisUtterance(text);u.voice=voice;u.rate=speed;u.pitch=pitch;
+  u.onstart=()=>addMsg('system',`🔊 Speaking: ${voice?.name}`);
   speechSynthesis.speak(u);
-  
-  // Update audio output panel
-  document.getElementById('audOut').innerHTML=`<div style="text-align:center"><div style="font-size:24px">🔊</div><div style="margin-top:8px">${voice?.name||'Default'}</div><div style="font-size:10px;color:var(--dim)">${voice?.lang||''} | Speed: ${speed}x | Pitch: ${pitch}</div></div>`;
+  document.getElementById('audOut').innerHTML=`<div style="text-align:center"><div style="font-size:20px;color:var(--gold)">🔊</div><div style="margin-top:6px;font-size:11px">${voice?.name}</div><div style="font-size:9px;color:var(--dim)">${voice?.lang} | ${speed}x</div></div>`;
 }
 
 // Range updates
@@ -286,119 +275,60 @@ document.getElementById('voicePitch').oninput=e=>document.getElementById('voiceP
 document.getElementById('diffSteps').oninput=e=>document.getElementById('diffStepsVal').textContent=e.target.value;
 document.getElementById('diffFPS').oninput=e=>document.getElementById('diffFPSVal').textContent=e.target.value;
 
-// ==================== MESSAGING ====================
+// ===== MESSAGING =====
 function addMsg(cls,html){
-  const d=document.createElement('div');d.className='msg '+cls;d.innerHTML=html;
-  msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;
-  // Auto-speak
+  const d=document.createElement('div');d.className='msg '+cls;d.innerHTML=html;msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;
   if(cls==='ai'&&document.getElementById('autoVoice').checked){
-    const vi=parseInt(voiceSelect.value);const voice=allVoices[vi]||allVoices[0];
-    const u=new SpeechSynthesisUtterance(d.textContent);u.voice=voice;
-    u.rate=parseFloat(document.getElementById('voiceSpeed').value);
-    speechSynthesis.speak(u);
+    const vi=parseInt(voiceSelect.value),voice=allVoices[vi]||allVoices[0];
+    const u=new SpeechSynthesisUtterance(d.textContent);u.voice=voice;u.rate=parseFloat(document.getElementById('voiceSpeed').value);speechSynthesis.speak(u);
   }
 }
 
 async function send(){
-  const t=input.value.trim();if(!t)return;
-  addMsg('user',t);input.value='';
-  addMsg('ai','<span class="typing"></span>');
+  const t=input.value.trim();if(!t)return;addMsg('user',t);input.value='';
+  const td=document.createElement('div');td.className='msg ai';td.innerHTML='<div class="typing"><span></span><span></span><span></span></div>';msgs.appendChild(td);msgs.scrollTop=msgs.scrollHeight;
   try{
     const r=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:t})});
-    const d=await r.json();
-    // Remove typing indicator
-    const typing=msgs.querySelector('.typing');if(typing)typing.parentElement.remove();
-    addMsg('ai',d.response||d.error||'No response');
-  }catch(e){
-    const typing=msgs.querySelector('.typing');if(typing)typing.parentElement.remove();
-    addMsg('ai','Error: '+e.message);
-  }
+    const d=await r.json();td.remove();addMsg('ai',d.response||d.error||'No response');
+  }catch(e){td.remove();addMsg('ai','Error: '+e.message)}
 }
 
-// ==================== OROBOROS VIDEO DIFFUSION ====================
+// ===== OROBOROS DIFFUSION =====
 async function runDiffusion(){
-  const prompt=input.value||'Abstract flowing energy patterns';
-  addMsg('system','Initializing Oroboros Video Diffusion...');
+  const prompt=input.value||'Abstract flowing energy';addMsg('system','Φ Initializing Oroboros Video Diffusion...');
   try{
-    const r=await fetch('/api/ai-control/diffusion',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
-      prompt,steps:parseInt(document.getElementById('diffSteps').value),fps:parseInt(document.getElementById('diffFPS').value),
-      windows:{w1:document.getElementById('vidDiff').checked,w2:document.getElementById('vidGen').checked,w3:document.getElementById('vidInterp').checked,w4:document.getElementById('vidLoop').checked}
-    })});
+    const r=await fetch('/api/ai-control/diffusion',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt,steps:parseInt(document.getElementById('diffSteps').value),fps:parseInt(document.getElementById('diffFPS').value),windows:{w1:document.getElementById('vidDiff').checked,w2:document.getElementById('vidGen').checked,w3:document.getElementById('vidInterp').checked,w4:document.getElementById('vidLoop').checked}})});
     const d=await r.json();
-    addMsg('ai',`🎥 <strong>Video Diffusion Complete</strong><br>Task: ${d.taskId}<br>Steps: ${d.steps} | FPS: ${d.fps}<br>Status: ${d.status}`);
-    // Activate windows
-    d.windows?.forEach((w,i)=>{
-      if(w){diffusionWindows[i]=true;document.getElementById('vidW'+(i+1)).classList.add('active');document.getElementById('vidW'+(i+1)).textContent='● Live'}
-    });
-    // Update studio output
-    document.getElementById('vidOut').innerHTML=`<div style="text-align:center;width:100%"><div style="font-size:32px">🎬</div><div style="margin-top:8px">Video Generated</div><div style="font-size:10px;color:var(--dim)">${d.steps} steps @ ${d.fps}fps</div></div>`;
+    addMsg('ai',`🎥 <strong>Video Diffusion Complete</strong><br>Task: ${d.taskId}<br>Steps: ${d.steps} | FPS: ${d.fps}`);
+    d.windows?.forEach((w,i)=>{if(w){document.getElementById('vidW'+(i+1)).classList.add('active');document.getElementById('vidW'+(i+1)).innerHTML='<span style="color:var(--gold)">● Live</span>'}});
+    document.getElementById('vidOut').innerHTML=`<div style="text-align:center;width:100%"><div style="font-size:28px;color:var(--gold)">🎬</div><div style="margin-top:6px">Generated</div><div style="font-size:9px;color:var(--dim)">${d.steps} steps @ ${d.fps}fps</div></div>`;
   }catch(e){addMsg('ai','Diffusion error: '+e.message)}
 }
 
 function openDiffusionStudio(){
   const w=window.open('','_blank','width=1200,height=800');
-  w.document.write(`<!DOCTYPE html><html><head><title>Oroboros Video Diffusion Studio</title><style>body{background:#0a0a0f;color:#e2e8f0;font-family:system-ui;margin:0;padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
-  .panel{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:16px;min-height:300px}
-  h2{font-size:14px;color:#6366f1;margin-bottom:12px}canvas{width:100%;height:300px;border-radius:8px}</style></head><body>
-  <div class="panel"><h2>Window 1: Diffusion</h2><canvas id="c1"></canvas></div>
-  <div class="panel"><h2>Window 2: Generation</h2><canvas id="c2"></canvas></div>
-  <div class="panel"><h2>Window 3: Interpolation</h2><canvas id="c3"></canvas></div>
-  <div class="panel"><h2>Window 4: Loop/Morph</h2><canvas id="c4"></canvas></div>
-  <script>
-  document.querySelectorAll('canvas').forEach(c=>{const ctx=c.getContext('2d');c.width=c.offsetWidth;c.height=c.offsetHeight;
-  let t=0;function draw(){t+=0.02;const img=ctx.createImageData(c.width,c.height);
-  for(let i=0;i<img.data.length;i+=4){const x=(i/4)%c.width,y=Math.floor((i/4)/c.width);
-  img.data[i]=Math.sin(x*0.01+t)*127+128;img.data[i+1]=Math.cos(y*0.01+t*1.3)*127+128;
-  img.data[i+2]=Math.sin((x+y)*0.005+t*0.7)*127+128;img.data[i+3]=255}
-  ctx.putImageData(img,0,0);requestAnimationFrame(draw)}draw()});
-  <\/script></body></html>`);
+  w.document.write(`<!DOCTYPE html><html><head><title>Φ Oroboros Video Diffusion Studio</title><style>*{margin:0}body{background:#0a0e27;color:#e8e0d0;font-family:system-ui;padding:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px}.p{background:rgba(255,215,0,0.04);border:1px solid rgba(255,215,0,0.12);border-radius:12px;padding:14px;min-height:280px}h2{font-size:12px;color:#FFD700;margin-bottom:8px;text-transform:uppercase;letter-spacing:1.5px}canvas{width:100%;height:260px;border-radius:8px}</style></head><body><div class="p"><h2>Φ Window 1: Diffusion</h2><canvas id="c1"></canvas></div><div class="p"><h2>Φ Window 2: Generation</h2><canvas id="c2"></canvas></div><div class="p"><h2>Φ Window 3: Interpolation</h2><canvas id="c3"></canvas></div><div class="p"><h2>Φ Window 4: Loop/Morph</h2><canvas id="c4"></canvas></div><script>document.querySelectorAll('canvas').forEach(c=>{const ctx=c.getContext('2d');c.width=c.offsetWidth;c.height=c.offsetHeight;let t=0;function draw(){t+=0.02;const img=ctx.createImageData(c.width,c.height);for(let i=0;i<img.data.length;i+=4){const x=(i/4)%c.width,y=Math.floor((i/4)/c.width);img.data[i]=Math.sin(x*0.01+t)*60+20;img.data[i+1]=Math.cos(y*0.01+t*1.3)*40+30;img.data[i+2]=Math.sin((x+y)*0.005+t*0.7)*80+40;img.data[i+3]=255}ctx.putImageData(img,0,0);requestAnimationFrame(draw)}draw()})<\/script></body></html>`);
 }
 
-// ==================== 12D HYPER VIEW ====================
+// ===== 12D HYPER VIEW =====
 function toggleHyperView(){
   const frame=document.getElementById('hyperFrame');
   if(hyperViewOpen){frame.src='about:blank';hyperViewOpen=false;return}
-  try{
-    // Try loading the local 12d-hyper-view.html
-    frame.src='/12d-hyper-view.html';
-    hyperViewOpen=true;
-    addMsg('system','🔮 12D Hyper View activated');
-  }catch(e){
-    addMsg('system','Hyper View: using embedded renderer');
-    frame.srcdoc=generateHyperViewHTML();
-    hyperViewOpen=true;
-  }
+  try{frame.src='/12d-hyper-view.html';hyperViewOpen=true;addMsg('system','🔮 12D Hyper View activated')}
+  catch(e){frame.srcdoc=hyperHTML();hyperViewOpen=true}
+}
+function hyperHTML(){
+  return `<!DOCTYPE html><html><head><style>*{margin:0}body{background:#0a0e27;overflow:hidden}canvas{width:100%;height:100%}</style></head><body><canvas id="c"></canvas><script>const c=document.getElementById('c'),ctx=c.getContext('2d');c.width=c.offsetWidth*2;c.height=c.offsetHeight*2;let t=0;function draw(){t+=0.005;ctx.fillStyle='rgba(10,14,39,0.08)';ctx.fillRect(0,0,c.width,c.height);const cx=c.width/2,cy=c.height/2;for(let d=0;d<12;d++){const r=60+d*18,a=t*(d+1)*0.3,x=cx+Math.cos(a)*r,y=cy+Math.sin(a)*r;ctx.beginPath();ctx.arc(x,y,2+d,0,Math.PI*2);ctx.fillStyle=\`hsl(\${40+d*3},80%,\${50+d*2}%)\`;ctx.fill();ctx.beginPath();ctx.arc(x,y,8+d*2,0,Math.PI*2);ctx.strokeStyle=\`hsla(\${40+d*3},80%,60%,0.15)\`;ctx.stroke()}requestAnimationFrame(draw)}draw()<\/script></body></html>`;
 }
 
-function generateHyperViewHTML(){
-  return `<!DOCTYPE html><html><head><style>*{margin:0}body{background:#000;overflow:hidden}canvas{width:100%;height:100%}</style></head><body>
-  <canvas id="c"></canvas>
-  <script>const c=document.getElementById('c'),ctx=c.getContext('2d');
-  c.width=c.offsetWidth*2;c.height=c.offsetHeight*2;let t=0;
-  function draw(){t+=0.005;ctx.fillStyle='rgba(0,0,0,0.05)';ctx.fillRect(0,0,c.width,c.height);
-  const cx=c.width/2,cy=c.height/2;
-  for(let d=0;d<12;d++){const r=80+d*15,a=t*(d+1)*0.3;
-  const x=cx+Math.cos(a)*r,y=cy+Math.sin(a)*r;
-  ctx.beginPath();ctx.arc(x,y,3+d,0,Math.PI*2);
-  ctx.fillStyle=\`hsl(\${d*30+t*50},80%,60%)\`;ctx.fill()}
-  requestAnimationFrame(draw)}draw()<\/script></body></html>`;
-}
-
-// ==================== MEDIA ATTACHMENTS ====================
+// ===== MEDIA =====
 function attachImage(){const i=document.createElement('input');i.type='file';i.accept='image/*';i.onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>addMsg('user','<img src="'+ev.target.result+'">');r.readAsDataURL(f)};i.click()}
 function attachVideo(){const i=document.createElement('input');i.type='file';i.accept='video/*';i.onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>addMsg('user','<video src="'+ev.target.result+'" controls>');r.readAsDataURL(f)};i.click()}
 function attachAudio(){const i=document.createElement('input');i.type='file';i.accept='audio/*';i.onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>addMsg('user','<audio src="'+ev.target.result+'" controls>');r.readAsDataURL(f)};i.click()}
 
-async function genVideo(){
-  addMsg('system','Generating video via Oroboros...');
-  try{const r=await fetch('/api/ai-control/generate-video',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt:input.value||'nature scene'})});
-  const d=await r.json();addMsg('ai',`🎬 Video: ${JSON.stringify(d)}`)}catch(e){addMsg('ai','Error: '+e.message)}
-}
-async function genImage(){
-  addMsg('system','Generating image...');
-  try{const r=await fetch('/api/ai-control/generate-image',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt:input.value||'abstract art'})});
-  const d=await r.json();addMsg('ai',`🖼 Image: ${JSON.stringify(d)}`)}catch(e){addMsg('ai','Error: '+e.message)}
-}
+async function genVideo(){addMsg('system','Φ Generating video...');try{const r=await fetch('/api/ai-control/generate-video',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt:input.value||'nature'})});const d=await r.json();addMsg('ai','🎬 Video: '+JSON.stringify(d))}catch(e){addMsg('ai','Error: '+e.message)}}
+async function genImage(){addMsg('system','Φ Generating image...');try{const r=await fetch('/api/ai-control/generate-image',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt:input.value||'art'})});const d=await r.json();addMsg('ai','🖼 Image: '+JSON.stringify(d))}catch(e){addMsg('ai','Error: '+e.message)}}
+
 function startScreenShare(){
   navigator.mediaDevices?.getDisplayMedia?.({video:true}).then(stream=>{
     const v=document.createElement('video');v.srcObject=stream;v.autoplay=true;
@@ -407,24 +337,12 @@ function startScreenShare(){
   }).catch(e=>addMsg('system','Screen share: '+e.message));
 }
 
-// ==================== AUTOMATIONS ====================
+// ===== AUTOMATIONS =====
 async function runAutomations(){
-  addMsg('system','Running active automations...');
-  try{const r=await fetch('/api/ai-control/automations',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({automations:{
-    summarize:document.getElementById('autoSum').checked,codeReview:document.getElementById('autoCode').checked,
-    imageAnalysis:document.getElementById('autoImg').checked,translation:document.getElementById('autoTrans').checked,
-    voiceSynthesis:document.getElementById('autoVoice').checked}})});
-  const d=await r.json();addMsg('ai','⚙️ Automations: '+JSON.stringify(d))}catch(e){addMsg('ai','Error: '+e.message)}
+  addMsg('system','Φ Running automations...');
+  try{const r=await fetch('/api/ai-control/automations',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({automations:{summarize:document.getElementById('autoSum').checked,codeReview:document.getElementById('autoCode').checked,imageAnalysis:document.getElementById('autoImg').checked,translation:document.getElementById('autoTrans').checked,voiceSynthesis:document.getElementById('autoVoice').checked}})});
+  const d=await r.json();addMsg('ai','⚙ Automations: '+JSON.stringify(d))}catch(e){addMsg('ai','Error: '+e.message)}
 }
 </script>
 </body>
 </html>
-</task_progress>
-- [x] Explore existing chat and vercel config
-- [x] Create chat-mirror/index.html with modern UI
-- [x] Create API routes for AI control (diffusion, voices, generate-video)
-- [x] Enhance with full Windows voices, video diffusion windows, 12D Hyper View
-- [ ] Update voices.js API with full voice support
-- [ ] Update vercel.json with all features
-- [ ] Final verification and commit</task_progress>
-</write_to_file>
