@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>OROBOROS — 12D Hyper View</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Courier New', monospace;
+            background-color: black;
+            color: #0f0;
+        }
+        #info {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+            background: rgba(0,0,0,0.7);
+            padding: 10px 20px;
+            border-radius: 8px;
+            border-left: 3px solid #0f0;
+            pointer-events: none;
+            font-size: 12px;
+        }
+        #controls {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            z-index: 100;
+            background: rgba(0,0,0,0.8);
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 10px;
+            backdrop-filter: blur(5px);
+            border-top: 1px solid #0f0;
+            pointer-events: auto;
+        }
+        button {
+            background: #111;
+            color: #0f0;
+            border: 1px solid #0f0;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: monospace;
+            transition: all 0.2s;
+        }
+        button:hover {
+            background: #0f0;
+            color: black;
+            box-shadow: 0 0 10px #0f0;
+        }
+        .status {
+            color: #0f0;
+            font-weight: bold;
+        }
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        input {
+            background: #111;
+            border: 1px solid #0f0;
+            color: #0f0;
+        }
+        select {
+            background: #111;
+            color: #0f0;
+            border: 1px solid #0f0;
+            padding: 4px;
+        }
+        a {
+            color: #0f0;
+        }
+        .dimension-panel {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            background: rgba(0,0,0,0.7);
+            padding: 15px;
+            border-radius: 8px;
+            border-right: 3px solid #0f0;
+            font-size: 11px;
+            max-width: 200px;
+            max-height: 80vh;
+            overflow-y: auto;
+            pointer-events: none;
+            z-index: 100;
+        }
+        .dimension-panel div {
+            margin: 4px 0;
+        }
+        .active-dim {
+            color: #0f0;
+            text-shadow: 0 0 5px #0f0;
+        }
+    </style>
+</head>
+<body>
+    <div id="info">
+        <span style="color:#0f0;">◉ 12D HYPER VIEW</span> — ACTIVE<br>
+        STRATA: <span id="strata-count">46</span> | φ‑LOCK: <span id="phi-status">ACTIVE</span> | RESONANCE: <span id="resonance">777 THz / 1272 Hz</span>
+    </div>
+    
+    <div class="dimension-panel" id="dim-panel">
+        <div style="margin-bottom:8px;"><strong>◈ DIMENSIONS</strong></div>
+        <div id="dim-list">Loading...</div>
+    </div>
+    
+    <div id="controls">
+        <div>
+            <button id="btn-reset">⟳ RESET VIEW</button>
+            <button id="btn-strata-up">▲ INCREASE STRATA</button>
+            <button id="btn-strata-down">▼ DECREASE STRATA</button>
+        </div>
+        <div class="slider-container">
+            <span>◈ ROTATION SPEED</span>
+            <input type="range" id="rot-speed" min="0" max="0.02" step="0.0005" value="0.005">
+        </div>
+        <div>
+            <span>◈ PROJECTION: </span>
+            <select id="proj-mode">
+                <option value="perspective">PERSPECTIVE</option>
+                <option value="orthographic">ORTHOGRAPHIC</option>
+                <option value="fisheye">FISHEYE</option>
+            </select>
+        </div>
+        <div>
+            <span>◈ VISUALIZATION: </span>
+            <select id="vis-mode">
+                <option value="wireframe">WIREFRAME</option>
+                <option value="points">POINTS</option>
+                <option value="glow">GLOW LINES</option>
+                <option value="solid">SOLID NODES</option>
+            </select>
+        </div>
+        <div>
+            <span>STATUS: </span><span id="sys-status" class="status">CONNECTED</span>
+        </div>
+    </div>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.128.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+        import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+        import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+        import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+        
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x000000);
+        scene.fog = new THREE.FogExp2(0x000000, 0.003);
+        
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(5, 5, 8);
+        camera.lookAt(0, 0, 0);
+        
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.toneMapping = THREE.ReinhardToneMapping;
+        document.body.appendChild(renderer.domElement);
+        
+        const renderScene = new RenderPass(scene, camera);
+        const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.2, 0.3, 0.85);
+        bloomPass.threshold = 0.1;
+        bloomPass.strength = 0.6;
+        bloomPass.radius = 0.5;
+        const effectComposer = new EffectComposer(renderer);
+        effectComposer.addPass(renderScene);
+        effectComposer.addPass(bloomPass);
+        
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.autoRotate = true;
+        controls.autoRotateSpeed = 1.0;
+        controls.enableZoom = true;
+        controls.enablePan = true;
+        controls.zoomSpeed = 1.2;
+        
+        const group = new THREE.Group();
+        scene.add(group);
+        
+        const dimColors = [
+            0x4B6CFF, 0x6B8CFF, 0x8B9FFF, 0xA0B0FF, 0xC0D0FF,
+            0x00F0FF, 0x00C0FF, 0x0090FF, 0x0060FF, 0x0030FF,
+            0x8B5CF6, 0x5B1EA8, 0x9B6CF0, 0x7C3AED, 0x4C1E95,
+            0xFF6B3C, 0xFF8C42, 0xFFAD6A, 0xFFC68C, 0xFFE0B0,
+            0x00FF88, 0x33FF99, 0x66FFAA, 0x99FFBB, 0xCCFFCC,
+            0xFF33CC, 0xFF66DD, 0xFF99EE, 0xFFCCFF, 0xFFFFFF,
+            0x7F00FF, 0x9F33FF, 0xBF66FF, 0xDF99FF, 0xFFCCFF,
+            0x00FFFF, 0x33FFFF, 0x66FFFF, 0x99FFFF, 0xCCFFFF,
+            0xFFAA00, 0xFFCC33, 0xFFEE66, 0xFFFF99, 0xFFFFCC,
+            0xFF0000
+        ];
+        
+        const layers = [];
+        
+        for (let i = 0; i < 46; i++) {
+            const scale = 1.0 + (i / 46) * 1.618;
+            const color = dimColors[i % dimColors.length];
+            
+            const geometry = new THREE.BoxGeometry(1.2, 1.2, 1.2);
+            const edgesGeo = new THREE.EdgesGeometry(geometry);
+            const material = new THREE.LineBasicMaterial({ color: color });
+            const wireframe = new THREE.LineSegments(edgesGeo, material);
+            wireframe.scale.set(scale, scale, scale);
+            
+            const pointGeo = new THREE.SphereGeometry(0.03);
+            const pointMat = new THREE.MeshStandardMaterial({ color: color, emissive: color, emissiveIntensity: 0.5 });
+            const points = new THREE.InstancedMesh(pointGeo, pointMat, 8);
+            const corners = [
+                [-1, -1, -1], [ 1, -1, -1], [ 1, -1,  1], [-1, -1,  1],
+                [-1,  1, -1], [ 1,  1, -1], [ 1,  1,  1], [-1,  1,  1]
+            ];
+            const dummy = new THREE.Object3D();
+            for (let j = 0; j < corners.length; j++) {
+                dummy.position.set(corners[j][0], corners[j][1], corners[j][2]);
+                dummy.updateMatrix();
+                points.setMatrixAt(j, dummy.matrix);
+            }
+            points.instanceMatrix.needsUpdate = true;
+            points.scale.set(scale, scale, scale);
+            
+            wireframe.userData = { dim: i, scale: scale, baseScale: scale };
+            points.userData = { dim: i, scale: scale };
+            
+            group.add(wireframe);
+            group.add(points);
+            layers.push({ wireframe, points, scale, color, rotationSpeed: 0.002 * (i % 5 + 1) });
+        }
+        
+        const coreGeo = new THREE.IcosahedronGeometry(0.5, 1);
+        const coreMat = new THREE.MeshStandardMaterial({ color: 0xFF0000, emissive: 0xFF3300, emissiveIntensity: 1.2, metalness: 0.8, roughness: 0.2 });
+        const core = new THREE.Mesh(coreGeo, coreMat);
+        group.add(core);
+        
+        const starCount = 2000;
+        const starGeo = new THREE.BufferGeometry();
+        const starPositions = new Float32Array(starCount * 3);
+        for (let i = 0; i < starCount; i++) {
+            starPositions[i*3] = (Math.random() - 0.5) * 200;
+            starPositions[i*3+1] = (Math.random() - 0.5) * 200;
+            starPositions[i*3+2] = (Math.random() - 0.5) * 100 - 50;
+        }
+        starGeo.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
+        const starMat = new THREE.PointsMaterial({ color: 0x88aaff, size: 0.1, transparent: true, opacity: 0.6 });
+        const stars = new THREE.Points(starGeo, starMat);
+        scene.add(stars);
+        
+        const ambientLight = new THREE.AmbientLight(0x111111);
+        scene.add(ambientLight);
+        const dirLight = new THREE.DirectionalLight(0xffffff, 0.5);
+        dirLight.position.set(1, 2, 1);
+        scene.add(dirLight);
+        const backLight = new THREE.PointLight(0x3355ff, 0.3);
+        backLight.position.set(-2, -1, -3);
+        scene.add(backLight);
+        
+        const strataCountSpan = document.getElementById('strata-count');
+        const phiStatusSpan = document.getElementById('phi-status');
+        const resonanceSpan = document.getElementById('resonance');
+        const sysStatusSpan = document.getElementById('sys-status');
+        const rotSpeedSlider = document.getElementById('rot-speed');
+        const projModeSelect = document.getElementById('proj-mode');
+        const visModeSelect = document.getElementById('vis-mode');
+        const btnReset = document.getElementById('btn-reset');
+        const btnStrataUp = document.getElementById('btn-strata-up');
+        const btnStrataDown = document.getElementById('btn-strata-down');
+        
+        const dimListDiv = document.getElementById('dim-list');
+        function updateDimList() {
+            let html = '';
+            for (let i = 1; i <= 46; i++) {
+                let dimName = '';
+                if (i <= 12) dimName = `S${i} (Spatial)`;
+                else if (i <= 24) dimName = `S${i} (Temporal)`;
+                else if (i <= 36) dimName = `S${i} (Consciousness)`;
+                else dimName = `S${i} (Source)`;
+                html += `<div>◈ DIM ${i}: ${dimName}</div>`;
+            }
+            dimListDiv.innerHTML = html;
+        }
+        updateDimList();
+        
+        let currentStrata = 46;
+        let rotationSpeed = 0.005;
+        
+        function setStrata(level) {
+            currentStrata = Math.min(46, Math.max(1, level));
+            strataCountSpan.innerText = currentStrata;
+            layers.forEach((layer, idx) => {
+                const isActive = idx < currentStrata;
+                layer.wireframe.visible = isActive;
+                layer.points.visible = isActive;
+                if (isActive) {
+                    layer.wireframe.material.color.setHex(dimColors[idx % dimColors.length]);
+                }
+            });
+        }
+        
+        btnStrataUp.addEventListener('click', () => setStrata(currentStrata + 1));
+        btnStrataDown.addEventListener('click', () => setStrata(currentStrata - 1));
+        btnReset.addEventListener('click', () => {
+            camera.position.set(5, 5, 8);
+            controls.target.set(0, 0, 0);
+            controls.update();
+        });
+        rotSpeedSlider.addEventListener('input', (e) => {
+            rotationSpeed = parseFloat(e.target.value);
+            controls.autoRotateSpeed = rotationSpeed * 200;
+        });
+        visModeSelect.addEventListener('change', (e) => {
+            const mode = e.target.value;
+            layers.forEach(layer => {
+                if (mode === 'wireframe') {
+                    layer.points.visible = false;
+                    layer.wireframe.visible = true;
+                } else if (mode === 'points') {
+                    layer.points.visible = true;
+                    layer.wireframe.visible = false;
+                } else if (mode === 'glow') {
+                    layer.points.visible = true;
+                    layer.wireframe.visible = true;
+                }
+            });
+        });
+        
+        let time = 0;
+        function animate() {
+            requestAnimationFrame(animate);
+            time += 0.01;
+            
+            group.rotation.y = time * rotationSpeed;
+            group.rotation.x = Math.sin(time * 0.2) * 0.1;
+            group.rotation.z = Math.cos(time * 0.3) * 0.05;
+            
+            const scalePulse = 1 + Math.sin(time * 3) * 0.05;
+            core.scale.set(scalePulse, scalePulse, scalePulse);
+            
+            controls.update();
+            effectComposer.render();
+            
+            phiStatusSpan.innerText = (Math.sin(time) > 0) ? "ACTIVE" : "LOCKED";
+            resonanceSpan.innerText = `777 THz / ${(1272 + Math.sin(time)*2).toFixed(0)} Hz`;
+            sysStatusSpan.innerText = "CONNECTED";
+        }
+        
+        setStrata(46);
+        animate();
+        
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            effectComposer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+        
+        console.log("12D Hyper View initialized — 46 strata active, φ-harmonic projection online.");
+    </script>
+</body>
+</html>
