@@ -172,17 +172,51 @@ font-family:Georgia,'Times New Roman',serif;line-height:1}
 <button class="gbtn" onclick="toggleHyperView()">🔮 Toggle Hyper View</button>
 </div>
 
-<div class="mod">
-<h3>Φ Automations</h3>
-<label><input type="checkbox" id="autoSum"> Auto-Summarize</label>
-<label><input type="checkbox" id="autoCode"> Auto-Code Review</label>
-<label><input type="checkbox" id="autoImg"> Image Analysis</label>
-<label><input type="checkbox" id="autoTrans"> Real-time Translation</label>
-<label><input type="checkbox" id="autoVoice"> Auto-Speak Responses</label>
-<button class="gbtn" onclick="runAutomations()">⚙ Run All Active</button>
-</div>
+  <div class="mod">
+    <h3>Φ Automations</h3>
+    <label><input type="checkbox" id="autoSum"> Auto-Summarize</label>
+    <label><input type="checkbox" id="autoCode"> Auto-Code Review</label>
+    <label><input type="checkbox" id="autoImg"> Image Analysis</label>
+    <label><input type="checkbox" id="autoTrans"> Real-time Translation</label>
+    <label><input type="checkbox" id="autoVoice"> Auto-Speak Responses</label>
+    <button class="gbtn" onclick="runAutomations()">⚙ Run All Active</button>
+  </div>
 
-</div>
+  <div class="mod">
+    <h3>Φ Named Voice Windows <span class="badge">FREE</span></h3>
+    <div id="voiceWindows" style="max-height:140px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent">
+      <div style="font-size:9px;color:var(--dim);text-align:center;padding:8px">Scanning voices...</div>
+    </div>
+    <button class="gbtn" onclick="openVoiceStudio()">🎤 Voice Studio</button>
+    <button class="gbtn sec" onclick="speakAllVoicesDemo()">🔊 Demo All Voices</button>
+  </div>
+
+  <div class="mod">
+    <h3>Φ Speech-to-Text <span class="badge">DICTATION</span></h3>
+    <label><input type="checkbox" id="sttEnabled"> Enable Dictation</label>
+    <label><input type="checkbox" id="sttContinuous"> Continuous Mode</label>
+    <button class="gbtn" id="sttBtn" onclick="toggleDictation()">🎙 Start Dictation</button>
+    <div id="sttStatus" style="font-size:9px;color:var(--dim);margin-top:4px;text-align:center">Ready</div>
+  </div>
+
+  <div class="mod">
+    <h3>Φ Canvas Renderer <span class="badge">GPU</span></h3>
+    <label><input type="checkbox" id="canvasLive" checked> Live Render</label>
+    <select id="canvasMode">
+      <option value="particles">Particle Flow</option>
+      <option value="waves">Neural Waves</option>
+      <option value="fractal">Fractal Gen</option>
+      <option value="matrix">Matrix Rain</option>
+      <option value="fire">Fire Effect</option>
+      <option value="plasma">Plasma Field</option>
+    </select>
+    <input type="range" id="canvasSpeed" min="1" max="10" value="5">
+    <div class="range-row"><span>Speed</span><span id="canvasSpeedVal">5</span></div>
+    <button class="gbtn" onclick="startCanvasRender()">🎨 Start Render</button>
+    <button class="gbtn sec" onclick="captureCanvas()">📸 Capture Frame</button>
+  </div>
+
+  </div>
 </aside>
 
 <!-- CENTER: CHAT -->
@@ -342,6 +376,83 @@ async function runAutomations(){
   addMsg('system','Φ Running automations...');
   try{const r=await fetch('/api/ai-control/automations',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({automations:{summarize:document.getElementById('autoSum').checked,codeReview:document.getElementById('autoCode').checked,imageAnalysis:document.getElementById('autoImg').checked,translation:document.getElementById('autoTrans').checked,voiceSynthesis:document.getElementById('autoVoice').checked}})});
   const d=await r.json();addMsg('ai','⚙ Automations: '+JSON.stringify(d))}catch(e){addMsg('ai','Error: '+e.message)}
+}
+
+// ===== NAMED VOICE WINDOWS =====
+function populateVoiceWindows(){
+  const c=document.getElementById('voiceWindows');if(!allVoices.length)return;
+  const wins=[{name:'🪟 Zira',filter:v=>v.name.includes('Zira')},{name:'🪟 David',filter:v=>v.name.includes('David')},{name:'🪟 Mark',filter:v=>v.name.includes('Mark')},{name:'🌐 Google US',filter:v=>v.name.includes('Google US English')},{name:'🌐 Google UK',filter:v=>v.name.includes('Google UK English Female')}];
+  let h='';
+  allVoices.filter(v=>v.localService||v.name.includes('Google')).slice(0,20).forEach((v,i)=>{
+    const icon=v.name.includes('Microsoft')?'🪟':v.name.includes('Google')?'🌐':'🗣';
+    h+=`<div style="display:flex;align-items:center;gap:6px;padding:3px 0;cursor:pointer;border-bottom:1px solid rgba(255,215,0,0.05)" onclick="quickSpeak(${i},'${v.name.replace(/'/g,"\\'")}')"><span style="font-size:11px">${icon}</span><span style="font-size:10px;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${v.name}</span><span style="font-size:8px;color:var(--dim)">${v.lang}</span></div>`;
+  });
+  c.innerHTML=h;
+}
+setTimeout(populateVoiceWindows,1500);
+
+function quickSpeak(i,name){
+  const v=allVoices[i]||allVoices[0];speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(`Hello, I am ${name}. Welcome to DeepSeek Research AI Chat Studio.`);u.voice=v;u.rate=1;u.pitch=1;
+  speechSynthesis.speak(u);addMsg('system',`🔊 Playing: ${name}`);
+}
+
+function openVoiceStudio(){
+  const w=window.open('','_blank','width=900,height=700');
+  w.document.write(`<!DOCTYPE html><html><head><title>Φ Voice Studio</title><style>*{margin:0}body{background:#0a0e27;color:#e8e0d0;font-family:system-ui;padding:16px}h1{color:#FFD700;font-size:16px;margin-bottom:12px}.vg{display:grid;grid-template-columns:1fr 1fr;gap:8px;max-height:calc(100vh - 60px);overflow-y:auto}.vc{background:rgba(255,215,0,0.04);border:1px solid rgba(255,215,0,0.12);border-radius:8px;padding:10px;cursor:pointer;transition:all .2s}.vc:hover{border-color:#FFD700;box-shadow:0 0 8px rgba(255,215,0,0.15)}.vn{font-size:12px;color:#FFD700}.vl{font-size:9px;color:#8b8070}</style></head><body><h1>Φ Voice Studio — All Free Voices</h1><div class="vg" id="vg"></div><script>
+const voices=speechSynthesis.getVoices();const vg=document.getElementById('vg');
+voices.forEach((v,i)=>{const d=document.createElement('div');d.className='vc';d.innerHTML='<div class="vn">'+v.name+'</div><div class="vl">'+v.lang+(v.localService?' | Local':' | Cloud')+'</div>';d.onclick=()=>{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance('Hello from '+v.name);u.voice=v;speechSynthesis.speak(u)};vg.appendChild(d)});
+<\/script></body></html>`);
+}
+
+function speakAllVoicesDemo(){
+  speechSynthesis.cancel();let i=0;
+  function next(){if(i>=Math.min(allVoices.length,10))return;const v=allVoices[i];const u=new SpeechSynthesisUtterance(`Voice ${i+1}: ${v.name}`);u.voice=v;u.onend=()=>{i++;next()};speechSynthesis.speak(u)}
+  next();addMsg('system',`🔊 Demo playing ${Math.min(allVoices.length,10)} voices...`);
+}
+
+// ===== SPEECH-TO-TEXT =====
+let sttRecognition=null,sttActive=false;
+function toggleDictation(){
+  if(sttActive){sttRecognition?.stop();sttActive=false;document.getElementById('sttBtn').textContent='🎙 Start Dictation';document.getElementById('sttStatus').textContent='Stopped';return}
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){addMsg('system','Speech-to-Text not supported');return}
+  sttRecognition=new SR();sttRecognition.continuous=document.getElementById('sttContinuous').checked;sttRecognition.interimResults=true;
+  sttRecognition.onresult=e=>{let t='';for(let i=e.resultIndex;i<e.results.length;i++)t+=e.results[i][0].transcript;input.value=t;document.getElementById('sttStatus').textContent='Listening...'};
+  sttRecognition.onerror=e=>{document.getElementById('sttStatus').textContent='Error: '+e.error};
+  sttRecognition.onend=()=>{if(sttActive&&document.getElementById('sttContinuous').checked)sttRecognition.start();else{sttActive=false;document.getElementById('sttBtn').textContent='🎙 Start Dictation';document.getElementById('sttStatus').textContent='Ended'}};
+  sttRecognition.start();sttActive=true;document.getElementById('sttBtn').textContent='⏹ Stop Dictation';document.getElementById('sttStatus').textContent='Listening...';
+  addMsg('system','🎙 Dictation started');
+}
+
+// ===== CANVAS RENDERER =====
+let canvasAnim=null;
+function startCanvasRender(){
+  const mode=document.getElementById('canvasMode').value,speed=parseInt(document.getElementById('canvasSpeed').value);
+  const el=document.getElementById('vidW5');el.classList.add('active');
+  el.innerHTML='<canvas id="liveCanvas" style="width:100%;height:100%"></canvas>';
+  const c=document.getElementById('liveCanvas'),ctx=c.getContext('2d');
+  c.width=el.offsetWidth*2||400;c.height=el.offsetHeight*2||200;
+  document.getElementById('canvasSpeed').oninput=e=>document.getElementById('canvasSpeedVal').textContent=e.target.value;
+  if(canvasAnim)cancelAnimationFrame(canvasAnim);
+  let t=0;
+  function draw(){t+=0.01*speed;const w=c.width,h=c.height,img=ctx.createImageData(w,h);
+    for(let i=0;i<img.data.length;i+=4){const x=(i/4)%w,y=((i/4)/w)|0;
+      if(mode==='particles'){img.data[i]=Math.sin(x*0.02+t)*80+40;img.data[i+1]=Math.sin(y*0.02+t*1.5)*60+30;img.data[i+2]=Math.cos((x+y)*0.01+t)*100+50}
+      else if(mode==='waves'){img.data[i]=Math.sin(x*0.03*Math.sin(t))*120;img.data[i+1]=Math.cos(y*0.02+t)*80+40;img.data[i+2]=Math.sin(t*2+x*0.01)*60+80}
+      else if(mode==='fractal'){const r=Math.sqrt((x-w/2)**2+(y-h/2)**2);img.data[i]=Math.sin(r*0.05-t)*127+128;img.data[i+1]=Math.sin(r*0.05+t*1.3)*127+128;img.data[i+2]=Math.cos(r*0.03+t*0.7)*127+128}
+      else if(mode==='matrix'){img.data[i]=0;img.data[i+1]=(Math.random()>0.95?200:Math.sin(y*0.1+t)*30);img.data[i+2]=0}
+      else if(mode==='fire'){img.data[i]=Math.min(255,Math.sin(y*0.02-t)*128+Math.random()*60);img.data[i+1]=Math.sin(y*0.03-t)*60+20;img.data[i+2]=0}
+      else{img.data[i]=Math.sin(x*0.01+t)*80+40;img.data[i+1]=Math.cos(y*0.01+t*1.1)*80+40;img.data[i+2]=Math.sin((x+y)*0.007+t*0.8)*120+60}
+      img.data[i+3]=255}
+    ctx.putImageData(img,0,0);canvasAnim=requestAnimationFrame(draw)}
+  draw();addMsg('system',`🎨 Canvas: ${mode} @ speed ${speed}`);
+}
+
+function captureCanvas(){
+  const c=document.getElementById('liveCanvas');if(!c)return addMsg('system','No canvas');
+  addMsg('user',`<img src="${c.toDataURL()}" style="max-width:300px;border-radius:8px">`);
+  document.getElementById('imgOut').innerHTML=`<img src="${c.toDataURL()}" style="width:100%;border-radius:8px">`;
+  addMsg('system','📸 Frame captured');
 }
 </script>
 </body>
