@@ -2,7 +2,7 @@ export default async function handler(req, res) {
   if (req.method === 'GET') {
     return res.status(200).json({
       status: 'ok',
-      totalVoices: 142,
+      totalVoices: 198,
       groups: {
         'Windows Neural (Free)': [
           'Microsoft AriaNeural','Microsoft DavisNeural','Microsoft JennyNeural',

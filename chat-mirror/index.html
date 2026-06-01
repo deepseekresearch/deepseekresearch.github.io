@@ -108,11 +108,12 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
 <div class="range-row"><span>Steps</span><span id="diffStepsVal">50</span></div>
 <input type="range" id="diffFPS" min="8" max="60" value="24">
 <div class="range-row"><span>FPS</span><span id="diffFPSVal">24</span></div>
-<div class="vid-windows">
+<div class="vid-windows" style="grid-template-columns:1fr 1fr 1fr">
 <div class="vid-win" id="vidW1">Window 1</div>
 <div class="vid-win" id="vidW2">Window 2</div>
 <div class="vid-win" id="vidW3">Window 3</div>
 <div class="vid-win" id="vidW4">Window 4</div>
+<div class="vid-win" id="vidW5" style="grid-column:span 3">Window 5: Full Pipeline</div>
 </div>
 <button class="ai-btn" onclick="runDiffusion()">Generate Video</button>
 <button class="ai-btn secondary" onclick="openDiffusionStudio()">Open Full Studio</button>

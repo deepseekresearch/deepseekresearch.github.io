@@ -30,6 +30,10 @@
     "api/ai-control/automations.js": {
       "memory": 1024,
       "maxDuration": 60
+    },
+    "api/ai-control/resonance.js": {
+      "memory": 1024,
+      "maxDuration": 60
     }
   },
   "headers": [
@@ -54,12 +58,28 @@
     { "source": "/api/chat", "destination": "/api/chat" },
     { "source": "/mirror", "destination": "/chat-mirror/index.html" },
     { "source": "/mirror/(.*)", "destination": "/chat-mirror/$1" },
-    { "source": "/api/ai-control/stream/:id", "destination": "/api/ai-control/stream?id=:id" }
+    { "source": "/api/ai-control/stream/:id", "destination": "/api/ai-control/stream?id=:id" },
+    { "source": "/12d", "destination": "/12d-hyper-view.html" }
   ],
   "redirects": [
     {
       "source": "/ai-panel",
       "destination": "/mirror",
+      "permanent": false
+    },
+    {
+      "source": "/video-diffusion",
+      "destination": "/mirror?panel=diffusion",
+      "permanent": false
+    },
+    {
+      "source": "/voices",
+      "destination": "/mirror?panel=voices",
+      "permanent": false
+    },
+    {
+      "source": "/hyper",
+      "destination": "/12d",
       "permanent": false
     }
   ],
