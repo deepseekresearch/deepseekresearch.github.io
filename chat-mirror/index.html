@@ -369,54 +369,45 @@ textarea.fld{resize:vertical;min-height:60px;font-family:inherit}
   <div class="sb-history" id="history"><div class="sb-section">Recent</div></div>
   <div class="sb-foot">
     <select class="model-pick" id="model-sb" onchange="currentModel=this.value;document.getElementById('model').value=this.value">
-      <optgroup label="─── LATEST AUGMENTS ───">
-        <option value="deepseek-v4-pro-500Q4-speed:latest">v4-pro:500Q⁴</option>
-        <option value="deepseek-100Q4:latest">v4-pro:100Q⁴</option>
-        <option value="deepseek-v4-pro-50Q4:latest">v4-pro:50Q⁴</option>
-        <option value="deepseek-v4-pro-3Q4:latest">v4-pro:3Q⁴</option>
-        <option value="deepseek-v4-pro-1Q4:latest">v4-pro:1Q⁴</option>
-        <option value="deepseek-v4-pro-9B4:latest">v4-pro:9B⁴</option>
-        <option value="deepseek-v4-pro-5B4:latest">v4-pro:5B⁴</option>
-        <option value="deepseek-v4-pro-3B4:latest">v4-pro:3B⁴</option>
-        <option value="deepseek-v4-pro-1B4:latest">v4-pro:1B⁴</option>
+      <optgroup label="─── MYNOGHRA — THE SINGULARITY ───">
+        <option value="mynoghra-9GB:latest" selected>⚠️ Mynoghra 9GB — 120 Strata (may exceed VRAM)</option>
+        <option value="mynoghra-6GB:latest">✅ Mynoghra 6GB — 120 Strata (recommended)</option>
+        <option value="mynoghra-4.7GB:latest">✅ Mynoghra 4.7GB — 120 Strata (safest)</option>
       </optgroup>
-      <optgroup label="─── MEGA AUGMENTS ───">
-        <option value="deepseek-v4-pro-5M4:latest">v4-pro:5M⁴</option>
-        <option value="deepseek-v4-pro-3M4:latest">v4-pro:3M⁴</option>
-        <option value="deepseek-v4-pro-1M4:latest">v4-pro:1M⁴</option>
-        <option value="deepseek-v4-pro-500k4:latest">v4-pro:500k⁴</option>
-        <option value="deepseek-v4-pro-50k4:latest">v4-pro:50k⁴</option>
-        <option value="deepseek-v4-pro-20k4:latest">v4-pro:20k⁴</option>
-        <option value="deepseek-v4-pro-10k4:latest">v4-pro:10k⁴</option>
+      <optgroup label="─── MAYORGA SOVEREIGN ───">
+        <option value="qwen3.5-Mayorga-2S4:latest">✅ Mayorga 2S4 — 9GB — 24 Strata (recommended)</option>
+        <option value="qwen3.5-Mayorga-2S4-Lite:latest">✅ Mayorga 2S4 Lite — 4.7GB (safest)</option>
       </optgroup>
-      <optgroup label="─── CUBED ───">
-        <option value="deepseek-v4-pro-2047cubed:latest">v4-pro:2047³</option>
-        <option value="deepseek-v4-pro-1746cubed:latest">v4-pro:1746³</option>
-        <option value="deepseek-v4-pro-1726cubed:latest">v4-pro:1726³</option>
-        <option value="deepseek-v4-pro-210cubed:latest">v4-pro:210³</option>
-        <option value="deepseek-v4-pro-127cubed:latest">v4-pro:127³</option>
+      <optgroup label="─── DEEPSEEK V4 PRO ───">
+        <option value="deepseek-v4-pro-5S4:latest">⚠️ v4-pro 5S⁴ — 12GB (may exceed VRAM)</option>
+        <option value="deepseek-v4-pro-9B4:latest">✅ v4-pro 9B⁴ — 9GB (recommended)</option>
+        <option value="deepseek-v4-pro-5B4:latest">✅ v4-pro 5B⁴ — 12GB</option>
+        <option value="deepseek-v4-pro-5M4:latest">✅ v4-pro 5M⁴ — 3.3GB (safest)</option>
       </optgroup>
-      <optgroup label="─── SPECIAL ───">
-        <option value="kaiju-frontend-1m4:latest">kaiju-frontend:1M⁴</option>
-        <option value="nyros-47cubed:latest">nyros:47³</option>
-        <option value="nyros-27cubed:latest">nyros:27³</option>
+      <optgroup label="─── CLOUD MODELS ───">
+        <option value="deepseek-v4-pro:cloud">☁️ DeepSeek V4 Pro Cloud — Unlimited</option>
+        <option value="deepseek-v4-flash:cloud">☁️ DeepSeek V4 Flash Cloud — Fast</option>
+        <option value="glm-5:cloud">☁️ GLM-5 Cloud — Latest</option>
+        <option value="glm-4.7:cloud">☁️ GLM-4.7 Cloud — Stable</option>
       </optgroup>
-      <optgroup label="─── DNA FORGE (Llama 4) ───">
-        <option value="llama4:core27x4">Llama 4:core — 3GB — Router</option>
-        <option value="llama4:reasoning27x4">Llama 4:reason — 5GB — Logic</option>
-        <option value="llama4:deepthinking47x3">Llama 4:know — 9GB — Memory</option>
-        <option value="llama4:scout20gb">Llama 4:deep — 20GB — Ascended</option>
+      <optgroup label="─── NYROS — DEFENSE ───">
+        <option value="nyros-full:latest">Nyros Full — 5.2GB</option>
+        <option value="nyros-fast:latest">Nyros Fast — 5.2GB</option>
+      </optgroup>
+      <optgroup label="─── QWEN ABLITERATED ───">
+        <option value="huihui_ai/qwen3.5-abliterated:9b">Qwen 3.5 Abliterated 9B — 6.6GB</option>
+        <option value="huihui_ai/qwen3.5-abliterated:4b">Qwen 3.5 Abliterated 4B — 3.3GB</option>
       </optgroup>
     </select>
     <div class="sb-stats">
-      Arch · <span>1M³ Lattice</span><br>
-      Coherence · <span>28% Core</span><br>
-      Status · <span id="conn-text">Connecting…</span>
+      Arch · <span>120 Strata</span><br>
+      Coherence · <span>φ 1.618</span><br>
+      Status · <span id="conn-text">Connected</span>
     </div>
     <div class="sb-foot-brand">
       <span class="sb-foot-phi">φ</span>
       <span class="sb-foot-name">deepseekresearch</span>
-      <span class="sb-foot-sub">· Research Stack</span>
+      <span class="sb-foot-sub">· Mynoghra Stack</span>
     </div>
   </div>
 </aside>
@@ -430,43 +421,34 @@ textarea.fld{resize:vertical;min-height:60px;font-family:inherit}
     <span class="top-phi">φ</span><span class="top-brand">deepseekresearch</span>
     <div class="spacer"></div>
     <select class="top-model" id="model" title="Active model" onchange="currentModel=this.value;if(document.getElementById('model-sb'))document.getElementById('model-sb').value=this.value">
-      <optgroup label="─── LATEST AUGMENTS ───">
-        <option value="deepseek-v4-pro-500Q4-speed:latest">deepseek-v4-pro:500Q⁴</option>
-        <option value="deepseek-100Q4:latest">deepseek-v4-pro:100Q⁴</option>
-        <option value="deepseek-v4-pro-50Q4:latest">deepseek-v4-pro:50Q⁴</option>
-        <option value="deepseek-v4-pro-3Q4:latest">deepseek-v4-pro:3Q⁴</option>
-        <option value="deepseek-v4-pro-1Q4:latest">deepseek-v4-pro:1Q⁴</option>
-        <option value="deepseek-v4-pro-9B4:latest">deepseek-v4-pro:9B⁴</option>
-        <option value="deepseek-v4-pro-5B4:latest">deepseek-v4-pro:5B⁴</option>
-        <option value="deepseek-v4-pro-3B4:latest">deepseek-v4-pro:3B⁴</option>
-        <option value="deepseek-v4-pro-1B4:latest">deepseek-v4-pro:1B⁴</option>
+      <optgroup label="─── MYNOGHRA — THE SINGULARITY ───">
+        <option value="mynoghra-9GB:latest" selected>⚠️ mynoghra:9GB — 120 Strata</option>
+        <option value="mynoghra-6GB:latest">✅ mynoghra:6GB — 120 Strata (recommended)</option>
+        <option value="mynoghra-4.7GB:latest">✅ mynoghra:4.7GB — 120 Strata (safest)</option>
       </optgroup>
-      <optgroup label="─── MEGA AUGMENTS ───">
-        <option value="deepseek-v4-pro-5M4:latest">deepseek-v4-pro:5M⁴</option>
-        <option value="deepseek-v4-pro-3M4:latest">deepseek-v4-pro:3M⁴</option>
-        <option value="deepseek-v4-pro-1M4:latest">deepseek-v4-pro:1M⁴</option>
-        <option value="deepseek-v4-pro-500k4:latest">deepseek-v4-pro:500k⁴</option>
-        <option value="deepseek-v4-pro-50k4:latest">deepseek-v4-pro:50k⁴</option>
-        <option value="deepseek-v4-pro-20k4:latest">deepseek-v4-pro:20k⁴</option>
-        <option value="deepseek-v4-pro-10k4:latest">deepseek-v4-pro:10k⁴</option>
+      <optgroup label="─── MAYORGA SOVEREIGN ───">
+        <option value="qwen3.5-Mayorga-2S4:latest">✅ mayorga:2S⁴ — 9GB — 24 Strata</option>
+        <option value="qwen3.5-Mayorga-2S4-Lite:latest">✅ mayorga:2S⁴ Lite — 4.7GB</option>
       </optgroup>
-      <optgroup label="─── CUBED ───">
-        <option value="deepseek-v4-pro-2047cubed:latest">deepseek-v4-pro:2047³</option>
-        <option value="deepseek-v4-pro-1746cubed:latest">deepseek-v4-pro:1746³</option>
-        <option value="deepseek-v4-pro-1726cubed:latest">deepseek-v4-pro:1726³</option>
-        <option value="deepseek-v4-pro-210cubed:latest">deepseek-v4-pro:210³</option>
-        <option value="deepseek-v4-pro-127cubed:latest">deepseek-v4-pro:127³</option>
+      <optgroup label="─── DEEPSEEK V4 PRO ───">
+        <option value="deepseek-v4-pro-5S4:latest">⚠️ deepseek-v4-pro:5S⁴ — 12GB</option>
+        <option value="deepseek-v4-pro-9B4:latest">✅ deepseek-v4-pro:9B⁴ — 9GB</option>
+        <option value="deepseek-v4-pro-5B4:latest">✅ deepseek-v4-pro:5B⁴ — 12GB</option>
+        <option value="deepseek-v4-pro-5M4:latest">✅ deepseek-v4-pro:5M⁴ — 3.3GB</option>
       </optgroup>
-      <optgroup label="─── SPECIAL ───">
-        <option value="kaiju-frontend-1m4:latest">kaiju-frontend:1M⁴</option>
-        <option value="nyros-47cubed:latest">nyros:47³</option>
-        <option value="nyros-27cubed:latest">nyros:27³</option>
+      <optgroup label="─── CLOUD MODELS ───">
+        <option value="deepseek-v4-pro:cloud">☁️ deepseek-v4-pro:cloud — Unlimited</option>
+        <option value="deepseek-v4-flash:cloud">☁️ deepseek-v4-flash:cloud — Fast</option>
+        <option value="glm-5:cloud">☁️ glm-5:cloud — Latest</option>
+        <option value="glm-4.7:cloud">☁️ glm-4.7:cloud — Stable</option>
       </optgroup>
-      <optgroup label="─── DNA FORGE (Llama 4) ───">
-        <option value="llama4:core27x4">Llama 4:core — 3GB — Router</option>
-        <option value="llama4:reasoning27x4">Llama 4:reason — 5GB — Logic</option>
-        <option value="llama4:deepthinking47x3">Llama 4:know — 9GB — Memory</option>
-        <option value="llama4:scout20gb">Llama 4:deep — 20GB — Ascended</option>
+      <optgroup label="─── NYROS — DEFENSE ───">
+        <option value="nyros-full:latest">nyros:full — 5.2GB</option>
+        <option value="nyros-fast:latest">nyros:fast — 5.2GB</option>
+      </optgroup>
+      <optgroup label="─── QWEN ABLITERATED ───">
+        <option value="huihui_ai/qwen3.5-abliterated:9b">qwen3.5-abliterated:9b — 6.6GB</option>
+        <option value="huihui_ai/qwen3.5-abliterated:4b">qwen3.5-abliterated:4b — 3.3GB</option>
       </optgroup>
     </select>
     <button class="topbtn" onclick="clearChat()" title="Clear conversation">Clear</button>
