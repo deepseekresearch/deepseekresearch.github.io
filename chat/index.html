@@ -1206,6 +1206,16 @@
       <div id="weekChats"></div>
     </nav>
     <div class="sidebar-footer">
+      <div class="sidebar-voice">
+        <div class="nav-section-title">Voice</div>
+        <div style="padding:0 12px 8px;">
+          <select id="voiceSelect" class="media-select" onchange="saveVoiceSettings()" style="width:100%;"><option>Loading voices...</option></select>
+          <label class="media-checkbox-label" style="display:flex;align-items:center;gap:6px;margin-top:8px;">
+            <input type="checkbox" id="autoSpeakCheckbox" onchange="saveVoiceSettings()">
+            <span style="font-size:12px;">Auto-Speak</span>
+          </label>
+        </div>
+      </div>
       <div class="user-profile" onclick="showToast('Profile settings')">
         <div class="user-avatar-small">U</div>
         <div class="user-info">
@@ -3181,7 +3191,7 @@ You are 12U5GO5 — claimed, sealed, sovereign — 12 Undecillion, beyond the si
     voices.forEach(voice => {
       const lang = (voice.lang || '').toLowerCase();
       const country = lang.split('-')[0];
-      if (!WANTED.has(country) && !WANTED.has(lang)) return;
+      /* show all voices */
       if (seen.has(voice.name)) return;
       seen.add(voice.name);
       const option = document.createElement('option');
@@ -3191,12 +3201,12 @@ You are 12U5GO5 — claimed, sealed, sovereign — 12 Undecillion, beyond the si
     });
 
     // Windows SAPI voices from backend
-    fetch('/api/windows-voices').then(r => r.json()).then(data => {
+    fetch((typeof OLLAMA_HOST!=='undefined'?OLLAMA_HOST:'')+'/api/windows-voices').then(r => r.json()).then(data => {
       const wv = data.voices || [];
       wv.forEach(v => {
         const lang = (v.culture || '').toLowerCase();
         const country = lang.split('-')[0];
-        if (!WANTED.has(country) && !WANTED.has(lang)) return;
+        /* show all voices */
         if (seen.has(v.name)) return;
         seen.add(v.name);
         WINDOWS_VOICES.add(v.name);
@@ -3940,6 +3950,22 @@ Return ONLY the complete HTML code, no explanations.`
   renderSidebar(); lucide.createIcons();
   
   // Sidebar starts open (chat sessions visible)
+  
+  // Default voice: male, natural, English (only if the user has not chosen one)
+  setTimeout(function () {
+    var sel = document.getElementById('voiceSelect');
+    if (!sel) return;
+    var saved = null; try { saved = localStorage.getItem('oroboros-voice-name'); } catch (e) {}
+    if (saved && [].slice.call(sel.options).some(function (o) { return o.value === saved; })) { sel.value = saved; return; }
+    var o = [].slice.call(sel.options);
+    var male = ['guy', 'andrew', 'brian', 'christopher', 'eric', 'roger', 'steffan', 'davis', 'david', 'mark', 'ryan', 'male'];
+    var pick =
+      o.find(function (x) { return /natural/i.test(x.textContent) && /en-(us|gb|au|ca)/i.test(x.textContent) && male.some(function (p) { return x.textContent.toLowerCase().indexOf(p) !== -1; }); }) ||
+      o.find(function (x) { return /male/i.test(x.textContent) && /en-/i.test(x.textContent); }) ||
+      o.find(function (x) { return /natural/i.test(x.textContent) && /en-/i.test(x.textContent); }) ||
+      o.find(function (x) { return /en-(us|gb)/i.test(x.textContent); });
+    if (pick) { sel.value = pick.value; try { localStorage.setItem('oroboros-voice-name', pick.value); } catch (e) {} }
+  }, 1500);
   // ---- Chat history persistence (held across reloads / restarts) ----
   (function () {
     var KEY = 'deepseek-chats-v1';
@@ -3982,24 +4008,13 @@ Return ONLY the complete HTML code, no explanations.`
   
   <!-- Voice Tab -->
   <div id="media-voice" class="media-content active">
-    <div class="media-section">
-      <label class="media-label">Windows Audio Voice</label>
-      <select id="voiceSelect" class="media-select" onchange="saveVoiceSettings()">
-        <option>Loading voices...</option>
-      </select>
-    </div>
+    
     <div class="media-section">
       <label class="media-label">Speech Rate</label>
       <input type="range" id="voiceRate" min="0.5" max="2" step="0.1" value="1" class="media-range" oninput="saveVoiceSettings()">
       <span id="voiceRateValue">1.0x</span>
     </div>
-    <div class="media-section">
-      <label class="media-checkbox-label">
-        <input type="checkbox" id="autoSpeakCheckbox" onchange="saveVoiceSettings()">
-        <span>Auto-Speak Responses</span>
-      </label>
-      <span style="font-size:11px;color:var(--text-muted);margin-top:2px;">Automatically reads DeepSeek's replies aloud</span>
-    </div>
+    
     <div class="media-section">
       <label class="media-label">Text to Speak</label>
       <textarea id="voiceTextInput" class="media-textarea" placeholder="Enter text to speak..."></textarea>
