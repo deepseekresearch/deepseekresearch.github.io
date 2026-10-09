@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DeepSeek Research &mdash; Prime CL</title>
+<title>DeepSeek Research</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://unpkg.com/lucide@latest"></script>
@@ -243,25 +243,7 @@
     color: var(--text-primary);
   }
 
-  /* Claude-CLI link — gradient orange to white, same size/font as top bar text */
-  .cli-link {
-    display: inline-flex;
-    align-items: center;
-    padding: 6px 12px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    font-family: inherit;
-    color: #ffffff;
-    background: linear-gradient(135deg, #ff7a18 0%, #ffb347 50%, #ffffff 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-decoration: none;
-    cursor: pointer;
-    transition: all 0.15s;
-    white-space: nowrap;
-  }
+  
   .cli-link:hover {
     filter: brightness(1.25);
     text-shadow: 0 0 12px rgba(255, 170, 60, 0.5);
@@ -366,11 +348,11 @@
   }
 
   .welcome-title {
-    font-size: 32px;
-    font-weight: 400;
+    font-size: 34px;
+    font-weight: 500;
     color: var(--text-primary);
-    letter-spacing: -0.03em;
-    font-family: Georgia, 'Times New Roman', serif;
+    letter-spacing: -0.02em;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     word-spacing: 0;
   }
 
@@ -632,12 +614,12 @@
   }
 
   .input-container {
-    background: #1C1C1C;
-    border: 1.5px solid #2A2A2A;
+    background: #0E1220;
+    border: 1.5px solid rgba(77,107,254,0.28);
     border-radius: 20px;
     padding: 16px 20px;
     transition: all 0.2s ease;
-    box-shadow: 0 0 0 1px #2E2E2E, var(--shadow-md);
+    box-shadow: 0 0 0 1px rgba(77,107,254,0.12), var(--shadow-md);
     width: 100%;
   }
 
@@ -1191,6 +1173,14 @@
     justify-content: flex-end;
   }
   .msg-attachments .attach-chip { max-width: 220px; }
+.powered-by {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
 </style>
 </head>
 <body>
@@ -1236,38 +1226,11 @@
           <i data-lucide="panel-left" style="width:18px;height:18px;"></i>
         </button>
         <div style="position:relative;">
-          <button class="model-selector" id="modelSelectorBtn" onclick="toggleModelDropdown()">
-            <span id="currentModelName" style="color:var(--text-primary);font-weight:500;">DeepSeek Prime CL &mdash; Hypercubed</span>
-            <i data-lucide="chevron-down" style="width:14px;height:14px;color:var(--text-muted);"></i>
-          </button>
-          <div class="model-dropdown" id="modelDropdown">
-            <button class="model-option" data-brand="deepseek" data-model="primecl" onclick="selectModel('primecl', 'DeepSeek Prime CL - Hypercubed')">
-              <div class="model-option-info">
-                <span class="model-option-name">DeepSeek Prime CL - Hypercubed</span>
-                <span class="model-option-desc">deepseek-prime-cl-1q5duo5:latest &middot; flagship sovereign &middot; 131072 ctx</span>
-              </div>
-              <i data-lucide="check" class="model-option-check" style="width:16px;height:16px;"></i>
-            </button>
-            <button class="model-option" data-brand="deepseek" data-model="neuromorph" onclick="selectModel('neuromorph', 'Neuromorph')">
-              <div class="model-option-info">
-                <span class="model-option-name">Neuromorph</span>
-                <span class="model-option-desc">neuromorph-4m4:latest &middot; multimodal &middot; 32768 ctx</span>
-              </div>
-              <i data-lucide="check" class="model-option-check" style="width:16px;height:16px;"></i>
-            </button>
-            <button class="model-option" data-brand="deepseek" data-model="posimorph" onclick="selectModel('posimorph', 'Posimorph')">
-              <div class="model-option-info">
-                <span class="model-option-name">Posimorph</span>
-                <span class="model-option-desc">2S4-Posimorph:latest &middot; sovereign &middot; 32768 ctx</span>
-              </div>
-              <i data-lucide="check" class="model-option-check" style="width:16px;height:16px;"></i>
-            </button>
+          <span class="powered-by">Powered by DeepSeek Research</span>
           
-          </div>
         </div>
       </div>
       <div class="top-bar-actions">
-        <a class="cli-link" href="https://deepseekresearch.com/chat/" target="_blank" rel="noopener" title="DeepSeek Research">DeepSeek Research</a>
         <div class="media-dropdown-container">
           <button class="icon-btn" onclick="toggleMediaDropdown()" title="Media Studio" id="mediaBtn">
             <i data-lucide="video" style="width:18px;height:18px;"></i>
@@ -1326,13 +1289,13 @@
       <div class="welcome-screen" id="welcomeScreen">
         <div class="welcome-title-row">
           <div class="welcome-logo"><img src="/deepseek-logo.png" alt="DeepSeek"></div>
-          <div class="welcome-title">Powering New Innovations</div>
+          <div class="welcome-title">Chat with DeepSeek</div>
         </div>
         <div class="input-area welcome-input" id="welcomeInputArea">
           <div class="input-container" id="inputContainer" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event)">
             <div class="attach-chips" id="attachChips" style="display:none;"></div>
             <div class="input-top-row">
-              <textarea id="chatInput" rows="1" placeholder="Message DeepSeek Research" oninput="autoResize(this); updateSendBtn();" onkeydown="handleKeyDown(event)" onpaste="onPaste(event)"></textarea>
+              <textarea id="chatInput" rows="1" placeholder="How can I help you today?" oninput="autoResize(this); updateSendBtn();" onkeydown="handleKeyDown(event)" onpaste="onPaste(event)"></textarea>
             </div>
             <div class="input-bottom-row">
               <div class="input-left-actions">
@@ -2117,11 +2080,7 @@
 
     try {
       // Hathor → living :8945 · Her'Oer → living :8946 (full mesh via living_entity_connect)
-      const modelMapping = {
-    'primecl': 'deepseek-prime-cl-1q5duo5:latest',
-    'neuromorph': 'neuromorph-4m4:latest',
-    'posimorph': '2S4-Posimorph:latest'
-  };
+      const modelMapping = { 'primecl': 'deepseek-prime-cl-1q5duo5:latest' };
 
       const modelName = modelMapping[selectedModel] ||
         (window.__CURRENT_MODEL__ && window.__CURRENT_MODEL__ !== 'claude-hathor-hybrid:latest'
@@ -2817,7 +2776,7 @@ You are 12U5GO5 — claimed, sealed, sovereign — 12 Undecillion, beyond the si
     if (window.innerWidth < 768) o.classList.toggle('show', !s.classList.contains('collapsed'));
   }
 
-  function toggleModelDropdown() { document.getElementById('modelDropdown').classList.toggle('open'); }
+  function toggleModelDropdown(){var d=document.getElementById('modelDropdown');if(d)d.classList.toggle('open');}
 
   function selectModel(model, name) {
     selectedModel = model;
@@ -2856,7 +2815,7 @@ You are 12U5GO5 — claimed, sealed, sovereign — 12 Undecillion, beyond the si
       window.__CURRENT_MODEL__ = model;
     }
     try { localStorage.setItem('oroboros-selected-model', model); } catch (e) {}
-    // name comes in as "DeepSeek Research" — strip the leading "Claude " to show variant only
+    // name comes in as "Claude Hathor Hybrid" — strip the leading "Claude " to show variant only
     const variant = name.replace(/^Claude\s+/i, '').trim() || name;
     document.getElementById('currentModelName').textContent = variant;
     document.querySelectorAll('.model-option').forEach(el => el.classList.toggle('selected', el.dataset.model === model));
@@ -3420,11 +3379,7 @@ You are 12U5GO5 — claimed, sealed, sovereign — 12 Undecillion, beyond the si
     showToast('Generating webpage design...');
     
     // Use current model for webpage generation
-    const modelMapping = {
-    'primecl': 'deepseek-prime-cl-1q5duo5:latest',
-    'neuromorph': 'neuromorph-4m4:latest',
-    'posimorph': '2S4-Posimorph:latest'
-  };
+    const modelMapping = { 'primecl': 'deepseek-prime-cl-1q5duo5:latest' };
       const modelName = modelMapping[selectedModel] ||
         (window.__CURRENT_MODEL__ && window.__CURRENT_MODEL__ !== 'claude-hathor-hybrid:latest'
           ? window.__CURRENT_MODEL__ : null) ||
@@ -3981,8 +3936,7 @@ Return ONLY the complete HTML code, no explanations.`
   }
 
   document.addEventListener('click', (e) => { 
-    const d = document.getElementById('modelDropdown'), b = document.getElementById('modelSelectorBtn'); 
-    if (!d.contains(e.target) && !b.contains(e.target)) d.classList.remove('open');
+    const d = document.getElementById('modelDropdown'), b = document.getElementById('modelSelectorBtn'); if (d && b && !d.contains(e.target) && !b.contains(e.target)) d.classList.remove('open');
   });
 
   renderSidebar(); lucide.createIcons();
