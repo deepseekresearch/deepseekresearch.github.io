@@ -3940,6 +3940,28 @@ Return ONLY the complete HTML code, no explanations.`
   renderSidebar(); lucide.createIcons();
   
   // Sidebar starts open (chat sessions visible)
+  // ---- Chat history persistence (held across reloads / restarts) ----
+  (function () {
+    var KEY = 'deepseek-chats-v1';
+    try {
+      var saved = localStorage.getItem(KEY);
+      if (saved) {
+        var arr = JSON.parse(saved);
+        if (Array.isArray(arr) && arr.length) {
+          conversations = arr;
+          if (typeof renderSidebar === 'function') renderSidebar();
+        }
+      }
+    } catch (e) {}
+    window.__dsSaveChats = function () {
+      try { localStorage.setItem(KEY, JSON.stringify(conversations)); } catch (e) {}
+    };
+    setInterval(window.__dsSaveChats, 1500);
+    window.addEventListener('beforeunload', window.__dsSaveChats);
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState === 'hidden') window.__dsSaveChats();
+    });
+  })();
 </script>
 
 <!-- Media Panel -->
