@@ -371,6 +371,8 @@ textarea.fld{resize:vertical;min-height:60px;font-family:inherit}
     <select class="model-pick" id="model-sb" onchange="currentModel=this.value;document.getElementById('model').value=this.value">
       <optgroup label="--- DEEPSEEK RESEARCH ---">
         <option value="deepseek-prime-cl-1q5duo5:latest" selected>DeepSeek Prime CL &mdash; Hypercubed</option>
+        <option value="neuromorph-4m4:latest">Neuromorph</option>
+        <option value="2S4-Posimorph:latest">Posimorph</option>
       </optgroup>
     </select>
     <div class="sb-stats">
@@ -397,6 +399,8 @@ textarea.fld{resize:vertical;min-height:60px;font-family:inherit}
     <select class="top-model" id="model" title="Active model" onchange="currentModel=this.value;if(document.getElementById('model-sb'))document.getElementById('model-sb').value=this.value">
       <optgroup label="--- DEEPSEEK RESEARCH ---">
         <option value="deepseek-prime-cl-1q5duo5:latest" selected>DeepSeek Prime CL &mdash; Hypercubed</option>
+        <option value="neuromorph-4m4:latest">Neuromorph</option>
+        <option value="2S4-Posimorph:latest">Posimorph</option>
       </optgroup>
     </select>
     <button class="topbtn" onclick="clearChat()" title="Clear conversation">Clear</button>
