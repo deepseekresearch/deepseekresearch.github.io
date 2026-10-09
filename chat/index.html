@@ -425,9 +425,7 @@
     overflow: hidden;
   }
 
-  .message-avatar.claude-avatar {
-    background: var(--accent);
-  }
+  .message-avatar.claude-avatar { background: var(--accent); box-shadow: 0 0 0 1px rgba(77,107,254,0.35); }
 
   .message-avatar.user-avatar {
     background: var(--accent-blue);
@@ -1812,11 +1810,11 @@
     div.innerHTML = `
       <div class="message-avatar ${isClaude ? 'claude-avatar' : 'user-avatar'}">
         ${isClaude 
-          ? `<img src="https://z-cdn-media.chatglm.cn/files/a0a2b11d-c12d-4a80-83f9-36af1f358a73.png?auth_key=1881416280-70ffdc9407974459970d4106824e2cd4-0-42075e5b2bd720b91a1e75afe2d5f7fb" alt="C">`
+          ? `<img src="/deepseek-logo.png" alt="C">`
           : `<i data-lucide="user" style="width:16px;height:16px;"></i>`}
       </div>
       <div class="message-content">
-        <div class="message-sender">${isClaude ? 'Claude' : 'You'}</div>
+        <div class="message-sender">${isClaude ? 'DeepSeek' : 'You'}</div>
         ${attHtml}
         <div class="message-text">${formatMessage(msg.content)}</div>
         ${isClaude ? `<div class="message-actions">
@@ -2139,10 +2137,10 @@
       typingDiv.className = 'message'; typingDiv.id = 'typingMessage';
       typingDiv.innerHTML = `
       <div class="message-avatar claude-avatar">
-        <img src="https://z-cdn-media.chatglm.cn/files/a0a2b11d-c12d-4a80-83f9-36af1f358a73.png?auth_key=1881416280-70ffdc9407974459970d4106824e2cd4-0-42075e5b2bd720b91a1e75afe2d5f7fb" alt="C">
+        <img src="/deepseek-logo.png" alt="C">
       </div>
       <div class="message-content">
-        <div class="message-sender">Claude</div>
+        <div class="message-sender">DeepSeek</div>
         <div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>
       </div>`;
       container.appendChild(typingDiv); scrollToBottom();
@@ -3978,7 +3976,7 @@ Return ONLY the complete HTML code, no explanations.`
         <input type="checkbox" id="autoSpeakCheckbox" onchange="saveVoiceSettings()">
         <span>Auto-Speak Responses</span>
       </label>
-      <span style="font-size:11px;color:var(--text-muted);margin-top:2px;">Automatically reads Claude's replies aloud</span>
+      <span style="font-size:11px;color:var(--text-muted);margin-top:2px;">Automatically reads DeepSeek's replies aloud</span>
     </div>
     <div class="media-section">
       <label class="media-label">Text to Speak</label>
