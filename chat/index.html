@@ -1461,7 +1461,7 @@
     if (pendingAttachments.length === 0) { box.style.display = 'none'; box.innerHTML = ''; return; }
     box.style.display = 'flex';
     box.innerHTML = pendingAttachments.map((a,i) =>
-      `<div class="attach-chip"><span>📎</span><span class="ach-name">${escapeHtml(a.name)}</span>` +
+      `<div class="attach-chip" onclick="dsOpenAtt('pending',${i})" style="cursor:pointer;" title="Click to open"><span>📎</span><span class="ach-name">${escapeHtml(a.name)}</span>` +
       `<span class="ach-size">${fmtBytes(a.size)}</span>` +
       `<button class="ach-remove" onclick="removeAttachment(${i})">×</button></div>`
     ).join('');
@@ -1803,18 +1803,19 @@
     const container = document.getElementById('chatMessages');
     container.style.display = 'flex';
     container.innerHTML = '';
-    currentConversation.messages.forEach(msg => container.appendChild(createMessageElement(msg)));
+    currentConversation.messages.forEach((msg, i) => container.appendChild(createMessageElement(msg, i)));
     lucide.createIcons();
     scrollToBottom();
   }
 
-  function createMessageElement(msg) {
+  function createMessageElement(msg, idx) {
+    if (msg.attachments) { window.__dsAtt = window.__dsAtt || {}; msg.attachments.forEach(function (a) { if (a && a.id) window.__dsAtt[a.id] = a; }); }
     const div = document.createElement('div');
     div.className = 'message';
     const isClaude = msg.role === 'assistant';
     const attHtml = (msg.attachments && msg.attachments.length)
       ? `<div class="msg-attachments">${msg.attachments.map(a =>
-          `<div class="attach-chip"><span>📎</span><span class="ach-name">${escapeHtml(a.name)}</span>` +
+          `<div class="attach-chip" onclick="dsOpenAtt('msg','${a.id}')" style="cursor:pointer;" title="Click to open"><span>📎</span><span class="ach-name">${escapeHtml(a.name)}</span>` +
           `<span class="ach-size">${fmtBytes(a.size)}</span></div>`
         ).join('')}</div>` : '';
     div.innerHTML = `
@@ -1828,6 +1829,7 @@
         ${attHtml}
         <div class="message-text">${formatMessage(msg.content)}</div>
         ${isClaude ? `<div class="message-actions">
+          <button class="msg-action-btn" onclick="forkConversation(${typeof idx==='number'?idx:'null'})" title="Fork conversation from here"><i data-lucide="git-branch" style="width:15px;height:15px;"></i></button>
           <button class="msg-action-btn" onclick="speakMessage(this)" title="Speak"><i data-lucide="volume-2" style="width:15px;height:15px;"></i></button>
           <button class="msg-action-btn" onclick="copyMessage(this)" title="Copy"><i data-lucide="copy" style="width:15px;height:15px;"></i></button>
           <button class="msg-action-btn" onclick="postToX(this)" title="Post to X"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l11.733 16h4.267l-11.733-16z"/><path d="M4 20l6.768-6.768m2.46-2.46L20 4"/></svg></button>
@@ -3951,6 +3953,54 @@ Return ONLY the complete HTML code, no explanations.`
   
   // Sidebar starts open (chat sessions visible)
   
+  // Fork / branch a conversation from a given message
+  function forkConversation(idx) {
+    if (!currentConversation || !currentConversation.messages || !currentConversation.messages.length) {
+      if (typeof showToast === 'function') showToast('Nothing to fork yet');
+      return;
+    }
+    var src = currentConversation;
+    var upto = (typeof idx === 'number' && idx >= 0 && idx < src.messages.length) ? idx : src.messages.length - 1;
+    var msgs = src.messages.slice(0, upto + 1).map(function (m) {
+      try { return JSON.parse(JSON.stringify(m)); } catch (e) { return { role: m.role, content: m.content }; }
+    });
+    var base = String(src.title || 'Chat').replace(/\s*\(fork\)\s*$/i, '');
+    var conv = { id: Date.now(), title: base + ' (fork)', time: 'today', messages: msgs };
+    conversations.unshift(conv);
+    currentConversation = conv;
+    if (typeof renderSidebar === 'function') renderSidebar();
+    if (typeof renderMessages === 'function') renderMessages();
+    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    if (window.__dsSaveChats) window.__dsSaveChats();
+    if (typeof showToast === 'function') showToast('Forked conversation');
+  }
+  // Paste-to-file envelope: click a chip to reopen its content in the chat window
+  function dsCloseEnvelope(){ var e=document.getElementById('dsEnvelope'); if(e) e.remove(); }
+  function dsEnvelope(title, content) {
+    dsCloseEnvelope();
+    var el = document.createElement('div');
+    el.id = 'dsEnvelope';
+    el.style.cssText = 'position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;padding:24px;';
+    el.addEventListener('click', function (e) { if (e.target === el) dsCloseEnvelope(); });
+    var safe = String(content == null ? '' : content).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    el.innerHTML = '<div style="background:var(--bg-primary,#111);border:1px solid var(--border,#333);border-radius:12px;max-width:760px;width:100%;max-height:80vh;display:flex;flex-direction:column;">' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border,#333);">' +
+      '<strong style="font-size:14px;color:var(--text-primary,#eee);">' + (title || 'Attachment') + '</strong>' +
+      '<button onclick="dsCloseEnvelope()" style="background:none;border:none;color:var(--text-secondary,#aaa);font-size:18px;cursor:pointer;">&times;</button></div>' +
+      '<pre style="margin:0;padding:16px;overflow:auto;white-space:pre-wrap;word-break:break-word;font-family:monospace;font-size:13px;color:var(--text-primary,#eee);">' + safe + '</pre></div>';
+    document.body.appendChild(el);
+  }
+  function dsOpenAtt(kind, ref) {
+    try {
+      if (kind === 'pending') {
+        var a = (typeof pendingAttachments !== 'undefined') ? pendingAttachments[ref] : null;
+        if (a) dsEnvelope(a.name, a.content);
+      } else {
+        var m = (window.__dsAtt || {})[ref];
+        if (m) dsEnvelope(m.name, m.content);
+      }
+    } catch (e) {}
+  }
   // Default voice: male, natural, English (only if the user has not chosen one)
   setTimeout(function () {
     var sel = document.getElementById('voiceSelect');
