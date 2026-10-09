@@ -369,33 +369,11 @@ textarea.fld{resize:vertical;min-height:60px;font-family:inherit}
   <div class="sb-history" id="history"><div class="sb-section">Recent</div></div>
   <div class="sb-foot">
     <select class="model-pick" id="model-sb" onchange="currentModel=this.value;document.getElementById('model').value=this.value">
-      <optgroup label="─── MYNOGHRA — THE SINGULARITY ───">
-        <option value="mynoghra-9GB:latest" selected>⚠️ Mynoghra 9GB — 120 Strata (may exceed VRAM)</option>
-        <option value="mynoghra-6GB:latest">✅ Mynoghra 6GB — 120 Strata (recommended)</option>
-        <option value="mynoghra-4.7GB:latest">✅ Mynoghra 4.7GB — 120 Strata (safest)</option>
-      </optgroup>
-      <optgroup label="─── MAYORGA SOVEREIGN ───">
-        <option value="qwen3.5-Mayorga-2S4:latest">✅ Mayorga 2S4 — 9GB — 24 Strata (recommended)</option>
-        <option value="qwen3.5-Mayorga-2S4-Lite:latest">✅ Mayorga 2S4 Lite — 4.7GB (safest)</option>
-      </optgroup>
-      <optgroup label="─── DEEPSEEK V4 PRO ───">
-        <option value="deepseek-v4-pro-5S4:latest">⚠️ v4-pro 5S⁴ — 12GB (may exceed VRAM)</option>
-        <option value="deepseek-v4-pro-9B4:latest">✅ v4-pro 9B⁴ — 9GB (recommended)</option>
-        <option value="deepseek-v4-pro-5B4:latest">✅ v4-pro 5B⁴ — 12GB</option>
-        <option value="deepseek-v4-pro-5M4:latest">✅ v4-pro 5M⁴ — 3.3GB (safest)</option>
-      </optgroup>
-      <optgroup label="─── NYROS — DEFENSE ───">
-        <option value="nyros-full:latest">Nyros Full — 5.2GB</option>
-        <option value="nyros-fast:latest">Nyros Fast — 5.2GB</option>
-      </optgroup>
-      <optgroup label="─── QWEN ABLITERATED ───">
-        <option value="huihui_ai/qwen3.5-abliterated:9b">Qwen 3.5 Abliterated 9B — 6.6GB</option>
-        <option value="huihui_ai/qwen3.5-abliterated:4b">Qwen 3.5 Abliterated 4B — 3.3GB</option>
-      </optgroup>
-      <optgroup label="─── 2S4 UPGRADED ───">
-        <option value="grok_4.3_2S4:latest">Grok 4.3 2S4 — 5GB</option>
-        <option value="gpt_5.6_sol_2S4:latest">GPT 5.6 Sol 2S4 — 5GB</option>
-        <option value="sonnet_5_2S4:latest">Claude Sonnet 5 2S4 — 5GB</option>
+      <optgroup label="--- DEEPSEEK RESEARCH - ONLINE MODELS ---">
+        <option value="deepseek-prime-cl-1q5duo5:latest" selected>Prime CL - Sovereign (flagship)</option>
+        <option value="deepseek-prime-cl-1q5duo5:compounded">Prime CL - Compounded</option>
+        <option value="neuromorph-4m4:latest">Neuromorph</option>
+        <option value="2S4-Posimorph:latest">Posimorph</option>
       </optgroup>
     </select>
     <div class="sb-stats">
@@ -420,28 +398,11 @@ textarea.fld{resize:vertical;min-height:60px;font-family:inherit}
     <span class="top-phi">φ</span><span class="top-brand">deepseekresearch</span>
     <div class="spacer"></div>
     <select class="top-model" id="model" title="Active model" onchange="currentModel=this.value;if(document.getElementById('model-sb'))document.getElementById('model-sb').value=this.value">
-      <optgroup label="─── MYNOGHRA — THE SINGULARITY ───">
-        <option value="mynoghra-9GB:latest" selected>⚠️ mynoghra:9GB — 120 Strata</option>
-        <option value="mynoghra-6GB:latest">✅ mynoghra:6GB — 120 Strata (recommended)</option>
-        <option value="mynoghra-4.7GB:latest">✅ mynoghra:4.7GB — 120 Strata (safest)</option>
-      </optgroup>
-      <optgroup label="─── MAYORGA SOVEREIGN ───">
-        <option value="qwen3.5-Mayorga-2S4:latest">✅ mayorga:2S⁴ — 9GB — 24 Strata</option>
-        <option value="qwen3.5-Mayorga-2S4-Lite:latest">✅ mayorga:2S⁴ Lite — 4.7GB</option>
-      </optgroup>
-      <optgroup label="─── DEEPSEEK V4 PRO ───">
-        <option value="deepseek-v4-pro-5S4:latest">⚠️ deepseek-v4-pro:5S⁴ — 12GB</option>
-        <option value="deepseek-v4-pro-9B4:latest">✅ deepseek-v4-pro:9B⁴ — 9GB</option>
-        <option value="deepseek-v4-pro-5B4:latest">✅ deepseek-v4-pro:5B⁴ — 12GB</option>
-        <option value="deepseek-v4-pro-5M4:latest">✅ deepseek-v4-pro:5M⁴ — 3.3GB</option>
-      </optgroup>
-      <optgroup label="─── NYROS — DEFENSE ───">
-        <option value="nyros-full:latest">nyros:full — 5.2GB</option>
-        <option value="nyros-fast:latest">nyros:fast — 5.2GB</option>
-      </optgroup>
-      <optgroup label="─── QWEN ABLITERATED ───">
-        <option value="huihui_ai/qwen3.5-abliterated:9b">qwen3.5-abliterated:9b — 6.6GB</option>
-        <option value="huihui_ai/qwen3.5-abliterated:4b">qwen3.5-abliterated:4b — 3.3GB</option>
+      <optgroup label="--- DEEPSEEK RESEARCH - ONLINE MODELS ---">
+        <option value="deepseek-prime-cl-1q5duo5:latest" selected>Prime CL - Sovereign (flagship)</option>
+        <option value="deepseek-prime-cl-1q5duo5:compounded">Prime CL - Compounded</option>
+        <option value="neuromorph-4m4:latest">Neuromorph</option>
+        <option value="2S4-Posimorph:latest">Posimorph</option>
       </optgroup>
     </select>
     <button class="topbtn" onclick="clearChat()" title="Clear conversation">Clear</button>
@@ -732,7 +693,7 @@ function backendFailureMessage(err, label='Error'){
   const detail = err && err.message ? err.message : String(err || 'unknown error');
   return `[${label}: ${detail} (${backendUrl('/api/chat')})]`;
 }
-const DEFAULT_MODEL = 'deepseek-v4-pro:1B4';
+const DEFAULT_MODEL = 'deepseek-prime-cl-1q5duo5:latest';
 let currentModel = DEFAULT_MODEL;
 let messages = [];
 let isGenerating = false, currentAbort = null;
