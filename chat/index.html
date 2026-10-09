@@ -34,24 +34,24 @@
   }
 
   .light {
-    --bg-primary: #FAFAF8;
-    --bg-secondary: #F2F1EE;
-    --bg-sidebar: #F6F5F2;
-    --bg-hover: #EAE9E5;
-    --bg-input: #F2F1EE;
-    --text-primary: #1A1A1A;
-    --text-secondary: #6B6B6B;
-    --text-muted: #999999;
-    --accent: #D97757;
-    --accent-hover: #C4684B;
-    --accent-light: rgba(217,119,87,0.1);
-    --accent-blue: #2C5A8A;
-    --accent-blue-hover: #3A6FA0;
-    --accent-blue-light: rgba(44,90,138,0.1);
-    --border: #E0DFDB;
-    --border-light: #ECEBE7;
-    --code-bg: #1E1E1E;
-    --user-bubble: #F2F1EE;
+    --bg-primary: #FAFAFA;
+    --bg-secondary: #F2F3F7;
+    --bg-sidebar: #F6F7FA;
+    --bg-hover: #EAECF2;
+    --bg-input: #F2F3F7;
+    --text-primary: #14151A;
+    --text-secondary: #5A5C68;
+    --text-muted: #9A9CA8;
+    --accent: #4D6BFE;
+    --accent-hover: #3D59E0;
+    --accent-light: rgba(77,107,254,0.10);
+    --accent-blue: #4D6BFE;
+    --accent-blue-hover: #3D59E0;
+    --accent-blue-light: rgba(77,107,254,0.10);
+    --border: #E0E1E8;
+    --border-light: #ECEDF3;
+    --code-bg: #14151A;
+    --user-bubble: #F2F3F7;
     --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
     --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
     --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
@@ -1200,10 +1200,7 @@
 
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
-      <div class="sidebar-brand">
-        <img src="https://z-cdn-media.chatglm.cn/files/a0a2b11d-c12d-4a80-83f9-36af1f358a73.png?auth_key=1881416280-70ffdc9407974459970d4106824e2cd4-0-42075e5b2bd720b91a1e75afe2d5f7fb" style="width:22px;height:22px;" alt="Claude">
-        <span style="font-weight:700;color:var(--text-primary);letter-spacing:-0.01em;font-size:15px;">Claude</span>
-      </div>
+      <div class="sidebar-brand"><img src="/deepseek-logo.png" style="width:22px;height:22px;" alt="DeepSeek"><span style="font-weight:700;color:var(--text-primary);letter-spacing:-0.01em;font-size:15px;">deepseek</span></div>
       <button class="icon-btn" onclick="toggleSidebar()" title="Close sidebar">
         <i data-lucide="panel-left-close" style="width:18px;height:18px;"></i>
       </button>
@@ -1270,7 +1267,7 @@
         </div>
       </div>
       <div class="top-bar-actions">
-        <a class="cli-link" href="http://127.0.0.1:5000" target="_blank" rel="noopener" title="Claude-CLI — local private terminal, no API">Claude-CLI</a>
+        <a class="cli-link" href="https://deepseekresearch.com/chat/" target="_blank" rel="noopener" title="DeepSeek Research">DeepSeek Research</a>
         <div class="media-dropdown-container">
           <button class="icon-btn" onclick="toggleMediaDropdown()" title="Media Studio" id="mediaBtn">
             <i data-lucide="video" style="width:18px;height:18px;"></i>
@@ -1328,16 +1325,14 @@
     <div class="chat-area" id="chatArea">
       <div class="welcome-screen" id="welcomeScreen">
         <div class="welcome-title-row">
-          <div class="welcome-logo">
-            <img src="https://z-cdn-media.chatglm.cn/files/a0a2b11d-c12d-4a80-83f9-36af1f358a73.png?auth_key=1881416280-70ffdc9407974459970d4106824e2cd4-0-42075e5b2bd720b91a1e75afe2d5f7fb" alt="Claude">
-          </div>
-          <div class="welcome-title">How can I help you?</div>
+          <div class="welcome-logo"><img src="/deepseek-logo.png" alt="DeepSeek"></div>
+          <div class="welcome-title">Powering New Innovations</div>
         </div>
         <div class="input-area welcome-input" id="welcomeInputArea">
           <div class="input-container" id="inputContainer" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event)">
             <div class="attach-chips" id="attachChips" style="display:none;"></div>
             <div class="input-top-row">
-              <textarea id="chatInput" rows="1" placeholder="How can I help you today?" oninput="autoResize(this); updateSendBtn();" onkeydown="handleKeyDown(event)" onpaste="onPaste(event)"></textarea>
+              <textarea id="chatInput" rows="1" placeholder="Message DeepSeek Research" oninput="autoResize(this); updateSendBtn();" onkeydown="handleKeyDown(event)" onpaste="onPaste(event)"></textarea>
             </div>
             <div class="input-bottom-row">
               <div class="input-left-actions">
